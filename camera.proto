@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option java_package = "com.is.vision";
+
+package is.vision;
+
+import "common.proto";
+import "image.proto";
+import "google/protobuf/empty.proto";
+
+// Common camera interface 
+service CameraGateway {
+  rpc SetConfiguration (CameraConfig) returns (google.protobuf.Empty) {}
+  rpc Configuration (is.common.FieldSelector) returns (CameraConfig) {}
+}
+
+message CameraSetting {
+  bool automatic = 1; // True if the camera should automatically assign this parameter
+  float ratio = 2; // Ratio assigned to the parameter where 0.0 is the lowest value and 1.0 the highest
+}
+
+message CameraSettings {
+  CameraSetting brightness = 1;
+  CameraSetting exposure = 2;
+  CameraSetting focus = 3;
+  CameraSetting gain = 4;
+  CameraSetting gamma = 5;
+  CameraSetting hue = 6;
+  CameraSetting iris = 7;
+  CameraSetting saturation = 8;
+  CameraSetting sharpness = 9;
+  CameraSetting shutter = 10;
+  CameraSetting white_balance_bu = 11;
+  CameraSetting white_balance_rv = 12;
+  CameraSetting zoom = 13;
+}
+
+message CameraConfig {
+  is.common.SamplingSettings sampling = 1;
+  ImageSettings image = 2;
+  CameraSettings camera = 3;
+}
+
+enum CameraConfigFields {
+  ALL = 0;
+  SAMPLING_SETTINGS = 1;
+  IMAGE_SETTINGS = 2;
+  CAMERA_SETTINGS  = 3;
+}
+
+message CameraCalibration {
+  // camera field of view in world
+  
+  // resolution used to calibrate the cameras
+  // intrinsic matrix / parameters
+  
+  // world frame id
+  // extrinsic matrix / parameters
+  
+  // distortion matrix 
+}
