@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_package = "com.is.vision";
+option java_multiple_files = true;
+
+package is.vision;
+
+import "image.proto";
+import "robot.proto";
+
+service MarkerDetector {
+  rpc Track (stream Image) returns (stream is.robot.Pose) {}
+  rpc Detect (Image) returns (is.robot.Pose) {}
+}
+
+message ChArucoSettings {
+  // dictionary of markers indicating the type of markers.
+  int32 dictionary = 1;     
+  // chessboard square side length (normally in meters)
+  float square_length = 2;
+  // marker side length (same unit than square_length)
+  float marker_length = 3;
+  // number of chessboard squares in X direction
+  uint32 squares_x = 4; 
+  // number of chessboard squares in Y direction
+  uint32 squares_y = 5;
+}

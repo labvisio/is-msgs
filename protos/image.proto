@@ -3,6 +3,8 @@ syntax = "proto3";
 option java_package = "com.is.vision";
 option java_multiple_files = true;
 
+import "google/protobuf/wrappers.proto";
+
 package is.vision;
 
 message Image {
@@ -12,23 +14,22 @@ message Image {
   }
 }
 
-enum ImageFormat {
+enum ImageFormats {
   PNG = 0;
   JPEG = 1;
   WebP = 2;
 }
 
-// A vertex represents a 2D point in the image.
-message Vertex {
-  uint32 x = 1;
-  uint32 y = 2;
+message ImageFormat {
+  ImageFormats format = 1;
+  google.protobuf.FloatValue compression = 2;
 }
 
 message BoundingBox {
-  uint32 x = 1;  // Leftmost pixel of the ROI
-  uint32 y = 2;  // Topmost pixel of the ROI
-  uint32 height = 3; // Height of ROI
-  uint32 width = 4 ; // Width of ROI
+  uint32 x = 1;  // x position of the topleft pixel
+  uint32 y = 2;  // y position of the topleft pixel
+  uint32 height = 3;
+  uint32 width = 4;
 }
 
 message Resolution {
@@ -46,6 +47,6 @@ enum ColorSpace {
 message ImageSettings {
   Resolution resolution = 1;
   ImageFormat format = 2; // Image serialization format. e.g: PNG
-  ColorSpace color = 3; // Color space  
+  ColorSpace color_space = 3; // Color space  
   BoundingBox roi = 4; // Bounding box defining the region of interest in the image
 }

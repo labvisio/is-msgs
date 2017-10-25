@@ -55,6 +55,6 @@ message CameraCalibration {
   double error = 2; // average reprojection error
   is.vision.Resolution resolution = 3; // resolution used during calibration
 
-  is.common.Tensor intrinsic = 4; // intrinsic matrix Shape=[3,3]
-  is.common.Tensor distortion = 5; // distortion coefficients Shape=[1,5]
+  is.common.Tensor intrinsic = 4; // intrinsic matrix with shape=[3,3]
+  is.common.Tensor distortion = 5; // distortion coefficients with shape=[1,5]
 }

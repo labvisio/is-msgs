@@ -7,6 +7,10 @@ import "google/protobuf/wrappers.proto";
 
 package is.common;
 
+message BrokerSubscription {
+  string uri = 1; // broker uri i.e: amqp://guest:guest@10.0.0.1:5672/
+}
+
 message SamplingSettings {
   oneof rate {
     float frequency = 1; // Sampling frequency in hertz
