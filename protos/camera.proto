@@ -1,17 +1,19 @@
 syntax = "proto3";
 
 option java_package = "com.is.vision";
+option java_multiple_files = true;
 
 package is.vision;
 
 import "common.proto";
 import "image.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 // Common camera interface 
 service CameraGateway {
-  rpc SetConfiguration (CameraConfig) returns (google.protobuf.Empty) {}
-  rpc Configuration (is.common.FieldSelector) returns (CameraConfig) {}
+  rpc SetConfig (CameraConfig) returns (google.protobuf.Empty) {}
+  rpc GetConfig (is.common.FieldSelector) returns (CameraConfig) {}
 }
 
 message CameraSetting {
@@ -48,14 +50,11 @@ enum CameraConfigFields {
   CAMERA_SETTINGS  = 3;
 }
 
-message CameraCalibration {
-  // camera field of view in world
-  
-  // resolution used to calibrate the cameras
-  // intrinsic matrix / parameters
-  
-  // world frame id
-  // extrinsic matrix / parameters
-  
-  // distortion matrix 
+message CameraCalibration { 
+  google.protobuf.Timestamp calibrated_at = 1; // when the calibration was performed
+  double error = 2; // average reprojection error
+  is.vision.Resolution resolution = 3; // resolution used during calibration
+
+  is.common.Tensor intrinsic = 4; // intrinsic matrix Shape=[3,3]
+  is.common.Tensor distortion = 5; // distortion coefficients Shape=[1,5]
 }

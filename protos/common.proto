@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option java_package = "com.is.common";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+
+package is.common;
+
+message SamplingSettings {
+  oneof rate {
+    float frequency = 1; // Sampling frequency in hertz
+    float period = 2; // Sampling rate period in seconds
+  } 
+  // Delay to be applied in the in the sampling proccess, normally used to synchronize different sources 
+  google.protobuf.FloatValue delay = 3;
+}
+
+// Used to select the desired fields of a message on a "Get" RPC
+message FieldSelector {
+  repeated uint32 fields = 1;
+}
+
+// Codes used to indicated the failure/success of a RPC
+enum StatusCode {
+  UNKNOWN = 0;  
+  OK = 1;
+  CANCELLED = 2;
+  INVALID_ARGUMENT = 3;
+  DEADLINE_EXCEEDED = 4;
+  NOT_FOUND = 5;
+  ALREADY_EXISTS = 6;
+  PERMISSION_DENIED = 7;
+  UNAUTHENTICATED = 8;
+  FAILED_PRECONDITION = 9;
+  OUT_OF_RANGE = 10;
+  UNIMPLEMENTED = 11;
+  INTERNAL_ERROR = 12;
+}
+
+message Status {
+  StatusCode code = 1;
+  string why = 2; // Human readable message explaining the error
+}
+
+message Shape {
+  message Dimension {
+    int32 size = 1;
+    string name = 2;
+  }  
+  repeated Dimension dims = 1;
+}
+
+enum DataType {
+  UNKNOWN_TYPE = 0;
+  FLOAT_TYPE = 1;
+  DOUBLE_TYPE = 2;
+  INT32_TYPE = 3;
+  INT64_TYPE = 4;
+}
+
+message Tensor {
+  Shape shape = 1; 
+  DataType type = 2;
+
+  repeated float floats = 3 [packed=true];
+  repeated double doubles = 4 [packed=true];
+  repeated int32 ints32 = 5 [packed=true];
+  repeated int64 ints64 = 6 [packed=true];
+}
