@@ -51,10 +51,20 @@ enum CameraConfigFields {
 }
 
 message CameraCalibration { 
-  google.protobuf.Timestamp calibrated_at = 1; // when the calibration was performed
-  double error = 2; // average reprojection error
-  is.vision.Resolution resolution = 3; // resolution used during calibration
+  string id = 1;  // camera id
+  google.protobuf.Timestamp calibrated_at = 2; // when the calibration was performed
+  double error = 3; // average reprojection error
+  is.vision.Resolution resolution = 4; // resolution used during calibration
 
-  is.common.Tensor intrinsic = 4; // intrinsic matrix with shape=[3,3]
-  is.common.Tensor distortion = 5; // distortion coefficients with shape=[1,5]
+  is.common.Tensor intrinsic = 5; // intrinsic matrix with shape=[3,3]
+  is.common.Tensor distortion = 6; // distortion coefficients with shape=[1,5]
+  
+  // used to transform from the camera frame to the world frame
+  FrameTransformation extrinsic = 7;
+}
+
+message FrameTransformation {
+  string from = 1;
+  string to = 2;
+  is.common.Tensor tf = 3; // transformation matrix [R T; 0 1] with shape = [4,4]
 }

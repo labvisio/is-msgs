@@ -8,20 +8,27 @@ package is.vision;
 import "image.proto";
 import "robot.proto";
 
-service MarkerDetector {
-  rpc Track (stream Image) returns (stream is.robot.Pose) {}
-  rpc Detect (Image) returns (is.robot.Pose) {}
+message MarkerSettings {
+  // dictionary of markers indicating the type of markers.
+  int32 dictionary = 1;
+  // marker side length
+  float marker_length = 2;
 }
 
-message ChArucoSettings {
-  // dictionary of markers indicating the type of markers.
-  int32 dictionary = 1;     
-  // chessboard square side length (normally in meters)
-  float square_length = 2;
-  // marker side length (same unit than square_length)
-  float marker_length = 3;
+message ChessboardSettings {
+  // chessboard square side length
+  float square_length = 1;
   // number of chessboard squares in X direction
-  uint32 squares_x = 4; 
+  uint32 squares_x = 2; 
   // number of chessboard squares in Y direction
-  uint32 squares_y = 5;
+  uint32 squares_y = 3;
+}
+
+message MarkerAnnotation {
+  ImageAnnotation image_annotation = 1;
+  is.robot.Pose pose = 2; 
+}
+
+message MarkerAnnotations {
+  repeated MarkerAnnotation annotations = 1;
 }

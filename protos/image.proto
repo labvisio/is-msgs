@@ -25,11 +25,13 @@ message ImageFormat {
   google.protobuf.FloatValue compression = 2;
 }
 
-message BoundingBox {
-  uint32 x = 1;  // x position of the topleft pixel
-  uint32 y = 2;  // y position of the topleft pixel
-  uint32 height = 3;
-  uint32 width = 4;
+message Vertex {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message BoundingPoly {
+  repeated Vertex vertices = 1;
 }
 
 message Resolution {
@@ -37,16 +39,34 @@ message Resolution {
   uint32 width = 2;
 }
 
-enum ColorSpace {
+enum ColorSpaces {
   RGB = 0;
   GRAY = 1;
-  YCrCb = 2;
+  YCbCr = 2;
   HSV = 3;
+}
+
+message ColorSpace {
+  ColorSpaces color_space = 1;
 }
 
 message ImageSettings {
   Resolution resolution = 1;
   ImageFormat format = 2; // Image serialization format. e.g: PNG
   ColorSpace color_space = 3; // Color space  
-  BoundingBox roi = 4; // Bounding box defining the region of interest in the image
+
+  /* Bounding poly defining the region of interest in the image. 
+    This region is usually represented as a rectangle.
+    A Rectangle is represented by the TopLeft and BottomRight vertices. */
+  BoundingPoly region = 4;
+}
+
+message ImageAnnotation {
+  string label = 1;
+  float score = 2;
+  BoundingPoly region = 3;
+}
+
+message ImageAnnotations {
+  repeated ImageAnnotation annotations = 1;
 }

@@ -27,7 +27,7 @@ message Position {
 message Orientation {
   float yaw = 1;   // rotation around x
   float pitch = 2; // rotation around y
-  float row = 3;   // rotation around z
+  float roll = 3;  // rotation around z
 }
 
 message Pose {

@@ -7,8 +7,23 @@ import "google/protobuf/wrappers.proto";
 
 package is.common;
 
+message QueueSettings {
+  // Name of the queue. If empty a random name will be generated.
+  string name = 1;
+  // Lists of topics to subscribe to.
+  repeated string topics = 2;
+  /* Maximum number of unacked messages the broker will deliver to a consumer. 
+    - Setting this to 0 means no limit.
+    - Setting this to -1 means that ack'ing is automatically done when the message is delivered.
+  */
+  int32 prefetch_count = 3; 
+  // If true only one consumer can access the queue 
+  bool exclusive = 4;
+}
+
 message BrokerSubscription {
-  string uri = 1; // broker uri i.e: amqp://guest:guest@10.0.0.1:5672/
+  repeated string uris = 1; // list of brokers uri, i.e: amqp://guest:guest@10.0.0.1:5672/
+  repeated QueueSettings queues = 2;
 }
 
 message SamplingSettings {
