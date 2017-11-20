@@ -46,8 +46,6 @@ message RobotConfig {
 
 message FinalPoseTask {
   Pose goal = 1;
-  // Ratio indicating the allowed error in the positioning algorithm
-  float allowed_error = 2;
 }
 
 message PathTask {
@@ -65,6 +63,8 @@ message RobotTask {
     PathTask path = 2;
     TrajectoryTask trajectory = 3;
   }
+  // Ratio indicating the allowed error in the positioning algorithm
+  float allowed_error = 14;
   is.common.SamplingSettings sampling = 15;
 }
 
@@ -75,4 +75,3 @@ message RobotControllerProgress {
   float error = 4;
   bool done = 5;
 }
-
