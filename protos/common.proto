@@ -87,3 +87,25 @@ message Tensor {
   repeated int32 ints32 = 5 [packed=true];
   repeated int64 ints64 = 6 [packed=true];
 }
+
+message Position {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message Orientation {
+  float yaw = 1;   // rotation around x
+  float pitch = 2; // rotation around y
+  float roll = 3;  // rotation around z
+}
+
+message Pose {
+  Position position = 1;
+  Orientation orientation = 2;
+}
+
+message Speed {
+  float linear = 1;
+  float angular = 2;
+}

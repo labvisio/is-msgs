@@ -5,9 +5,6 @@ option java_multiple_files = true;
 
 package is.vision;
 
-import "image.proto";
-import "robot.proto";
-
 message MarkerSettings {
   // dictionary of markers indicating the type of markers.
   int32 dictionary = 1;
@@ -22,13 +19,4 @@ message ChessboardSettings {
   uint32 squares_x = 2; 
   // number of chessboard squares in Y direction
   uint32 squares_y = 3;
-}
-
-message MarkerAnnotation {
-  ImageAnnotation image_annotation = 1;
-  is.robot.Pose pose = 2; 
-}
-
-message MarkerAnnotations {
-  repeated MarkerAnnotation annotations = 1;
 }

@@ -234,6 +234,18 @@
                 </li>
               
                 <li>
+                  <a href="#is.common.Orientation"><span class="badge">M</span>Orientation</a>
+                </li>
+              
+                <li>
+                  <a href="#is.common.Pose"><span class="badge">M</span>Pose</a>
+                </li>
+              
+                <li>
+                  <a href="#is.common.Position"><span class="badge">M</span>Position</a>
+                </li>
+              
+                <li>
                   <a href="#is.common.QueueSettings"><span class="badge">M</span>QueueSettings</a>
                 </li>
               
@@ -247,6 +259,10 @@
               
                 <li>
                   <a href="#is.common.Shape.Dimension"><span class="badge">M</span>Shape.Dimension</a>
+                </li>
+              
+                <li>
+                  <a href="#is.common.Speed"><span class="badge">M</span>Speed</a>
                 </li>
               
                 <li>
@@ -328,21 +344,6 @@
         
           
           <li>
-            <a href="#empty.proto">empty.proto</a>
-            <ul>
-              
-                <li>
-                  <a href="#google.protobuf.Empty"><span class="badge">M</span>Empty</a>
-                </li>
-              
-              
-              
-              
-            </ul>
-          </li>
-        
-          
-          <li>
             <a href="#timestamp.proto">timestamp.proto</a>
             <ul>
               
@@ -388,9 +389,39 @@
               
               
               
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#marker.proto">marker.proto</a>
+            <ul>
+              
                 <li>
-                  <a href="#is.vision.CameraGateway"><span class="badge">S</span>CameraGateway</a>
+                  <a href="#is.vision.ChessboardSettings"><span class="badge">M</span>ChessboardSettings</a>
                 </li>
+              
+                <li>
+                  <a href="#is.vision.MarkerSettings"><span class="badge">M</span>MarkerSettings</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#empty.proto">empty.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#google.protobuf.Empty"><span class="badge">M</span>Empty</a>
+                </li>
+              
+              
+              
               
             </ul>
           </li>
@@ -405,19 +436,7 @@
                 </li>
               
                 <li>
-                  <a href="#is.robot.Orientation"><span class="badge">M</span>Orientation</a>
-                </li>
-              
-                <li>
                   <a href="#is.robot.PathTask"><span class="badge">M</span>PathTask</a>
-                </li>
-              
-                <li>
-                  <a href="#is.robot.Pose"><span class="badge">M</span>Pose</a>
-                </li>
-              
-                <li>
-                  <a href="#is.robot.Position"><span class="badge">M</span>Position</a>
                 </li>
               
                 <li>
@@ -433,46 +452,7 @@
                 </li>
               
                 <li>
-                  <a href="#is.robot.Speed"><span class="badge">M</span>Speed</a>
-                </li>
-              
-                <li>
                   <a href="#is.robot.TrajectoryTask"><span class="badge">M</span>TrajectoryTask</a>
-                </li>
-              
-              
-              
-              
-                <li>
-                  <a href="#is.robot.RobotController"><span class="badge">S</span>RobotController</a>
-                </li>
-              
-                <li>
-                  <a href="#is.robot.RobotGateway"><span class="badge">S</span>RobotGateway</a>
-                </li>
-              
-            </ul>
-          </li>
-        
-          
-          <li>
-            <a href="#marker.proto">marker.proto</a>
-            <ul>
-              
-                <li>
-                  <a href="#is.vision.ChessboardSettings"><span class="badge">M</span>ChessboardSettings</a>
-                </li>
-              
-                <li>
-                  <a href="#is.vision.MarkerAnnotation"><span class="badge">M</span>MarkerAnnotation</a>
-                </li>
-              
-                <li>
-                  <a href="#is.vision.MarkerAnnotations"><span class="badge">M</span>MarkerAnnotations</a>
-                </li>
-              
-                <li>
-                  <a href="#is.vision.MarkerSettings"><span class="badge">M</span>MarkerSettings</a>
                 </li>
               
               
@@ -767,6 +747,110 @@
 
         
       
+        <h3 id="is.common.Orientation">Orientation</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>yaw</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>rotation around x </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pitch</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>rotation around y </p></td>
+                </tr>
+              
+                <tr>
+                  <td>roll</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>rotation around z </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="is.common.Pose">Pose</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>position</td>
+                  <td><a href="#is.common.Position">Position</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>orientation</td>
+                  <td><a href="#is.common.Orientation">Orientation</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="is.common.Position">Position</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>x</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>y</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>z</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
         <h3 id="is.common.QueueSettings">QueueSettings</h3>
         <p></p>
 
@@ -893,6 +977,36 @@
                 <tr>
                   <td>name</td>
                   <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="is.common.Speed">Speed</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>linear</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>angular</td>
+                  <td><a href="#float">float</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1136,7 +1250,7 @@
 
       
         <h3 id="is.vision.BoundingPoly">BoundingPoly</h3>
-        <p></p>
+        <p>Sequence of vertices modelling a polygon.</p><p>- BoudingPoly with only 2 vertices is usually interpreted as a rectangle</p><p>where the vertices represent the TopLeft and BottomRight vertices respectively.</p>
 
         
           <table class="field-table">
@@ -1169,7 +1283,7 @@
             <tbody>
               
                 <tr>
-                  <td>color_space</td>
+                  <td>value</td>
                   <td><a href="#is.vision.ColorSpaces">ColorSpaces</a></td>
                   <td></td>
                   <td><p> </p></td>
@@ -1238,6 +1352,13 @@
                 <tr>
                   <td>region</td>
                   <td><a href="#is.vision.BoundingPoly">BoundingPoly</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pose</td>
+                  <td><a href="#is.vision..is.common.Pose">.is.common.Pose</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1337,8 +1458,8 @@
                   <td><a href="#is.vision.BoundingPoly">BoundingPoly</a></td>
                   <td></td>
                   <td><p>Bounding poly defining the region of interest in the image.
-This region is usually represented as a rectangle.
-A Rectangle is represented by the TopLeft and BottomRight vertices. </p></td>
+This region is usually represented as a rectangle, modelled by
+the TopLeft and BottomRight vertices </p></td>
                 </tr>
               
             </tbody>
@@ -1472,27 +1593,6 @@ A Rectangle is represented by the TopLeft and BottomRight vertices. </p></td>
             
           </tbody>
         </table>
-      
-
-      
-
-      
-    
-      
-      <div class="file-heading">
-        <h2 id="empty.proto">empty.proto</h2><a href="#title">Top</a>
-      </div>
-      <p></p>
-
-      
-        <h3 id="google.protobuf.Empty">Empty</h3>
-        <p>A generic empty message that you can re-use to avoid defining duplicated</p><p>empty messages in your APIs. A typical example is to use it as the request</p><p>or the response type of an API method. For instance:</p><p>service Foo {</p><p>rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);</p><p>}</p><p>The JSON representation for `Empty` is empty JSON object `{}`.</p>
-
-        
-
-        
-      
-
       
 
       
@@ -1872,30 +1972,107 @@ inclusive. </p></td>
       
 
       
-        <h3 id="is.vision.CameraGateway">CameraGateway</h3>
-        <p>Common camera interface</p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>SetConfig</td>
-                <td><a href="#is.vision.CameraConfig">CameraConfig</a></td>
-                <td><a href="#google.protobuf.Empty">google.protobuf.Empty</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>GetConfig</td>
-                <td><a href="#is.common.FieldSelector">is.common.FieldSelector</a></td>
-                <td><a href="#is.vision.CameraConfig">CameraConfig</a></td>
-                <td><p></p></td>
-              </tr>
-            
-          </tbody>
-        </table>
+    
+      
+      <div class="file-heading">
+        <h2 id="marker.proto">marker.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="is.vision.ChessboardSettings">ChessboardSettings</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>square_length</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>chessboard square side length </p></td>
+                </tr>
+              
+                <tr>
+                  <td>squares_x</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p>number of chessboard squares in X direction </p></td>
+                </tr>
+              
+                <tr>
+                  <td>squares_y</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p>number of chessboard squares in Y direction </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="is.vision.MarkerSettings">MarkerSettings</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>dictionary</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>dictionary of markers indicating the type of markers. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>marker_length</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>marker side length </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
+        <h2 id="empty.proto">empty.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="google.protobuf.Empty">Empty</h3>
+        <p>A generic empty message that you can re-use to avoid defining duplicated</p><p>empty messages in your APIs. A typical example is to use it as the request</p><p>or the response type of an API method. For instance:</p><p>service Foo {</p><p>rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);</p><p>}</p><p>The JSON representation for `Empty` is empty JSON object `{}`.</p>
+
+        
+
+        
+      
+
+      
+
+      
+
       
     
       
@@ -1917,7 +2094,7 @@ inclusive. </p></td>
               
                 <tr>
                   <td>goal</td>
-                  <td><a href="#is.robot.Pose">Pose</a></td>
+                  <td><a href="#is.robot..is.common.Pose">.is.common.Pose</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1927,43 +2104,6 @@ inclusive. </p></td>
                   <td><a href="#float">float</a></td>
                   <td></td>
                   <td><p>Ratio indicating the allowed error in the positioning algorithm </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
-        <h3 id="is.robot.Orientation">Orientation</h3>
-        <p>Euler Angles Orientation, Rotation Matrix = Rz(row) * Ry(pitch) * Rx(yaw)</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>yaw</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p>rotation around x </p></td>
-                </tr>
-              
-                <tr>
-                  <td>pitch</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p>rotation around y </p></td>
-                </tr>
-              
-                <tr>
-                  <td>roll</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p>rotation around z </p></td>
                 </tr>
               
             </tbody>
@@ -1984,75 +2124,8 @@ inclusive. </p></td>
               
                 <tr>
                   <td>positions</td>
-                  <td><a href="#is.robot.Position">Position</a></td>
+                  <td><a href="#is.robot..is.common.Position">.is.common.Position</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
-        <h3 id="is.robot.Pose">Pose</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>position</td>
-                  <td><a href="#is.robot.Position">Position</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>orientation</td>
-                  <td><a href="#is.robot.Orientation">Orientation</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
-        <h3 id="is.robot.Position">Position</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>x</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>y</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>z</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
                   <td><p> </p></td>
                 </tr>
               
@@ -2074,7 +2147,7 @@ inclusive. </p></td>
               
                 <tr>
                   <td>speed</td>
-                  <td><a href="#is.robot.Speed">Speed</a></td>
+                  <td><a href="#is.robot..is.common.Speed">.is.common.Speed</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2097,21 +2170,21 @@ inclusive. </p></td>
               
                 <tr>
                   <td>current_speed</td>
-                  <td><a href="#is.robot.Speed">Speed</a></td>
+                  <td><a href="#is.robot..is.common.Speed">.is.common.Speed</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
                   <td>current_pose</td>
-                  <td><a href="#is.robot.Pose">Pose</a></td>
+                  <td><a href="#is.robot..is.common.Pose">.is.common.Pose</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
                   <td>desired_pose</td>
-                  <td><a href="#is.robot.Pose">Pose</a></td>
+                  <td><a href="#is.robot..is.common.Pose">.is.common.Pose</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2180,36 +2253,6 @@ inclusive. </p></td>
 
         
       
-        <h3 id="is.robot.Speed">Speed</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>linear</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>angular</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
         <h3 id="is.robot.TrajectoryTask">TrajectoryTask</h3>
         <p></p>
 
@@ -2222,186 +2265,16 @@ inclusive. </p></td>
               
                 <tr>
                   <td>positions</td>
-                  <td><a href="#is.robot.Position">Position</a></td>
+                  <td><a href="#is.robot..is.common.Position">.is.common.Position</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
                   <td>speeds</td>
-                  <td><a href="#is.robot.Speed">Speed</a></td>
+                  <td><a href="#is.robot..is.common.Speed">.is.common.Speed</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
-
-      
-
-      
-
-      
-        <h3 id="is.robot.RobotController">RobotController</h3>
-        <p></p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>SetTask</td>
-                <td><a href="#is.robot.RobotTask">RobotTask</a></td>
-                <td><a href="#google.protobuf.Empty">google.protobuf.Empty</a></td>
-                <td><p></p></td>
-              </tr>
-            
-          </tbody>
-        </table>
-      
-        <h3 id="is.robot.RobotGateway">RobotGateway</h3>
-        <p></p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>SetConfig</td>
-                <td><a href="#is.robot.RobotConfig">RobotConfig</a></td>
-                <td><a href="#google.protobuf.Empty">google.protobuf.Empty</a></td>
-                <td><p>rpc GetConfig(is.common.FieldSelector) returns (RobotConfig) {}</p></td>
-              </tr>
-            
-          </tbody>
-        </table>
-      
-    
-      
-      <div class="file-heading">
-        <h2 id="marker.proto">marker.proto</h2><a href="#title">Top</a>
-      </div>
-      <p></p>
-
-      
-        <h3 id="is.vision.ChessboardSettings">ChessboardSettings</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>square_length</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p>chessboard square side length </p></td>
-                </tr>
-              
-                <tr>
-                  <td>squares_x</td>
-                  <td><a href="#uint32">uint32</a></td>
-                  <td></td>
-                  <td><p>number of chessboard squares in X direction </p></td>
-                </tr>
-              
-                <tr>
-                  <td>squares_y</td>
-                  <td><a href="#uint32">uint32</a></td>
-                  <td></td>
-                  <td><p>number of chessboard squares in Y direction </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
-        <h3 id="is.vision.MarkerAnnotation">MarkerAnnotation</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>image_annotation</td>
-                  <td><a href="#is.vision.ImageAnnotation">ImageAnnotation</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>pose</td>
-                  <td><a href="#is.vision..is.robot.Pose">.is.robot.Pose</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
-        <h3 id="is.vision.MarkerAnnotations">MarkerAnnotations</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>annotations</td>
-                  <td><a href="#is.vision.MarkerAnnotation">MarkerAnnotation</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-        
-
-        
-      
-        <h3 id="is.vision.MarkerSettings">MarkerSettings</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>dictionary</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>dictionary of markers indicating the type of markers. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>marker_length</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p>marker side length </p></td>
                 </tr>
               
             </tbody>

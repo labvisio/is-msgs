@@ -4,6 +4,7 @@ option java_package = "com.is.vision";
 option java_multiple_files = true;
 
 import "google/protobuf/wrappers.proto";
+import "common.proto";
 
 package is.vision;
 
@@ -30,6 +31,10 @@ message Vertex {
   int32 y = 2;
 }
 
+/* Sequence of vertices modelling a polygon.  
+ - BoudingPoly with only 2 vertices is usually interpreted as a rectangle 
+   where the vertices represent the TopLeft and BottomRight vertices respectively.
+*/
 message BoundingPoly {
   repeated Vertex vertices = 1;
 }
@@ -47,17 +52,17 @@ enum ColorSpaces {
 }
 
 message ColorSpace {
-  ColorSpaces color_space = 1;
+  ColorSpaces value = 1;
 }
 
 message ImageSettings {
   Resolution resolution = 1;
   ImageFormat format = 2; // Image serialization format. e.g: PNG
   ColorSpace color_space = 3; // Color space  
-
-  /* Bounding poly defining the region of interest in the image. 
-    This region is usually represented as a rectangle.
-    A Rectangle is represented by the TopLeft and BottomRight vertices. */
+  
+  /* Bounding poly defining the region of interest in the image.
+     This region is usually represented as a rectangle, modelled by
+     the TopLeft and BottomRight vertices */
   BoundingPoly region = 4;
 }
 
@@ -65,6 +70,7 @@ message ImageAnnotation {
   string label = 1;
   float score = 2;
   BoundingPoly region = 3;
+  common.Pose pose = 4;
 }
 
 message ImageAnnotations {

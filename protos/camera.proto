@@ -7,14 +7,15 @@ package is.vision;
 
 import "common.proto";
 import "image.proto";
-import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
-// Common camera interface 
+/* Common camera interface 
 service CameraGateway {
   rpc SetConfig (CameraConfig) returns (google.protobuf.Empty) {}
   rpc GetConfig (is.common.FieldSelector) returns (CameraConfig) {}
 }
+*/
+
 
 message CameraSetting {
   bool automatic = 1; // True if the camera should automatically assign this parameter
@@ -38,7 +39,7 @@ message CameraSettings {
 }
 
 message CameraConfig {
-  is.common.SamplingSettings sampling = 1;
+  common.SamplingSettings sampling = 1;
   ImageSettings image = 2;
   CameraSettings camera = 3;
 }
@@ -54,10 +55,10 @@ message CameraCalibration {
   string id = 1;  // camera id
   google.protobuf.Timestamp calibrated_at = 2; // when the calibration was performed
   double error = 3; // average reprojection error
-  is.vision.Resolution resolution = 4; // resolution used during calibration
+  vision.Resolution resolution = 4; // resolution used during calibration
 
-  is.common.Tensor intrinsic = 5; // intrinsic matrix with shape=[3,3]
-  is.common.Tensor distortion = 6; // distortion coefficients with shape=[1,5]
+  common.Tensor intrinsic = 5; // intrinsic matrix with shape=[3,3]
+  common.Tensor distortion = 6; // distortion coefficients with shape=[1,5]
   
   // used to transform from the camera frame to the world frame
   FrameTransformation extrinsic = 7;
@@ -66,5 +67,5 @@ message CameraCalibration {
 message FrameTransformation {
   string from = 1;
   string to = 2;
-  is.common.Tensor tf = 3; // transformation matrix [R T; 0 1] with shape = [4,4]
+  common.Tensor tf = 3; // transformation matrix [R T; 0 1] with shape = [4,4]
 }
