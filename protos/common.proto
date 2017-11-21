@@ -35,6 +35,11 @@ message SamplingSettings {
   google.protobuf.FloatValue delay = 3;
 }
 
+message SyncRequest {
+  repeated string entities = 1;
+  SamplingSettings sampling = 2;  
+}
+
 // Used to select the desired fields of a message on a "Get" RPC
 message FieldSelector {
   repeated uint32 fields = 1;

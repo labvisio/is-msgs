@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_package = "com.is.common";
+option java_multiple_files = true;
+ 
+import "google/protobuf/duration.proto";
+
+package is.common;
+
+message PowerInfo {
+  float voltage = 1; // Battery voltage in volts
+  float terminal_voltage = 2; // Lower voltage limit
+  repeated float cell_voltage = 3; // When battery contain cells, voltage of each one
+  float charge = 4; // Charge percentage on 0 to 1 range
+  float capacity = 5; // Capacity in Ah
+  BatteryType type = 6; // Battery type
+  BatteryStatus status = 7; // Battery status
+  google.protobuf.Duration uptime = 8;
+  // How long the battery will last at the current discharge rate
+  google.protobuf.Duration autonomy = 9;
+
+  enum BatteryType {
+    PB = 0;
+    NICD = 1;
+    NIMH = 2;
+    LIPO = 3;
+  }
+
+  enum BatteryStatus {
+    UNKNOWN = 0;
+    CHARGING = 1;
+    DISCHARGING = 2;
+    CHARGED = 3;
+    NOT_CONNECTED = 4;
+  }
+}
+
