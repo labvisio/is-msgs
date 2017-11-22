@@ -25,7 +25,7 @@ message RobotConfig {
 }
 
 message FinalPoseTask {
-  Pose goal = 1;
+  common.Pose goal = 1;
 }
 
 message PathTask {
@@ -45,7 +45,7 @@ message RobotTask {
   }
   // Ratio indicating the allowed error in the positioning algorithm
   float allowed_error = 14;
-  is.common.SamplingSettings sampling = 15;
+  common.SamplingSettings sampling = 15;
 }
 
 message RobotControllerProgress {

@@ -270,6 +270,10 @@
                 </li>
               
                 <li>
+                  <a href="#is.common.SyncRequest"><span class="badge">M</span>SyncRequest</a>
+                </li>
+              
+                <li>
                   <a href="#is.common.Tensor"><span class="badge">M</span>Tensor</a>
                 </li>
               
@@ -405,6 +409,44 @@
                   <a href="#is.vision.MarkerSettings"><span class="badge">M</span>MarkerSettings</a>
                 </li>
               
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#duration.proto">duration.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#google.protobuf.Duration"><span class="badge">M</span>Duration</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#power.proto">power.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#is.common.PowerInfo"><span class="badge">M</span>PowerInfo</a>
+                </li>
+              
+              
+                <li>
+                  <a href="#is.common.PowerInfo.BatteryStatus"><span class="badge">E</span>PowerInfo.BatteryStatus</a>
+                </li>
+              
+                <li>
+                  <a href="#is.common.PowerInfo.BatteryType"><span class="badge">E</span>PowerInfo.BatteryType</a>
+                </li>
               
               
               
@@ -1039,6 +1081,36 @@
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>Human readable message explaining the error </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+        <h3 id="is.common.SyncRequest">SyncRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>entities</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sampling</td>
+                  <td><a href="#is.common.SamplingSettings">SamplingSettings</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -2056,6 +2128,226 @@ inclusive. </p></td>
     
       
       <div class="file-heading">
+        <h2 id="duration.proto">duration.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="google.protobuf.Duration">Duration</h3>
+        <p>A Duration represents a signed, fixed-length span of time represented</p><p>as a count of seconds and fractions of seconds at nanosecond</p><p>resolution. It is independent of any calendar and concepts like "day"</p><p>or "month". It is related to Timestamp in that the difference between</p><p>two Timestamp values is a Duration and it can be added or subtracted</p><p>from a Timestamp. Range is approximately +-10,000 years.</p><p># Examples</p><p>Example 1: Compute Duration from two Timestamps in pseudo code.</p><p>Timestamp start = ...;</p><p>Timestamp end = ...;</p><p>Duration duration = ...;</p><p>duration.seconds = end.seconds - start.seconds;</p><p>duration.nanos = end.nanos - start.nanos;</p><p>if (duration.seconds < 0 && duration.nanos > 0) {</p><p>duration.seconds += 1;</p><p>duration.nanos -= 1000000000;</p><p>} else if (durations.seconds > 0 && duration.nanos < 0) {</p><p>duration.seconds -= 1;</p><p>duration.nanos += 1000000000;</p><p>}</p><p>Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.</p><p>Timestamp start = ...;</p><p>Duration duration = ...;</p><p>Timestamp end = ...;</p><p>end.seconds = start.seconds + duration.seconds;</p><p>end.nanos = start.nanos + duration.nanos;</p><p>if (end.nanos < 0) {</p><p>end.seconds -= 1;</p><p>end.nanos += 1000000000;</p><p>} else if (end.nanos >= 1000000000) {</p><p>end.seconds += 1;</p><p>end.nanos -= 1000000000;</p><p>}</p><p>Example 3: Compute Duration from datetime.timedelta in Python.</p><p>td = datetime.timedelta(days=3, minutes=10)</p><p>duration = Duration()</p><p>duration.FromTimedelta(td)</p><p># JSON Mapping</p><p>In JSON format, the Duration type is encoded as a string rather than an</p><p>object, where the string ends in the suffix "s" (indicating seconds) and</p><p>is preceded by the number of seconds, with nanoseconds expressed as</p><p>fractional seconds. For example, 3 seconds with 0 nanoseconds should be</p><p>encoded in JSON format as "3s", while 3 seconds and 1 nanosecond should</p><p>be expressed in JSON format as "3.000000001s", and 3 seconds and 1</p><p>microsecond should be expressed in JSON format as "3.000001s".</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>seconds</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p>Signed seconds of the span of time. Must be from -315,576,000,000
+to &#43;315,576,000,000 inclusive. Note: these bounds are computed from:
+60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years </p></td>
+                </tr>
+              
+                <tr>
+                  <td>nanos</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Signed fractions of a second at nanosecond resolution of the span
+of time. Durations less than one second are represented with a 0
+`seconds` field and a positive or negative `nanos` field. For durations
+of one second or more, a non-zero value for the `nanos` field must be
+of the same sign as the `seconds` field. Must be from -999,999,999
+to &#43;999,999,999 inclusive. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
+        <h2 id="power.proto">power.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="is.common.PowerInfo">PowerInfo</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>voltage</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>Battery voltage in volts </p></td>
+                </tr>
+              
+                <tr>
+                  <td>terminal_voltage</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>Lower voltage limit </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cell_voltage</td>
+                  <td><a href="#float">float</a></td>
+                  <td>repeated</td>
+                  <td><p>When battery contain cells, voltage of each one </p></td>
+                </tr>
+              
+                <tr>
+                  <td>charge</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>Charge percentage on 0 to 1 range </p></td>
+                </tr>
+              
+                <tr>
+                  <td>capacity</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>Capacity in Ah </p></td>
+                </tr>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#is.common.PowerInfo.BatteryType">PowerInfo.BatteryType</a></td>
+                  <td></td>
+                  <td><p>Battery type </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#is.common.PowerInfo.BatteryStatus">PowerInfo.BatteryStatus</a></td>
+                  <td></td>
+                  <td><p>Battery status </p></td>
+                </tr>
+              
+                <tr>
+                  <td>uptime</td>
+                  <td><a href="#is.common..google.protobuf.Duration">.google.protobuf.Duration</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>autonomy</td>
+                  <td><a href="#is.common..google.protobuf.Duration">.google.protobuf.Duration</a></td>
+                  <td></td>
+                  <td><p>How long the battery will last at the current discharge rate </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+        
+
+        
+      
+
+      
+        <h3 id="is.common.PowerInfo.BatteryStatus">PowerInfo.BatteryStatus</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNKNOWN</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>CHARGING</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>DISCHARGING</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>CHARGED</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>NOT_CONNECTED</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="is.common.PowerInfo.BatteryType">PowerInfo.BatteryType</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>PB</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>NICD</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>NIMH</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>LIPO</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
         <h2 id="empty.proto">empty.proto</h2><a href="#title">Top</a>
       </div>
       <p></p>
@@ -2097,13 +2389,6 @@ inclusive. </p></td>
                   <td><a href="#is.robot..is.common.Pose">.is.common.Pose</a></td>
                   <td></td>
                   <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>allowed_error</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p>Ratio indicating the allowed error in the positioning algorithm </p></td>
                 </tr>
               
             </tbody>
@@ -2238,6 +2523,13 @@ inclusive. </p></td>
                   <td><a href="#is.robot.TrajectoryTask">TrajectoryTask</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>allowed_error</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>Ratio indicating the allowed error in the positioning algorithm </p></td>
                 </tr>
               
                 <tr>
