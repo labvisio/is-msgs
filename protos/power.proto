@@ -1,11 +1,11 @@
 syntax = "proto3";
 
+package is.common;
+
 option java_package = "com.is.common";
 option java_multiple_files = true;
  
 import "google/protobuf/duration.proto";
-
-package is.common;
 
 message PowerInfo {
   float voltage = 1; // Battery voltage in volts

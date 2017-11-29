@@ -1,24 +1,13 @@
 syntax = "proto3";
 
+package is.robot;
+
 option java_package = "com.is.robot";
 option java_multiple_files = true;
 
-import "google/protobuf/empty.proto";
 import "common.proto";
 
-package is.robot;
-
-/*
-service RobotGateway {
-  rpc GetConfig(is.common.FieldSelector) returns (RobotConfig) {}
-  rpc SetConfig(RobotConfig) returns (google.protobuf.Empty) {}
-}
-
-service RobotController {
-  rpc SetTask(RobotTask) returns (google.protobuf.Empty) {}
-}
-*/
-
+// Define messages for the robot gateway and controller services
 
 message RobotConfig {
   common.Speed speed = 1;

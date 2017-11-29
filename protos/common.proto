@@ -1,11 +1,11 @@
 syntax = "proto3";
 
+package is.common;
+
 option java_package = "com.is.common";
 option java_multiple_files = true;
 
 import "google/protobuf/wrappers.proto";
-
-package is.common;
 
 message QueueSettings {
   // Name of the queue. If empty a random name will be generated.

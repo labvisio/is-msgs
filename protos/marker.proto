@@ -1,9 +1,9 @@
 syntax = "proto3";
 
+package is.vision;
+
 option java_package = "com.is.vision";
 option java_multiple_files = true;
-
-package is.vision;
 
 message MarkerSettings {
   // dictionary of markers indicating the type of markers.
