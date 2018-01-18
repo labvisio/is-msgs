@@ -43,4 +43,5 @@ message RobotControllerProgress {
   common.Pose desired_pose = 3;
   float error = 4;
   bool done = 5;
+  int32 sources = 6;
 }
