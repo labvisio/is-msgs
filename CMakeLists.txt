@@ -28,6 +28,7 @@ target_include_directories(
  PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
   $<INSTALL_INTERFACE:include>
+  ${Protobuf_INCLUDE_DIRS}
 )
 
 install(
@@ -42,13 +43,13 @@ install(
 #install headers
 install(
   FILES ${PROTO_HEADERS}
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/is/msgs/"
 )
 
 #install protos
 install(
   FILES ${protos}
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/is/msgs/"
 )
 
 #install config
