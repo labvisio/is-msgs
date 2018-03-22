@@ -4,9 +4,7 @@ project(ismsgs C CXX)
 include(GNUInstallDirs)
 
 # Protobuf
-set(protobuf_MODULE_COMPATIBLE TRUE)
 find_package(Protobuf 3 REQUIRED)
-message(STATUS "Using protobuf ${protobuf_VERSION}")
 
 file(GLOB protos "protos/*.proto")
 foreach(proto ${protos})
@@ -20,7 +18,7 @@ set_property(TARGET ismsgs PROPERTY CXX_STANDARD 11)
 target_link_libraries(
   ismsgs
  PUBLIC 
-  ${Protobuf_LIBRARIES}
+  ${PROTOBUF_LIBRARIES}
 )
 
 target_include_directories(
@@ -28,7 +26,7 @@ target_include_directories(
  PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
   $<INSTALL_INTERFACE:include>
-  ${Protobuf_INCLUDE_DIRS}
+  ${PROTOBUF_INCLUDE_DIRS}
 )
 
 install(
