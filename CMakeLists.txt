@@ -13,7 +13,7 @@ foreach(proto ${protos})
   set(PROTO_HEADERS "${PROTO_HEADERS};${HEADER}")
 endforeach()
 
-add_library(ismsgs ${PROTO_SRCS})
+add_library(ismsgs src/utils.cpp ${PROTO_SRCS})
 set_property(TARGET ismsgs PROPERTY CXX_STANDARD 11)
 target_link_libraries(
   ismsgs
@@ -25,7 +25,7 @@ target_include_directories(
   ismsgs 
  PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   ${PROTOBUF_INCLUDE_DIRS}
 )
 
@@ -40,7 +40,7 @@ install(
 
 #install headers
 install(
-  FILES ${PROTO_HEADERS}
+  FILES ${PROTO_HEADERS} src/utils.hpp
   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/is/msgs/"
 )
 
