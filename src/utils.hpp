@@ -2,7 +2,7 @@
 
 #include <google/protobuf/util/time_util.h>
 #include <sys/time.h>
-#include "common.pb.h"
+#include "wire.pb.h"
 
 namespace is {
 
@@ -12,6 +12,6 @@ using namespace google::protobuf;
 }  // namespace pb
 
 pb::Timestamp current_time();
-common::Status make_status(common::StatusCode code, std::string const& why = "");
+wire::Status make_status(wire::StatusCode code, std::string const& why = "");
 
 }  // namespace is

@@ -7,32 +7,11 @@ option java_multiple_files = true;
 
 import "google/protobuf/wrappers.proto";
 
-message QueueSettings {
-  // Name of the queue. If empty a random name will be generated.
-  string name = 1;
-  // Lists of topics to subscribe to.
-  repeated string topics = 2;
-  /* Maximum number of unacked messages the broker will deliver to a consumer. 
-    - Setting this to 0 means no limit.
-    - Setting this to -1 means that ack'ing is automatically done when the message is delivered.
-  */
-  int32 prefetch_count = 3; 
-  // If true only one consumer can access the queue 
-  bool exclusive = 4;
-}
-
-message BrokerSubscription {
-  repeated string uris = 1; // list of brokers uri, i.e: amqp://guest:guest@10.0.0.1:5672/
-  repeated QueueSettings queues = 2;
-}
-
 message SamplingSettings {
-  oneof rate {
-    float frequency = 1; // Sampling frequency in hertz
-    float period = 2; // Sampling rate period in seconds
-  } 
+  // Sampling frequency in hertz
+  google.protobuf.FloatValue frequency = 1;
   // Delay to be applied in the in the sampling proccess, normally used to synchronize different sources 
-  google.protobuf.FloatValue delay = 3;
+  google.protobuf.FloatValue delay = 2;
 }
 
 message SyncRequest {
@@ -43,28 +22,6 @@ message SyncRequest {
 // Used to select the desired fields of a message on a "Get" RPC
 message FieldSelector {
   repeated uint32 fields = 1;
-}
-
-// Codes used to indicated the failure/success of a RPC
-enum StatusCode {
-  UNKNOWN = 0;  
-  OK = 1;
-  CANCELLED = 2;
-  INVALID_ARGUMENT = 3;
-  DEADLINE_EXCEEDED = 4;
-  NOT_FOUND = 5;
-  ALREADY_EXISTS = 6;
-  PERMISSION_DENIED = 7;
-  UNAUTHENTICATED = 8;
-  FAILED_PRECONDITION = 9;
-  OUT_OF_RANGE = 10;
-  UNIMPLEMENTED = 11;
-  INTERNAL_ERROR = 12;
-}
-
-message Status {
-  StatusCode code = 1;
-  string why = 2; // Human readable message explaining the error
 }
 
 message Shape {

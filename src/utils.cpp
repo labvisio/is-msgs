@@ -11,8 +11,8 @@ pb::Timestamp current_time() {
   return timestamp;
 }
 
-common::Status make_status(common::StatusCode code, std::string const& why) {
-  common::Status status;
+wire::Status make_status(wire::StatusCode code, std::string const& why) {
+  wire::Status status;
   status.set_code(code);
   status.set_why(why);
   return status;

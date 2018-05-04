@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package is.wire;
+
+option java_package = "com.is.wire";
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+
+// Codes used to indicated the failure/success of a RPC
+enum StatusCode {
+  UNKNOWN = 0;  
+  OK = 1;
+  CANCELLED = 2;
+  INVALID_ARGUMENT = 3;
+  DEADLINE_EXCEEDED = 4;
+  NOT_FOUND = 5;
+  ALREADY_EXISTS = 6;
+  PERMISSION_DENIED = 7;
+  UNAUTHENTICATED = 8;
+  FAILED_PRECONDITION = 9;
+  OUT_OF_RANGE = 10;
+  UNIMPLEMENTED = 11;
+  INTERNAL_ERROR = 12;
+}
+
+message Status {
+  StatusCode code = 1;
+  string why = 2; // Human readable message explaining the error
+}
+
+enum ContentType {
+  NONE = 0;
+  PROTOBUF = 1;
+  JSON = 2;
+  PROTOTEXT = 3;
+}
+
+message WireFormat {
+  oneof body {
+    bytes raw = 1;
+    google.protobuf.Any message = 2;
+  }
+  // Time point where the message was created
+  uint64 created_at = 3;
+  //
+  ContentType content_type = 4;
+  // 
+  Status status = 5;
+  // 
+  uint64 correlation_id = 6;
+  // Where the result of processing this message should be sent to
+  string reply_to = 7;
+  //
+  uint32 expires_in = 8;
+}
