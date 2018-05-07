@@ -22,11 +22,14 @@ list(APPEND protos
 )
 
 list(APPEND interfaces
+  "src/ostream-ext.hpp"
+  "src/status-ext.hpp"
   "src/utils.hpp"
 )
 
 list(APPEND sources
-  "src/utils.cpp"
+  "src/ostream-ext.cpp"
+  "src/status-ext.cpp"
   ${interfaces}
 )
 
