@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 include(GNUInstallDirs)
 
+set(enable_tests true CACHE BOOL "enable testing")
+if (enable_tests)
+  enable_testing()
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -12,24 +17,26 @@ set(target ${author}-${module})
 set(include_dir ${author}/${module})
 
 list(APPEND protos
-  "protos/camera.proto"
-  "protos/common.proto"
-  "protos/image.proto"
-  "protos/marker.proto"
-  "protos/power.proto"
-  "protos/robot.proto"
-  "protos/wire.proto"
+  "msgs/camera.proto"
+  "msgs/common.proto"
+  "msgs/image.proto"
+  "msgs/marker.proto"
+  "msgs/power.proto"
+  "msgs/robot.proto"
+  "msgs/wire.proto"
 )
 
 list(APPEND interfaces
-  "src/ostream-ext.hpp"
-  "src/status-ext.hpp"
-  "src/utils.hpp"
+  "utils/ostream.hpp"
+  "utils/status.hpp"
+  "utils/timestamp.hpp"
+  "utils/utils.hpp"
 )
 
 list(APPEND sources
-  "src/ostream-ext.cpp"
-  "src/status-ext.cpp"
+  "utils/ostream.cpp"
+  "utils/status.cpp"
+  "utils/timestamp.cpp"
   ${interfaces}
 )
 
@@ -99,4 +106,15 @@ install(FILES ${export_config_file} DESTINATION ${export_destination})
 # create library alias (less error prone to typos)
 set(target_alias ${export_namespace}${target})
 add_library(${target_alias} ALIAS ${target})
+
+######
+###
+######
+
+if (enable_tests)
+  add_executable(timestamp_test utils/timestamp.t.cpp)
+  set_property(TARGET timestamp_test PROPERTY CXX_STANDARD 11)
+  target_link_libraries(timestamp_test PRIVATE is-msgs::is-msgs)
+  add_test(NAME timestamp_test COMMAND timestamp_test)
+endif()
 

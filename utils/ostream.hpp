@@ -3,8 +3,7 @@
 
 #include <chrono>
 #include <ostream>
-#include "google/protobuf/timestamp.pb.h"
-#include "google/protobuf/util/time_util.h"
+#include "timestamp.hpp"
 
 namespace google {
 namespace protobuf {
@@ -18,9 +17,7 @@ std::ostream& operator<<(std::ostream& os, time_point<system_clock> const& time_
 
 template <typename rep, typename period>
 std::ostream& operator<<(std::ostream& os, duration<rep, period> const& d) {
-  const auto nanos = duration_cast<nanoseconds>(d).count();
-  const auto duration = google::protobuf::util::TimeUtil::NanosecondsToDuration(nanos);
-  return os << google::protobuf::util::TimeUtil::ToString(duration);
+  return os << google::protobuf::util::TimeUtil::ToString(is::to_duration(d));
 }
 }  // namespace chrono
 }  // namespace std
