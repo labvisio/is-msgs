@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "validate.proto";
+
+package is.tests;
+
+message Foo {
+  int32 myint = 1 [(validate.rules).int32 = {gte: -50, lte: 2000}];
+  float myfloat = 2 [(validate.rules).float = {gt: 0.1, lt: 0.3}];
+  double mydouble = 3 [(validate.rules).double = {lte: 33.333}];
+};
+
+message Bar {
+  Foo myfoo = 1;
+  float myfloat = 2 [(validate.rules).float = {gt: -1.0}];
+};

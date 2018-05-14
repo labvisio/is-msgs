@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 include(GNUInstallDirs)
 
+if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  conan_basic_setup()
+endif()
+
 set(enable_tests true CACHE BOOL "enable testing")
 if (enable_tests)
   enable_testing()
@@ -24,12 +29,15 @@ list(APPEND protos
   "msgs/power.proto"
   "msgs/robot.proto"
   "msgs/wire.proto"
+  "msgs/validate.proto"
+  "msgs/tests.proto"
 )
 
 list(APPEND interfaces
   "utils/ostream.hpp"
   "utils/status.hpp"
   "utils/timestamp.hpp"
+  "utils/validate.hpp"
   "utils/utils.hpp"
 )
 
@@ -37,10 +45,12 @@ list(APPEND sources
   "utils/ostream.cpp"
   "utils/status.cpp"
   "utils/timestamp.cpp"
+  "utils/validate.cpp"
   ${interfaces}
 )
 
 find_package(Protobuf REQUIRED)
+find_package(spdlog REQUIRED)
 
 #######
 ####
@@ -61,7 +71,9 @@ set_property(TARGET ${target} PROPERTY CXX_STANDARD 11)
 target_link_libraries(
   ${target}
  PUBLIC
-  ${PROTOBUF_LIBRARIES} 
+  ${PROTOBUF_LIBRARIES}
+ PRIVATE
+  spdlog::spdlog
 )
 
 # header dependencies
@@ -71,8 +83,7 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}> # for headers when building
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> # for generated files in build mode
   $<INSTALL_INTERFACE:include/${include_dir}> # for clients in install mode
- PUBLIC
-  ${PROTOBUF_INCLUDE_DIRS} 
+  ${PROTOBUF_INCLUDE_DIRS}
 )
 
 install(FILES ${interfaces} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${include_dir})
@@ -116,5 +127,9 @@ if (enable_tests)
   set_property(TARGET timestamp_test PROPERTY CXX_STANDARD 11)
   target_link_libraries(timestamp_test PRIVATE is-msgs::is-msgs)
   add_test(NAME timestamp_test COMMAND timestamp_test)
-endif()
 
+  add_executable(validate_test utils/validate.t.cpp)
+  set_property(TARGET validate_test PROPERTY CXX_STANDARD 11)
+  target_link_libraries(validate_test PRIVATE is-msgs::is-msgs)
+  add_test(NAME validate_test COMMAND validate_test)
+endif()

@@ -1,0 +1,11 @@
+[requires]
+protobuf/3.5.2@bincrafters/stable
+
+[build_requires]
+spdlog/0.16.3@bincrafters/stable
+
+[generators]
+cmake
+
+[options]
+spdlog:fmt_external=False
