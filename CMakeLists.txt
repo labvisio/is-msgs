@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.7.0)
 include(GNUInstallDirs)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -22,15 +22,15 @@ set(target ${author}-${module})
 set(include_dir ${author}/${module})
 
 list(APPEND protos
-  "msgs/camera.proto"
-  "msgs/common.proto"
-  "msgs/image.proto"
-  "msgs/marker.proto"
-  "msgs/power.proto"
-  "msgs/robot.proto"
-  "msgs/wire.proto"
-  "msgs/validate.proto"
-  "msgs/tests.proto"
+  "is/msgs/camera.proto"
+  "is/msgs/common.proto"
+  "is/msgs/image.proto"
+  "is/msgs/marker.proto"
+  "is/msgs/power.proto"
+  "is/msgs/robot.proto"
+  "is/msgs/wire.proto"
+  "is/msgs/validate.proto"
+  "is/msgs/tests.proto"
 )
 
 list(APPEND interfaces
@@ -50,6 +50,8 @@ list(APPEND sources
 )
 
 find_package(Protobuf REQUIRED)
+set(PROTOBUF_GENERATE_CPP_APPEND_PATH OFF)
+
 find_package(spdlog REQUIRED)
 
 #######

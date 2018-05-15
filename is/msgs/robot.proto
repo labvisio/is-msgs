@@ -5,7 +5,7 @@ package is.robot;
 option java_package = "com.is.robot";
 option java_multiple_files = true;
 
-import "common.proto";
+import "is/msgs/common.proto";
 
 // Define messages for the robot gateway and controller services
 

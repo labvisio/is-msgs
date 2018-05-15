@@ -1,6 +1,6 @@
 #pragma once
 
-#include "wire.pb.h"
+#include "is/msgs/wire.pb.h"
 
 namespace is {
 
