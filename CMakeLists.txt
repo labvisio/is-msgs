@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10.0)
 include(GNUInstallDirs)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -22,30 +22,30 @@ set(target ${author}-${module})
 set(include_dir ${author}/${module})
 
 list(APPEND protos
-  "msgs/camera.proto"
-  "msgs/common.proto"
-  "msgs/image.proto"
-  "msgs/marker.proto"
-  "msgs/power.proto"
-  "msgs/robot.proto"
-  "msgs/wire.proto"
-  "msgs/validate.proto"
-  "msgs/tests.proto"
+  "is/msgs/camera.proto"
+  "is/msgs/common.proto"
+  "is/msgs/image.proto"
+  "is/msgs/marker.proto"
+  "is/msgs/power.proto"
+  "is/msgs/robot.proto"
+  "is/msgs/wire.proto"
+  "is/msgs/validate.proto"
+  "is/msgs/tests.proto"
 )
 
 list(APPEND interfaces
-  "utils/ostream.hpp"
-  "utils/status.hpp"
-  "utils/timestamp.hpp"
-  "utils/validate.hpp"
-  "utils/utils.hpp"
+  "is/utils/ostream.hpp"
+  "is/utils/status.hpp"
+  "is/utils/timestamp.hpp"
+  "is/utils/validate.hpp"
+  "is/utils/utils.hpp"
 )
 
 list(APPEND sources
-  "utils/ostream.cpp"
-  "utils/status.cpp"
-  "utils/timestamp.cpp"
-  "utils/validate.cpp"
+  "is/utils/ostream.cpp"
+  "is/utils/status.cpp"
+  "is/utils/timestamp.cpp"
+  "is/utils/validate.cpp"
   ${interfaces}
 )
 
@@ -56,6 +56,7 @@ find_package(spdlog REQUIRED)
 ####
 #######
 
+set(PROTOBUF_GENERATE_CPP_APPEND_PATH OFF)
 foreach(proto ${protos})
   PROTOBUF_GENERATE_CPP(src hdr ${proto})
   list(APPEND sources ${src} ${hdr})
@@ -71,7 +72,7 @@ set_property(TARGET ${target} PROPERTY CXX_STANDARD 11)
 target_link_libraries(
   ${target}
  PUBLIC
-  ${PROTOBUF_LIBRARIES}
+  protobuf::libprotobuf
  PRIVATE
   spdlog::spdlog
 )
@@ -83,7 +84,6 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}> # for headers when building
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> # for generated files in build mode
   $<INSTALL_INTERFACE:include/${include_dir}> # for clients in install mode
-  ${PROTOBUF_INCLUDE_DIRS}
 )
 
 install(FILES ${interfaces} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${include_dir})
@@ -123,12 +123,12 @@ add_library(${target_alias} ALIAS ${target})
 ######
 
 if (enable_tests)
-  add_executable(timestamp_test utils/timestamp.t.cpp)
+  add_executable(timestamp_test is/utils/timestamp.t.cpp)
   set_property(TARGET timestamp_test PROPERTY CXX_STANDARD 11)
   target_link_libraries(timestamp_test PRIVATE is-msgs::is-msgs)
   add_test(NAME timestamp_test COMMAND timestamp_test)
 
-  add_executable(validate_test utils/validate.t.cpp)
+  add_executable(validate_test is/utils/validate.t.cpp)
   set_property(TARGET validate_test PROPERTY CXX_STANDARD 11)
   target_link_libraries(validate_test PRIVATE is-msgs::is-msgs)
   add_test(NAME validate_test COMMAND validate_test)

@@ -2,7 +2,7 @@
 #pragma once
 
 #include "status.hpp"
-#include "validate.pb.h"
+#include "is/msgs/validate.pb.h"
 
 namespace is {
 

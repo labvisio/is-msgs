@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "validate.proto";
+import "is/msgs/validate.proto";
 
 package is.tests;
 

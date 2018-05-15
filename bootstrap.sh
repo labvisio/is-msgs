@@ -10,7 +10,26 @@ fi
 
 apt update
 apt install --no-install-recommends -y \
-  git build-essential wget python-pip cmake curl autoconf automake libtool unzip pkg-config ca-certificates nasm
+  git build-essential wget python-pip curl autoconf automake libtool unzip pkg-config ca-certificates nasm
+
+invalid_cmake_version=false
+if command -v cmake > /dev/null ; then 
+  cmake_version=`cmake --version | grep -o -E "([0-9]{1,}\.)+[0-9]{1,}"`
+  cmake_version=(`echo $cmake_version | tr . ' '`)
+  if [ ${cmake_version[1]} -lt 10 ]; then
+    echo "|>>| cmake 3.10+ required"
+    invalid_cmake_version=true
+  fi;
+fi
+
+if [[ -z `command -v cmake` ]] || [[ $invalid_cmake_version == true ]]; then
+  echo "|>>| installing cmake..."; 
+  wget https://cmake.org/files/v3.11/cmake-3.11.1-Linux-x86_64.sh
+  mkdir -p /opt/cmake
+  sh cmake-3.11.1-Linux-x86_64.sh --skip-license --prefix=/opt/cmake
+  ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+  rm cmake-3.11.1-Linux-x86_64.sh
+fi
 
 if ! command -v ninja > /dev/null; then 
   echo "|>>| installing ninja..."; 

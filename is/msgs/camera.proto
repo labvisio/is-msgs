@@ -5,8 +5,8 @@ package is.vision;
 option java_package = "com.is.vision";
 option java_multiple_files = true;
 
-import "common.proto";
-import "image.proto";
+import "is/msgs/common.proto";
+import "is/msgs/image.proto";
 import "google/protobuf/timestamp.proto";
 
 // Define messages for the camera gateway and calibration services
