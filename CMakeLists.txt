@@ -49,6 +49,11 @@ list(APPEND sources
   ${interfaces}
 )
 
+list(APPEND tests
+  "is/utils/timestamp.t.cpp"
+  "is/utils/validate.t.cpp"
+)
+
 find_package(Protobuf REQUIRED)
 find_package(spdlog REQUIRED)
 
@@ -123,13 +128,18 @@ add_library(${target_alias} ALIAS ${target})
 ######
 
 if (enable_tests)
-  add_executable(timestamp_test is/utils/timestamp.t.cpp)
-  set_property(TARGET timestamp_test PROPERTY CXX_STANDARD 11)
-  target_link_libraries(timestamp_test PRIVATE is-msgs::is-msgs)
-  add_test(NAME timestamp_test COMMAND timestamp_test)
+  enable_testing()
+  find_package(GTest REQUIRED)
 
-  add_executable(validate_test is/utils/validate.t.cpp)
-  set_property(TARGET validate_test PROPERTY CXX_STANDARD 11)
-  target_link_libraries(validate_test PRIVATE is-msgs::is-msgs)
-  add_test(NAME validate_test COMMAND validate_test)
+  function(gtest_add target source deps)
+    add_executable(${target} ${source})
+    set_property(TARGET ${target} PROPERTY CXX_STANDARD 11)
+    target_link_libraries(${target} GTest::GTest GTest::Main ${deps})
+    add_test(NAME ${target} COMMAND $<TARGET_FILE:${target}>)
+  endfunction()
+
+  foreach(test ${tests})
+    get_filename_component(test_target ${test} NAME_WE)
+    gtest_add(${test_target}_test ${test} ${target})
+  endforeach(test)
 endif()

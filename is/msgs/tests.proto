@@ -13,3 +13,14 @@ message Bar {
   Foo myfoo = 1;
   float myfloat = 2 [(validate.rules).float = {gt: -1.0}];
 };
+
+message Repeats {
+  repeated Foo foos = 1;
+  Foo foo2 = 2 [(validate.rules).message = {required: true}];
+  repeated int32 int32s = 3 [(validate.rules).int32 = {lt: -10}];
+  repeated uint32 uint32s = 4 [(validate.rules).uint32 = {gt: 10}];
+  repeated float floats = 5 [(validate.rules).float = {lte: -10}];
+  repeated double doubles = 6 [(validate.rules).double = {gte: -10}];
+  repeated int64 int64s = 7 [(validate.rules).int64 = {lt: 10}];
+  repeated uint64 uint64s = 8 [(validate.rules).uint64 = {gt: 100}];
+}
