@@ -8,7 +8,7 @@ fi
 if [[ $EUID == 0 ]]; then
   apt update
   apt install --no-install-recommends -y \
-    git build-essential wget python-pip curl autoconf automake libtool unzip pkg-config ca-certificates nasm
+    git build-essential wget python-pip python-setuptools curl autoconf automake libtool unzip pkg-config ca-certificates nasm
 
   invalid_cmake_version=false
   if command -v cmake > /dev/null ; then 
