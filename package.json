@@ -1,26 +1,30 @@
 {
   "name": "is-msgs",
   "version": "1.0.0",
-  "description": "Protobuf messages for the IS framework",
+  "description": "is-msgs ==========",
   "main": "index.js",
   "directories": {
     "doc": "docs"
   },
-  "scripts": {
-    "bundle": "mkdir -p gen_js && cd protos && protoc --proto_path=. --js_out=import_style=commonjs,binary:../gen_js *.proto && ../node_modules/.bin/browserify ../gen_js/*.js  --standalone is_msgs > ../gen_js/is_msgs.js && ../node_modules/.bin/uglifyjs ../gen_js/is_msgs.js > ../gen_js/is_msgs_min.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://picoreti@git.is/labviros/is-msgs.git"
-  },
-  "author": "is",
-  "license": "MIT",
   "dependencies": {
     "google-protobuf": "^3.5.0"
   },
   "devDependencies": {
-    "browserify": "^14.5.0",
-    "gulp": "^3.9.1",
-    "uglify-js": "^3.2.0"
-  }
+    "browserify": "^16.2.2",
+    "uglify-js": "^3.3.27"
+  },
+  "scripts": {
+    "bundle": "mkdir -p gen_js && protoc --proto_path=. --js_out=import_style=commonjs,binary:gen_js is/msgs/*.proto && node_modules/.bin/browserify gen_js/is/msgs/*.js  --standalone is_msgs > gen_js/is_msgs.js && node_modules/.bin/uglifyjs gen_js/is_msgs.js > gen_js/is_msgs_min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/labviros/is-msgs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/labviros/is-msgs/issues"
+  },
+  "homepage": "https://github.com/labviros/is-msgs#readme"
 }

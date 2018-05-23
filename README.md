@@ -1,33 +1,24 @@
 is-msgs
 ==========
 
-Repository containing all the standard protobuf messages definitions for the IS framework. 
+Repository containing all the standard protobuf messages definitions for the *is::* framework. 
 Auto generate documentation can be found in the *docs* folder.
 
-Using the messages
----------------------
-
-*C++*: Building a static library (This is done automatically if you used the installation script) - [Help!](https://developers.google.com/protocol-buffers/docs/reference/cpp-generated)
+## *C++* [Help!](https://developers.google.com/protocol-buffers/docs/reference/cpp-generated)
+##### BUILDING FROM SOURCE 
+To build this library from source first run the bootstrap script to get build dependencies, then run the build script. - 
 ```shell
-mkdir build
-cd build
-cmake ..
-sudo make install
+./bootstrap.sh # to get build dependencies
+./build.sh # to build library
 ```
+##### USING CONAN PACKAGE MANAGER
+A conan artifact is available in our [bintray repository](https://bintray.com/labviros/is/is-msgs%3Ais)
 
-*Javascript*: Bundles all messages into a minified file (*gen_js/is_msgs_min.js*) - [Help!](https://developers.google.com/protocol-buffers/docs/reference/javascript-generated)
-```shell
-npm run bundle
-```
+## *Javascript / NodeJS* [Help!](https://developers.google.com/protocol-buffers/docs/reference/javascript-generated)
+To use protocol buffers with JavaScript you need the protocol compiler *protoc* download a [pre-built binary on GitHub](https://github.com/google/protobuf/releases).
 
-*NodeJS*: Generate one .js file for each protobuf definition (*gen_js/..._pb.js*) - [Help!](https://developers.google.com/protocol-buffers/docs/reference/javascript-generated)
+To generate the javascript files and the bundled/minified version run:
 ```shell
-npm run bundle
-```
-
-*Python*: Generating python files - [Help!](https://developers.google.com/protocol-buffers/docs/reference/python-generated)
-```shell
-mkdir gen_py
-cd protos
-protoc --proto_path=. --python_out=../gen_py *.proto
+npm install # to get build dependencies
+npm run bundle # to generate js files and minified bundle
 ```

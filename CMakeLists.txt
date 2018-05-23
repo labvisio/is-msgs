@@ -25,7 +25,6 @@ list(APPEND protos
   "is/msgs/camera.proto"
   "is/msgs/common.proto"
   "is/msgs/image.proto"
-  "is/msgs/marker.proto"
   "is/msgs/power.proto"
   "is/msgs/robot.proto"
   "is/msgs/wire.proto"
@@ -38,6 +37,7 @@ list(APPEND interfaces
   "is/utils/status.hpp"
   "is/utils/timestamp.hpp"
   "is/utils/validate.hpp"
+  "is/utils/io.hpp"
   "is/utils/utils.hpp"
 )
 
@@ -46,12 +46,14 @@ list(APPEND sources
   "is/utils/status.cpp"
   "is/utils/timestamp.cpp"
   "is/utils/validate.cpp"
+  "is/utils/io.cpp"
   ${interfaces}
 )
 
 list(APPEND tests
   "is/utils/timestamp.t.cpp"
   "is/utils/validate.t.cpp"
+  "is/utils/io.t.cpp"
 )
 
 find_package(Protobuf REQUIRED)
