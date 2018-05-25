@@ -22,3 +22,14 @@ To generate the javascript files and the bundled/minified version run:
 npm install # to get build dependencies
 npm run bundle # to generate js files and minified bundle
 ```
+
+## *Python* [Help!](https://developers.google.com/protocol-buffers/docs/reference/python-generated)
+To use protocol buffers with Python run the [bootstrap.py](https://github.com/labviros/is-msgs/blob/modern-cmake/bootstrap.py) script. It will download protoc and build all proto files.
+```shell
+python bootstrap.py
+```
+
+ After thar, just run the pip command below to install the package.
+```shell
+pip install --user .
+```

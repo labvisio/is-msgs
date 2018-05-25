@@ -3,3 +3,20 @@ build/
 node_modules/
 *.log
 gen_*/
+
+# Compiled python modules.
+*.pyc
+
+# Setuptools distribution folder.
+/dist/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
+/*.egg
+
+# Protoc files
+protoc*.zip
+protoc/
+
+# is_msgs python package
+is_msgs/
