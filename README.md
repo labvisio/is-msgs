@@ -24,12 +24,13 @@ npm run bundle # to generate js files and minified bundle
 ```
 
 ## *Python* [Help!](https://developers.google.com/protocol-buffers/docs/reference/python-generated)
-To use protocol buffers with Python run the [bootstrap.py](https://github.com/labviros/is-msgs/blob/modern-cmake/bootstrap.py) script. It will download protoc and build all proto files.
+To use protocol buffers with Python, you can build the package running the [bootstrap.py](https://github.com/labviros/is-msgs/blob/modern-cmake/bootstrap.py) script. It will download protoc and build all proto files. After that, just run the pip command to install the package.
 ```shell
 python bootstrap.py
+pip install --user .
 ```
 
- After thar, just run the pip command below to install the package.
+Or, simply run
 ```shell
-pip install --user .
+pip install is-msgs
 ```
