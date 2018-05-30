@@ -52,5 +52,5 @@ fi
 
 if ! conan remote list | grep -q "is:"; then
   echo "|>>| Adding 'is' remote"; 
-  conan remote add is https://api.bintray.com/conan/labviros/is.
+  conan remote add is https://api.bintray.com/conan/labviros/is
 fi
