@@ -8,6 +8,7 @@ setup(
     author='labviros',
     license='MIT',
     packages=['is_msgs'],
+    package_data={ 'is_msgs': ['*.proto'] },
     zip_safe=False,
     install_requires=[ 'protobuf' ]
 )

@@ -60,12 +60,24 @@ for proto in protos:
 
 protoc_command = './protoc/bin/protoc -I./protoc/include --proto_path=is_msgs --python_out=is_msgs {}'.format(' '.join(protos))
 subprocess.call(['bash', '-c', protoc_command])
-
-os.mknod(os.path.join(pkg_dir, '__init__.py'))
-
+ 
 artifacts = [f for f in os.listdir(pkg_dir) if f.endswith('pb2.py')]
 for artifact in artifacts:
     with open(os.path.join(pkg_dir, artifact), 'r') as f:
         output = re.sub(r'([^ ]import) ([a-zA-Z]+[\w]*_pb2[ as])', r'\1 is_msgs.\2', f.read())
     with open(os.path.join(pkg_dir, artifact), 'w') as f:
         f.write(output)
+
+with open(os.path.join(pkg_dir, 'utils.py'), 'w') as f:
+    f.write("""\
+import os
+import is_msgs
+
+def get_include():
+    return os.path.dirname(is_msgs.__file__)
+""")
+
+with open(os.path.join(pkg_dir, '__init__.py'), 'w') as f:
+    f.write("""\
+from utils import *
+""")
