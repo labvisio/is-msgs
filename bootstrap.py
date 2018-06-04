@@ -54,11 +54,12 @@ protos = [ f for f in os.listdir('is/msgs/') if f.endswith('.proto') ]
 for proto in protos:
     shutil.copy(os.path.join('is/msgs/', proto), pkg_dir)
     with open(os.path.join(pkg_dir, proto), 'r') as f:
-        output = re.sub(r'import "is/msgs/*', r'import "', f.read())
+        output = re.sub(r'import "is/msgs/*', r'import "is_msgs/', f.read())
     with open(os.path.join(pkg_dir, proto), 'w') as f:
         f.write(output)
 
-protoc_command = './protoc/bin/protoc -I./protoc/include --proto_path=is_msgs --python_out=is_msgs {}'.format(' '.join(protos))
+protos = [os.path.join('is_msgs', proto) for proto in protos]
+protoc_command = './protoc/bin/protoc -I./protoc/include --proto_path=. --python_out=. {}'.format(' '.join(protos))
 subprocess.call(['bash', '-c', protoc_command])
  
 artifacts = [f for f in os.listdir(pkg_dir) if f.endswith('pb2.py')]
@@ -74,7 +75,7 @@ import os
 import is_msgs
 
 def get_include():
-    return os.path.dirname(is_msgs.__file__)
+    return os.path.split(os.path.dirname(is_msgs.__file__))[0]
 """)
 
 with open(os.path.join(pkg_dir, '__init__.py'), 'w') as f:
