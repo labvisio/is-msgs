@@ -80,5 +80,5 @@ def get_include():
 
 with open(os.path.join(pkg_dir, '__init__.py'), 'w') as f:
     f.write("""\
-from utils import *
+from .utils import get_include
 """)
