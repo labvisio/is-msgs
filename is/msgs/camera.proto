@@ -54,8 +54,8 @@ message CameraCalibration {
   common.Tensor intrinsic = 5; // intrinsic matrix with shape=[3,3]
   common.Tensor distortion = 6; // distortion coefficients with shape=[1,5]
   
-  // used to transform from the camera frame to the world frame
-  FrameTransformation extrinsic = 7;
+  // used to transform from the camera frame to a world frame and vice versa
+  repeated FrameTransformation extrinsic = 7;
 }
 
 message FrameTransformation {

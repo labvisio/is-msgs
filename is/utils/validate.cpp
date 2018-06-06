@@ -123,7 +123,7 @@ wire::Status validate_field(google::protobuf::Message const& msg,
     }
   }
   return is::make_status(is::wire::StatusCode::OK);
-}  // namespace is
+}
 
 wire::Status validate_message(google::protobuf::Message const& message) {
   auto descriptor = message.GetDescriptor();

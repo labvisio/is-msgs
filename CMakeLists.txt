@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.10.0)
 include(GNUInstallDirs)
 
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup()
-endif()
+include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 set(enable_tests true CACHE BOOL "enable testing")
 if (enable_tests)
@@ -38,6 +35,7 @@ list(APPEND interfaces
   "is/utils/timestamp.hpp"
   "is/utils/validate.hpp"
   "is/utils/io.hpp"
+  "is/utils/cv.hpp"
   "is/utils/utils.hpp"
 )
 
@@ -54,10 +52,15 @@ list(APPEND tests
   "is/utils/timestamp.t.cpp"
   "is/utils/validate.t.cpp"
   "is/utils/io.t.cpp"
+  "is/utils/cv.t.cpp"
 )
 
+# public
 find_package(Protobuf REQUIRED)
+# private
 find_package(spdlog REQUIRED)
+find_package(Boost REQUIRED COMPONENTS filesystem)
+find_package(opencv REQUIRED)
 
 #######
 ####
@@ -82,6 +85,7 @@ target_link_libraries(
   protobuf::libprotobuf
  PRIVATE
   spdlog::spdlog
+  Boost::filesystem
 )
 
 # header dependencies
@@ -133,15 +137,15 @@ if (enable_tests)
   enable_testing()
   find_package(GTest REQUIRED)
 
-  function(gtest_add target source deps)
+  function(gtest_add target source)
     add_executable(${target} ${source})
     set_property(TARGET ${target} PROPERTY CXX_STANDARD 11)
-    target_link_libraries(${target} GTest::GTest GTest::Main ${deps})
+    target_link_libraries(${target} PRIVATE GTest::GTest GTest::Main ${target_alias} opencv::opencv Boost::filesystem)
     add_test(NAME ${target} COMMAND $<TARGET_FILE:${target}>)
   endfunction()
 
   foreach(test ${tests})
     get_filename_component(test_target ${test} NAME_WE)
-    gtest_add(${test_target}_test ${test} ${target})
+    gtest_add(${test_target}_test ${test})
   endforeach(test)
 endif()
