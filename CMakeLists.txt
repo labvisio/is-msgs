@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.10.0)
 include(GNUInstallDirs)
 
-include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
+  set(using_conan TRUE)
+  include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+endif()
 
 set(enable_tests true CACHE BOOL "enable testing")
 if (enable_tests)
@@ -60,7 +63,6 @@ find_package(Protobuf REQUIRED)
 # private
 find_package(spdlog REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem)
-find_package(opencv REQUIRED)
 
 #######
 ####
@@ -137,10 +139,23 @@ if (enable_tests)
   enable_testing()
   find_package(GTest REQUIRED)
 
+  if(using_conan)
+    find_package(opencv REQUIRED)
+  else()
+    find_package(OpenCV REQUIRED)
+  endif()
+  
   function(gtest_add target source)
     add_executable(${target} ${source})
     set_property(TARGET ${target} PROPERTY CXX_STANDARD 11)
-    target_link_libraries(${target} PRIVATE GTest::GTest GTest::Main ${target_alias} opencv::opencv Boost::filesystem)
+
+    if(using_conan)
+      target_link_libraries(${target} PRIVATE GTest::GTest GTest::Main ${target_alias} Boost::filesystem opencv::opencv)
+    else()
+      target_link_libraries(${target} PRIVATE GTest::GTest GTest::Main ${target_alias} Boost::filesystem ${OpenCV_LIBS})
+      target_include_directories(${target} PRIVATE ${OpenCV_INCLUDE_DIRS})
+    endif(using_conan)
+      
     add_test(NAME ${target} COMMAND $<TARGET_FILE:${target}>)
   endfunction()
 
