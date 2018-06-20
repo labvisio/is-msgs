@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='is_msgs',
-    version='1.1.2.4',
+    version='1.1.4',
     description='Package with standard IS messages',
     url='http://github.com/labviros/is-msgs',
     author='labviros',
