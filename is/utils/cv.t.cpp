@@ -52,4 +52,20 @@ TEST(CVTests, Conversions) {
   }
 }
 
+TEST(CVTests, ViewIsShared) {
+  cv::Mat mat(2, 3, CV_32S, cv::Scalar::all(10));
+  auto tensor = is::to_tensor(mat);
+  tensor.set_ints32(0, 50);
+
+  ASSERT_EQ(tensor.ints32(0), 50);
+  ASSERT_EQ(mat.at<int>(0, 0), 10);
+  ASSERT_NE(mat.at<int>(0, 0), tensor.ints32(0));
+
+  auto view = is::to_mat_view(&tensor);
+  view.at<int>(0, 0) = 100;
+
+  ASSERT_EQ(view.at<int>(0, 0), 100);
+  ASSERT_EQ(view.at<int>(0, 0), tensor.ints32(0));
+}
+
 }  // namespace

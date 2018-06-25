@@ -5,26 +5,39 @@
 
 namespace is {
 
-cv::Mat to_mat_view(common::Tensor& tensor) {
+inline cv::Mat to_mat_view(common::Tensor* tensor) {
+  auto shape = tensor->shape();
+  // Only row major format is supported at the moment
+  if (shape.dims_size() != 2 || shape.dims(0).name() != "rows") { return cv::Mat(); }
+  auto rows = shape.dims(0).size();
+  auto cols = shape.dims(1).size();
+
+  if (tensor->type() == is::common::DataType::FLOAT_TYPE)
+    return cv::Mat(rows, cols, CV_32F, tensor->mutable_floats()->mutable_data());
+  if (tensor->type() == is::common::DataType::DOUBLE_TYPE)
+    return cv::Mat(rows, cols, CV_64F, tensor->mutable_doubles()->mutable_data());
+  if (tensor->type() == is::common::DataType::INT32_TYPE)
+    return cv::Mat(rows, cols, CV_32S, tensor->mutable_ints32()->mutable_data());
+  return cv::Mat();
+}
+
+inline cv::Mat to_mat(common::Tensor const& tensor) {
   auto shape = tensor.shape();
+  // Only row major format is supported at the moment
   if (shape.dims_size() != 2 || shape.dims(0).name() != "rows") { return cv::Mat(); }
   auto rows = shape.dims(0).size();
   auto cols = shape.dims(1).size();
 
   if (tensor.type() == is::common::DataType::FLOAT_TYPE)
-    return cv::Mat(rows, cols, CV_32F, tensor.mutable_floats()->mutable_data());
+    return cv::Mat(rows, cols, CV_32F, const_cast<float*>(tensor.floats().data())).clone();
   if (tensor.type() == is::common::DataType::DOUBLE_TYPE)
-    return cv::Mat(rows, cols, CV_64F, tensor.mutable_doubles()->mutable_data());
+    return cv::Mat(rows, cols, CV_64F, const_cast<double*>(tensor.doubles().data())).clone();
   if (tensor.type() == is::common::DataType::INT32_TYPE)
-    return cv::Mat(rows, cols, CV_32S, tensor.mutable_ints32()->mutable_data());
+    return cv::Mat(rows, cols, CV_32S, const_cast<int32_t*>(tensor.ints32().data())).clone();
   return cv::Mat();
 }
 
-cv::Mat to_mat(common::Tensor& tensor) {
-  return to_mat_view(tensor).clone();
-}
-
-common::Tensor to_tensor(cv::Mat& mat) {
+inline common::Tensor to_tensor(cv::Mat const& mat) {
   is::common::Tensor tensor;
 
   if (mat.rows == 0 || mat.cols == 0) { return tensor; }

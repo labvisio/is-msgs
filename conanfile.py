@@ -3,13 +3,13 @@ from conans import ConanFile, CMake, tools
 
 class IsmsgsConan(ConanFile):
     name = "is-msgs"
-    version = "1.1.4"
+    version = "1.1.5"
     license = "MIT"
     url = "https://github.com/labviros/is-msgs"
     description = "Repository containing the schema for standard ::is messages"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"fPIC": [True, False], "build_tests": [True, False]}
-    default_options = "fPIC=True", "build_tests=True"
+    options = {"shared": [True, False], "fPIC": [True, False], "build_tests": [True, False]}
+    default_options = "shared=False", "fPIC=True", "build_tests=False"
     generators = "cmake", "cmake_find_package", "cmake_paths"
     requires = ("protobuf/[>=3.0]@bincrafters/stable", "boost/[>=1.65]@conan/stable",
                 "spdlog/[>0.15]@bincrafters/stable")
@@ -23,6 +23,8 @@ class IsmsgsConan(ConanFile):
     def configure(self):
         self.options["opencv"].with_qt = False
         self.options["spdlog"].fmt_external = False
+        if self.options.shared:
+            self.options["boost"].fPIC = True
 
     def build(self):
         cmake = CMake(self, generator='Ninja')
