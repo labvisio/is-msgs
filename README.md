@@ -2,7 +2,7 @@ is-msgs
 ==========
 
 Repository containing all the standard protobuf messages definitions for the *is::* framework. 
-Auto generate documentation can be found in the *docs* folder.
+Auto generated documentation can be found in the [docs folder](docs/README.md)
 
 ## *C++* [Help!](https://developers.google.com/protocol-buffers/docs/reference/cpp-generated)
 ##### BUILDING FROM SOURCE 

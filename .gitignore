@@ -20,3 +20,5 @@ protoc/
 
 # is_msgs python package
 is_msgs/
+
+docs/protoc-gen-doc

@@ -46,7 +46,7 @@ enum CameraConfigFields {
 }
 
 message CameraCalibration { 
-  string id = 1;  // camera id
+  int64 id = 1;  // camera id
   google.protobuf.Timestamp calibrated_at = 2; // when the calibration was performed
   double error = 3; // average reprojection error
   vision.Resolution resolution = 4; // resolution used during calibration
@@ -59,7 +59,38 @@ message CameraCalibration {
 }
 
 message FrameTransformation {
-  string from = 1;
-  string to = 2;
+  int64 from = 1;
+  int64 to = 2;
   common.Tensor tf = 3; // transformation matrix [R T; 0 1] with shape = [4,4]
+}
+
+message IdPair {
+  int64 from = 1;
+  int64 to = 2;
+}
+
+message GetTransformationRequest {
+  // Sequence of pairs (from -> to) describing the desired transformations
+  repeated IdPair ids = 1;
+}
+
+message GetTransformationReply {
+  // Sequence of transformations relative to the requested ids.
+  repeated is.vision.FrameTransformation transformations = 1;
+}
+
+message AddTransformationRequest {
+}
+
+message AddTransformationReply {
+}
+
+message GetCalibrationRequest {
+  // IDs of the cameras to return the calibration from
+  repeated int64 ids = 1;
+}
+
+message GetCalibrationReply {
+  // Sequence of calibrations relative to the requested IDs.
+  repeated is.vision.CameraCalibration calibrations = 1;
 }

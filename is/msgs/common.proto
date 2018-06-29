@@ -71,3 +71,12 @@ message Speed {
   float linear = 1;
   float angular = 2;
 }
+
+message ConsumerInfo {
+  repeated string consumers = 2;
+}
+
+message ConsumerList {
+  // Consumer Information for each topic
+  map<string, ConsumerInfo> info = 1;
+}
