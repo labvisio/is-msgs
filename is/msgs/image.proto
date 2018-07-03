@@ -7,6 +7,7 @@ option java_multiple_files = true;
 
 import "google/protobuf/wrappers.proto";
 import "is/msgs/common.proto";
+import "is/msgs/validate.proto";
 
 message Image {
   oneof content {
@@ -22,21 +23,36 @@ enum ImageFormats {
 }
 
 message ImageFormat {
-  ImageFormats format = 1;
-  google.protobuf.FloatValue compression = 2;
+  ImageFormats format = 1; // Image compression algorithm
+  google.protobuf.FloatValue compression = 2; // Image compression level
 }
 
+// A vertex represents a 2D point in the image.
+// NOTE: the vertex coordinates are in the same scale as the original image.
 message Vertex {
-  int32 x = 1;
-  int32 y = 2;
+  int32 x = 1; // X coordinate.
+  int32 y = 2; // Y coordinate.
+}
+
+// A vertex represents a 2D point in the image.
+// NOTE: the normalized vertex coordinates are relative to the original image
+// and range from 0 to 1.
+message NormalizedVertex {
+  // X coordinate.
+  float x = 1 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
+  // Y coordinate.
+  float y = 2 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
 }
 
 /* Sequence of vertices modelling a polygon.  
- - BoudingPoly with only 2 vertices is usually interpreted as a rectangle 
+ - BoudingPoly with only 2 vertices should be interpreted as a rectangle 
    where the vertices represent the TopLeft and BottomRight vertices respectively.
 */
 message BoundingPoly {
+  // The bounding polygon vertices.
   repeated Vertex vertices = 1;
+  // The bounding polygon normalized vertices.
+  repeated NormalizedVertex normalized_vertices = 2;
 }
 
 message Resolution {
@@ -45,10 +61,10 @@ message Resolution {
 }
 
 enum ColorSpaces {
-  RGB = 0;
-  GRAY = 1;
-  YCbCr = 2;
-  HSV = 3;
+  RGB = 0; // Red Green Blue
+  GRAY = 1; // Grayscale
+  YCbCr = 2; // 
+  HSV = 3; // Hue Saturation Value
 }
 
 message ColorSpace {
@@ -56,23 +72,35 @@ message ColorSpace {
 }
 
 message ImageSettings {
-  Resolution resolution = 1;
+  Resolution resolution = 1; // Image resolution (height, width)
   ImageFormat format = 2; // Image serialization format. e.g: PNG
   ColorSpace color_space = 3; // Color space  
   
   /* Bounding poly defining the region of interest in the image.
-     This region is usually represented as a rectangle, modelled by
+     This region is usually represented as a rectangle. , modelled by
      the TopLeft and BottomRight vertices */
   BoundingPoly region = 4;
 }
 
+/* Models an annotation on an Image */
 message ImageAnnotation {
-  string label = 1;
-  float score = 2;
+  /* Label that identifies in human language the object in the annotated 
+     region. i.e: human, dog, computer, etc. */
+  string label = 1; 
+  int64 id = 4; // id of the object
+ 
+  /* Represents how sure the annotator thinks that an object of 
+    the specified type exists on the region */
+  float score = 2 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
+
+  /* Identifies the region in the image where the object is contained */
   BoundingPoly region = 3;
-  common.Pose pose = 4;
 }
 
+/* Models many annotations on a single Image */
 message ImageAnnotations {
+  // Annotations
   repeated ImageAnnotation annotations = 1;
+  // Original resolution of the image being annotated
+  Resolution resolution = 2;
 }

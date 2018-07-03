@@ -21,7 +21,7 @@ message SyncRequest {
 
 // Used to select the desired fields of a message on a "Get" RPC
 message FieldSelector {
-  repeated uint32 fields = 1;
+  repeated uint32 fields = 1; // List of fields that should be filled
 }
 
 message Shape {

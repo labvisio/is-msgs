@@ -50,6 +50,7 @@
     - [ImageAnnotations](#is.vision.ImageAnnotations)
     - [ImageFormat](#is.vision.ImageFormat)
     - [ImageSettings](#is.vision.ImageSettings)
+    - [NormalizedVertex](#is.vision.NormalizedVertex)
     - [Resolution](#is.vision.Resolution)
     - [Vertex](#is.vision.Vertex)
   
@@ -165,7 +166,7 @@
 <a name="is.vision.CameraCalibration"/>
 
 ### CameraCalibration
-
+Models the calibration parameters of a camera
 
 
 | Field | Type | Label | Description |
@@ -186,14 +187,14 @@
 <a name="is.vision.CameraConfig"/>
 
 ### CameraConfig
-
+Camera parameters
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| sampling | [is.common.SamplingSettings](#is.common.SamplingSettings) |  |  |
-| image | [ImageSettings](#is.vision.ImageSettings) |  |  |
-| camera | [CameraSettings](#is.vision.CameraSettings) |  |  |
+| sampling | [is.common.SamplingSettings](#is.common.SamplingSettings) |  | sampling parameters |
+| image | [ImageSettings](#is.vision.ImageSettings) |  | image parameters |
+| camera | [CameraSettings](#is.vision.CameraSettings) |  | internal camera parameters |
 
 
 
@@ -246,7 +247,7 @@
 <a name="is.vision.FrameTransformation"/>
 
 ### FrameTransformation
-
+Represent the tranformation between two coordinate systems
 
 
 | Field | Type | Label | Description |
@@ -341,14 +342,16 @@
 <a name="is.vision.CameraConfigFields"/>
 
 ### CameraConfigFields
-
+Request selector/filter for CameraSettings. Used to select what fields 
+should be present in an CameraConfig GET request. 
+See [FieldSelector](#is.common.FieldSelector) for more information.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| ALL | 0 |  |
-| SAMPLING_SETTINGS | 1 |  |
-| IMAGE_SETTINGS | 2 |  |
-| CAMERA_SETTINGS | 3 |  |
+| ALL | 0 | Fill everything |
+| SAMPLING_SETTINGS | 1 | Fill sampling settings |
+| IMAGE_SETTINGS | 2 | Fill image settings |
+| CAMERA_SETTINGS | 3 | Fill camera settings |
 
 
  
@@ -420,7 +423,7 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| fields | [uint32](#uint32) | repeated |  |
+| fields | [uint32](#uint32) | repeated | List of fields that should be filled |
 
 
 
@@ -611,13 +614,14 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 
 ### BoundingPoly
 Sequence of vertices modelling a polygon.  
-- BoudingPoly with only 2 vertices is usually interpreted as a rectangle 
+- BoudingPoly with only 2 vertices should be interpreted as a rectangle 
 where the vertices represent the TopLeft and BottomRight vertices respectively.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| vertices | [Vertex](#is.vision.Vertex) | repeated |  |
+| vertices | [Vertex](#is.vision.Vertex) | repeated | The bounding polygon vertices. |
+| normalized_vertices | [NormalizedVertex](#is.vision.NormalizedVertex) | repeated | The bounding polygon normalized vertices. |
 
 
 
@@ -658,15 +662,15 @@ where the vertices represent the TopLeft and BottomRight vertices respectively.
 <a name="is.vision.ImageAnnotation"/>
 
 ### ImageAnnotation
-
+Models an annotation on an Image
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| label | [string](#string) |  |  |
-| score | [float](#float) |  |  |
-| region | [BoundingPoly](#is.vision.BoundingPoly) |  |  |
-| pose | [is.common.Pose](#is.common.Pose) |  |  |
+| label | [string](#string) |  | Label that identifies in human language the object in the annotated region. i.e: human, dog, computer, etc. |
+| id | [int64](#int64) |  | id of the object |
+| score | [float](#float) |  | Represents how sure the annotator thinks that an object of the specified type exists on the region |
+| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Identifies the region in the image where the object is contained |
 
 
 
@@ -676,12 +680,13 @@ where the vertices represent the TopLeft and BottomRight vertices respectively.
 <a name="is.vision.ImageAnnotations"/>
 
 ### ImageAnnotations
-
+Models many annotations on a single Image
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| annotations | [ImageAnnotation](#is.vision.ImageAnnotation) | repeated |  |
+| annotations | [ImageAnnotation](#is.vision.ImageAnnotation) | repeated | Annotations |
+| resolution | [Resolution](#is.vision.Resolution) |  | Original resolution of the image being annotated |
 
 
 
@@ -696,8 +701,8 @@ where the vertices represent the TopLeft and BottomRight vertices respectively.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| format | [ImageFormats](#is.vision.ImageFormats) |  |  |
-| compression | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  |  |
+| format | [ImageFormats](#is.vision.ImageFormats) |  | Image compression algorithm |
+| compression | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  | Image compression level |
 
 
 
@@ -712,10 +717,28 @@ where the vertices represent the TopLeft and BottomRight vertices respectively.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| resolution | [Resolution](#is.vision.Resolution) |  |  |
+| resolution | [Resolution](#is.vision.Resolution) |  | Image resolution (height, width) |
 | format | [ImageFormat](#is.vision.ImageFormat) |  | Image serialization format. e.g: PNG |
 | color_space | [ColorSpace](#is.vision.ColorSpace) |  | Color space |
-| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Bounding poly defining the region of interest in the image. This region is usually represented as a rectangle, modelled by the TopLeft and BottomRight vertices |
+| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Bounding poly defining the region of interest in the image. This region is usually represented as a rectangle. , modelled by the TopLeft and BottomRight vertices |
+
+
+
+
+
+
+<a name="is.vision.NormalizedVertex"/>
+
+### NormalizedVertex
+A vertex represents a 2D point in the image.
+NOTE: the normalized vertex coordinates are relative to the original image
+and range from 0 to 1.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| x | [float](#float) |  | X coordinate. |
+| y | [float](#float) |  | Y coordinate. |
 
 
 
@@ -741,13 +764,14 @@ where the vertices represent the TopLeft and BottomRight vertices respectively.
 <a name="is.vision.Vertex"/>
 
 ### Vertex
-
+A vertex represents a 2D point in the image.
+NOTE: the vertex coordinates are in the same scale as the original image.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| x | [int32](#int32) |  |  |
-| y | [int32](#int32) |  |  |
+| x | [int32](#int32) |  | X coordinate. |
+| y | [int32](#int32) |  | Y coordinate. |
 
 
 
@@ -763,10 +787,10 @@ where the vertices represent the TopLeft and BottomRight vertices respectively.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| RGB | 0 |  |
-| GRAY | 1 |  |
+| RGB | 0 | Red Green Blue |
+| GRAY | 1 | Grayscale |
 | YCbCr | 2 |  |
-| HSV | 3 |  |
+| HSV | 3 | Hue Saturation Value |
 
 
 

@@ -7,13 +7,16 @@ option java_multiple_files = true;
 
 import "is/msgs/common.proto";
 import "is/msgs/image.proto";
+import "is/msgs/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 // Define messages for the camera gateway and calibration services
 
 message CameraSetting {
-  bool automatic = 1; // True if the camera should automatically assign this parameter
-  float ratio = 2; // Ratio assigned to the parameter where 0.0 is the lowest value and 1.0 the highest
+  // True if the camera should automatically assign this parameter
+  bool automatic = 1;
+  // Ratio assigned to the parameter where 0.0 is the lowest value and 1.0 the highest
+  float ratio = 2 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
 }
 
 message CameraSettings {
@@ -32,19 +35,24 @@ message CameraSettings {
   CameraSetting zoom = 13;
 }
 
+// Camera parameters
 message CameraConfig {
-  common.SamplingSettings sampling = 1;
-  ImageSettings image = 2;
-  CameraSettings camera = 3;
+  common.SamplingSettings sampling = 1; // sampling parameters
+  ImageSettings image = 2; // image parameters
+  CameraSettings camera = 3; // internal camera parameters
 }
 
+/* Request selector/filter for CameraSettings. Used to select what fields 
+   should be present in an CameraConfig GET request. 
+   See [FieldSelector](#is.common.FieldSelector) for more information. */
 enum CameraConfigFields {
-  ALL = 0;
-  SAMPLING_SETTINGS = 1;
-  IMAGE_SETTINGS = 2;
-  CAMERA_SETTINGS  = 3;
+  ALL = 0;               // Fill everything
+  SAMPLING_SETTINGS = 1; // Fill sampling settings
+  IMAGE_SETTINGS = 2;    // Fill image settings 
+  CAMERA_SETTINGS  = 3;  // Fill camera settings
 }
 
+// Models the calibration parameters of a camera
 message CameraCalibration { 
   int64 id = 1;  // camera id
   google.protobuf.Timestamp calibrated_at = 2; // when the calibration was performed
@@ -58,6 +66,7 @@ message CameraCalibration {
   repeated FrameTransformation extrinsic = 7;
 }
 
+// Represent the tranformation between two coordinate systems
 message FrameTransformation {
   int64 from = 1;
   int64 to = 2;
