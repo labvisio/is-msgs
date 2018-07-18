@@ -63,6 +63,41 @@ TEST(IOTests, LoadAndSave) {
     ASSERT_EQ(is::save("hodor/hodor/hodor/hodor.prototxt", tensor).code(),
               is::wire::StatusCode::OK);
   }
+
+  // ProtobufWriter and ProtobufReader
+  {
+    is::common::Tensor tensor1;
+    tensor.add_doubles(1.2);
+    tensor.add_doubles(2.3);
+    tensor.add_doubles(3.4);
+    
+    is::common::Tensor tensor2;
+    tensor.add_doubles(-1.2);
+    tensor.add_doubles(-2.3);
+    tensor.add_doubles(-3.4);
+
+    // write messages on file
+    is::ProtobufWriter writer("tensors");
+    writer.insert(tensor1);
+    writer.insert(tensor2);
+    writer.close();
+
+    // read messages from file and assert
+    is::ProtobufReader reader("tensors");
+    auto maybe_tensor1 = reader.next<is::common::Tensor>();
+    ASSERT_TRUE(maybe_tensor1);
+    ASSERT_TRUE(google::protobuf::util::MessageDifferencer::Equals(tensor1, *maybe_tensor1));
+    
+    auto maybe_tensor2 = reader.next<is::common::Tensor>();
+    ASSERT_TRUE(maybe_tensor2);
+    ASSERT_TRUE(google::protobuf::util::MessageDifferencer::Equals(tensor2, *maybe_tensor2));
+    
+    // test end of file, must not return a message
+    auto maybe_tensor3 = reader.next<is::common::Tensor>();
+    ASSERT_TRUE(!maybe_tensor3);
+
+    boost::filesystem::remove_all("tensors");
+  }
 }
 
 }  // namespace
