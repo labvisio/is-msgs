@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class IsmsgsConan(ConanFile):
     name = "is-msgs"
-    version = "1.1.6"
+    version = "1.1.7"
     license = "MIT"
     url = "https://github.com/labviros/is-msgs"
     description = "Repository containing the schema for standard ::is messages"
@@ -21,7 +21,9 @@ class IsmsgsConan(ConanFile):
             self.build_requires("gtest/1.8.0@bincrafters/stable")
 
     def configure(self):
-        self.options["opencv"].with_qt = False
+        if self.options.build_tests:
+            self.options["opencv"].with_qt = False
+
         self.options["spdlog"].fmt_external = False
         if self.options.shared:
             self.options["boost"].fPIC = True

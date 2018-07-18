@@ -46,16 +46,18 @@
     - [BoundingPoly](#is.vision.BoundingPoly)
     - [ColorSpace](#is.vision.ColorSpace)
     - [Image](#is.vision.Image)
-    - [ImageAnnotation](#is.vision.ImageAnnotation)
-    - [ImageAnnotations](#is.vision.ImageAnnotations)
     - [ImageFormat](#is.vision.ImageFormat)
     - [ImageSettings](#is.vision.ImageSettings)
-    - [NormalizedVertex](#is.vision.NormalizedVertex)
+    - [ObjectAnnotation](#is.vision.ObjectAnnotation)
+    - [ObjectAnnotations](#is.vision.ObjectAnnotations)
+    - [PointAnnotation](#is.vision.PointAnnotation)
     - [Resolution](#is.vision.Resolution)
     - [Vertex](#is.vision.Vertex)
   
     - [ColorSpaces](#is.vision.ColorSpaces)
+    - [HumanKeypoints](#is.vision.HumanKeypoints)
     - [ImageFormats](#is.vision.ImageFormats)
+    - [ObjectLabels](#is.vision.ObjectLabels)
   
   
   
@@ -613,15 +615,12 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 <a name="is.vision.BoundingPoly"/>
 
 ### BoundingPoly
-Sequence of vertices modelling a polygon.  
-- BoudingPoly with only 2 vertices should be interpreted as a rectangle 
-where the vertices represent the TopLeft and BottomRight vertices respectively.
+Sequence of vertices modelling a polygon.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| vertices | [Vertex](#is.vision.Vertex) | repeated | The bounding polygon vertices. |
-| normalized_vertices | [NormalizedVertex](#is.vision.NormalizedVertex) | repeated | The bounding polygon normalized vertices. |
+| vertices | [Vertex](#is.vision.Vertex) | repeated | The polygon vertices. |
 
 
 
@@ -659,40 +658,6 @@ where the vertices represent the TopLeft and BottomRight vertices respectively.
 
 
 
-<a name="is.vision.ImageAnnotation"/>
-
-### ImageAnnotation
-Models an annotation on an Image
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| label | [string](#string) |  | Label that identifies in human language the object in the annotated region. i.e: human, dog, computer, etc. |
-| id | [int64](#int64) |  | id of the object |
-| score | [float](#float) |  | Represents how sure the annotator thinks that an object of the specified type exists on the region |
-| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Identifies the region in the image where the object is contained |
-
-
-
-
-
-
-<a name="is.vision.ImageAnnotations"/>
-
-### ImageAnnotations
-Models many annotations on a single Image
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| annotations | [ImageAnnotation](#is.vision.ImageAnnotation) | repeated | Annotations |
-| resolution | [Resolution](#is.vision.Resolution) |  | Original resolution of the image being annotated |
-
-
-
-
-
-
 <a name="is.vision.ImageFormat"/>
 
 ### ImageFormat
@@ -720,25 +685,62 @@ Models many annotations on a single Image
 | resolution | [Resolution](#is.vision.Resolution) |  | Image resolution (height, width) |
 | format | [ImageFormat](#is.vision.ImageFormat) |  | Image serialization format. e.g: PNG |
 | color_space | [ColorSpace](#is.vision.ColorSpace) |  | Color space |
-| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Bounding poly defining the region of interest in the image. This region is usually represented as a rectangle. , modelled by the TopLeft and BottomRight vertices |
+| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Bounding poly defining the region of interest in the image. This region is usually represented as a rectangle modelled by the TopLeft and BottomRight vertices |
 
 
 
 
 
 
-<a name="is.vision.NormalizedVertex"/>
+<a name="is.vision.ObjectAnnotation"/>
 
-### NormalizedVertex
-A vertex represents a 2D point in the image.
-NOTE: the normalized vertex coordinates are relative to the original image
-and range from 0 to 1.
+### ObjectAnnotation
+Models an annotation on an object (in an image or in space)
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| x | [float](#float) |  | X coordinate. |
-| y | [float](#float) |  | Y coordinate. |
+| label | [string](#string) |  | Label that identifies in human language the object in the annotated region. e.g: human, dog, computer, etc. |
+| id | [int64](#int64) |  | Number that identifies the object in the annotated region, usually comes from an enumeration. |
+| score | [float](#float) |  | Represents how sure the annotator thinks that an object of the specified type exists on the region |
+| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Identifies the region in the image/space where the object is contained NOTE: When defined on an image the vertex coordinates are in the same scale (resolution) as the original image. |
+| keypoints | [PointAnnotation](#is.vision.PointAnnotation) | repeated | Annotations of interesting points in the image. e.g: Hip, Nose, Eye. NOTE: When defined on an image the vertex coordinates are in the same scale (resolution) as the original image. |
+
+
+
+
+
+
+<a name="is.vision.ObjectAnnotations"/>
+
+### ObjectAnnotations
+Models many annotated objects. (List of objects and their respective annotations).
+If resolution is present the annotations are assumed to be on an Image, otherwise 
+they are assumed to be in Space and a proper frame_id must be set
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| objects | [ObjectAnnotation](#is.vision.ObjectAnnotation) | repeated | List of objects and their respective annotations |
+| resolution | [Resolution](#is.vision.Resolution) |  | Original resolution of the image when annotation an image. |
+| frame_id | [int64](#int64) |  | Id of the frame of reference used to localize the vertices when annotating objects in space. |
+
+
+
+
+
+
+<a name="is.vision.PointAnnotation"/>
+
+### PointAnnotation
+Models an annotation on a point (in an image or in space)
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  | Id of the keypoint being annotated, usually comes from an enumeration, e.g: [HumanKeypoints](#is.image.HumanKeypoints) |
+| score | [float](#float) |  | Represents how sure the annotator thinks that a keypoint of the specified type exists on the given position |
+| position | [Vertex](#is.vision.Vertex) |  | Position of the keypoint. Represented by (x,y) on images and (x,y,z) on spaces |
 
 
 
@@ -764,14 +766,14 @@ and range from 0 to 1.
 <a name="is.vision.Vertex"/>
 
 ### Vertex
-A vertex represents a 2D point in the image.
-NOTE: the vertex coordinates are in the same scale as the original image.
+A vertex represents a point in the image (2D: x,y) or in space (3D: x,y,z).
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| x | [int32](#int32) |  | X coordinate. |
-| y | [int32](#int32) |  | Y coordinate. |
+| x | [float](#float) |  | X coordinate. |
+| y | [float](#float) |  | Y coordinate. |
+| z | [float](#float) |  | Z coordinate. |
 
 
 
@@ -794,6 +796,37 @@ NOTE: the vertex coordinates are in the same scale as the original image.
 
 
 
+<a name="is.vision.HumanKeypoints"/>
+
+### HumanKeypoints
+Models keypoints present in the human body
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN_HUMAN_KEYPOINT | 0 |  |
+| HEAD | 1 |  |
+| NOSE | 2 |  |
+| NECK | 3 |  |
+| RIGHT_SHOULDER | 4 |  |
+| RIGHT_ELBOW | 5 |  |
+| RIGHT_WRIST | 6 |  |
+| LEFT_SHOULDER | 7 |  |
+| LEFT_ELBOW | 8 |  |
+| LEFT_WRIST | 9 |  |
+| RIGHT_HIP | 10 |  |
+| RIGHT_KNEE | 11 |  |
+| RIGHT_ANKLE | 12 |  |
+| LEFT_HIP | 13 |  |
+| LEFT_KNEE | 14 |  |
+| LEFT_ANKLE | 15 |  |
+| RIGHT_EYE | 16 |  |
+| LEFT_EYE | 17 |  |
+| RIGHT_EAR | 18 |  |
+| LEFT_EAR | 19 |  |
+| CHEST | 20 |  |
+
+
+
 <a name="is.vision.ImageFormats"/>
 
 ### ImageFormats
@@ -804,6 +837,18 @@ NOTE: the vertex coordinates are in the same scale as the original image.
 | PNG | 0 |  |
 | JPEG | 1 |  |
 | WebP | 2 |  |
+
+
+
+<a name="is.vision.ObjectLabels"/>
+
+### ObjectLabels
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN_OBJECT | 0 |  |
+| HUMAN_SKELETON | 1 |  |
 
 
  

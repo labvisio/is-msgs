@@ -27,32 +27,20 @@ message ImageFormat {
   google.protobuf.FloatValue compression = 2; // Image compression level
 }
 
-// A vertex represents a 2D point in the image.
-// NOTE: the vertex coordinates are in the same scale as the original image.
+// A vertex represents a point in the image (2D: x,y) or in space (3D: x,y,z).
 message Vertex {
-  int32 x = 1; // X coordinate.
-  int32 y = 2; // Y coordinate.
-}
-
-// A vertex represents a 2D point in the image.
-// NOTE: the normalized vertex coordinates are relative to the original image
-// and range from 0 to 1.
-message NormalizedVertex {
   // X coordinate.
-  float x = 1 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
+  float x = 1; 
   // Y coordinate.
-  float y = 2 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
+  float y = 2; 
+  // Z coordinate.
+  float z = 3; 
 }
 
-/* Sequence of vertices modelling a polygon.  
- - BoudingPoly with only 2 vertices should be interpreted as a rectangle 
-   where the vertices represent the TopLeft and BottomRight vertices respectively.
-*/
+/* Sequence of vertices modelling a polygon. */
 message BoundingPoly {
-  // The bounding polygon vertices.
+  // The polygon vertices.
   repeated Vertex vertices = 1;
-  // The bounding polygon normalized vertices.
-  repeated NormalizedVertex normalized_vertices = 2;
 }
 
 message Resolution {
@@ -77,30 +65,90 @@ message ImageSettings {
   ColorSpace color_space = 3; // Color space  
   
   /* Bounding poly defining the region of interest in the image.
-     This region is usually represented as a rectangle. , modelled by
+     This region is usually represented as a rectangle modelled by
      the TopLeft and BottomRight vertices */
   BoundingPoly region = 4;
 }
 
-/* Models an annotation on an Image */
-message ImageAnnotation {
-  /* Label that identifies in human language the object in the annotated 
-     region. i.e: human, dog, computer, etc. */
-  string label = 1; 
-  int64 id = 4; // id of the object
- 
-  /* Represents how sure the annotator thinks that an object of 
-    the specified type exists on the region */
+/* Models an annotation on a point (in an image or in space) */
+message PointAnnotation {
+  /* Id of the keypoint being annotated, usually comes from an enumeration, 
+     e.g: [HumanKeypoints](#is.image.HumanKeypoints) */
+  int64 id = 1; 
+
+  /* Represents how sure the annotator thinks that a keypoint of 
+    the specified type exists on the given position */
   float score = 2 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
 
-  /* Identifies the region in the image where the object is contained */
-  BoundingPoly region = 3;
+  /* Position of the keypoint. Represented by (x,y) on images and (x,y,z) on spaces */
+  Vertex position = 3;
 }
 
-/* Models many annotations on a single Image */
-message ImageAnnotations {
-  // Annotations
-  repeated ImageAnnotation annotations = 1;
-  // Original resolution of the image being annotated
+/* Models an annotation on an object (in an image or in space) */
+message ObjectAnnotation {
+  /* Label that identifies in human language the object in the annotated 
+     region. e.g: human, dog, computer, etc. */
+  string label = 1; 
+
+  /* Number that identifies the object in the annotated region, 
+     usually comes from an enumeration. */
+  int64 id = 2; 
+ 
+  /* Represents how sure the annotator thinks that an object of 
+     the specified type exists on the region */
+  float score = 3 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
+
+  /* Identifies the region in the image/space where the object is contained
+     NOTE: When defined on an image the vertex coordinates are in the same scale 
+     (resolution) as the original image. */
+  BoundingPoly region = 4;
+
+  /* Annotations of interesting points in the image. e.g: Hip, Nose, Eye.
+     NOTE: When defined on an image the vertex coordinates are in the same scale 
+     (resolution) as the original image. */
+  repeated PointAnnotation keypoints = 5;
+}
+
+/* Models many annotated objects. (List of objects and their respective annotations).
+  If resolution is present the annotations are assumed to be on an Image, otherwise 
+  they are assumed to be in Space and a proper frame_id must be set */
+message ObjectAnnotations {
+  /* List of objects and their respective annotations */
+  repeated ObjectAnnotation objects = 1;
+
+  /* Original resolution of the image when annotation an image. */
   Resolution resolution = 2;
+
+  /* Id of the frame of reference used to localize the vertices when annotating objects in space. */
+  int64 frame_id = 3;
+}
+
+/* Models keypoints present in the human body */
+enum HumanKeypoints {
+  UNKNOWN_HUMAN_KEYPOINT = 0;
+  HEAD = 1;
+  NOSE = 2;
+  NECK = 3;
+  RIGHT_SHOULDER = 4;
+  RIGHT_ELBOW = 5;
+  RIGHT_WRIST = 6;
+  LEFT_SHOULDER = 7;
+  LEFT_ELBOW = 8;
+  LEFT_WRIST = 9;
+  RIGHT_HIP = 10;
+  RIGHT_KNEE = 11;
+  RIGHT_ANKLE = 12;
+  LEFT_HIP = 13;
+  LEFT_KNEE = 14;
+  LEFT_ANKLE = 15;
+  RIGHT_EYE = 16; 
+  LEFT_EYE = 17; 
+  RIGHT_EAR = 18; 
+  LEFT_EAR = 19; 
+  CHEST = 20;
+}
+
+enum ObjectLabels {
+  UNKNOWN_OBJECT = 0;
+  HUMAN_SKELETON = 1;
 }
