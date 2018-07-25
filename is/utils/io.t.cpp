@@ -66,37 +66,67 @@ TEST(IOTests, LoadAndSave) {
 
   // ProtobufWriter and ProtobufReader
   {
-    is::common::Tensor tensor1;
-    tensor.add_doubles(1.2);
-    tensor.add_doubles(2.3);
-    tensor.add_doubles(3.4);
-    
-    is::common::Tensor tensor2;
-    tensor.add_doubles(-1.2);
-    tensor.add_doubles(-2.3);
-    tensor.add_doubles(-3.4);
+    // back-to-back test
+    {
+      // write messages on file
+      is::ProtobufWriter writer("tensors");
+      for (auto n = 0; n < 1000; n++) {
+        is::common::Tensor tensor;
+        tensor.add_doubles(static_cast<float>(1 * n));
+        tensor.add_doubles(static_cast<float>(2 * n));
+        tensor.add_doubles(static_cast<float>(3 * n));
+        ASSERT_EQ(writer.insert(tensor).code(), is::wire::StatusCode::OK);
+      }
+      writer.close();
 
-    // write messages on file
-    is::ProtobufWriter writer("tensors");
-    writer.insert(tensor1);
-    writer.insert(tensor2);
-    writer.close();
+      // read messages from file and assert
+      is::ProtobufReader reader("tensors");
+      for (auto n = 0; n < 1001; n++) {
+        is::common::Tensor tensor;
+        auto status = reader.next(&tensor);
+        if (n < 1000) {
+          ASSERT_EQ(status.code(), is::wire::StatusCode::OK);
+          is::common::Tensor base_tensor;
+          base_tensor.add_doubles(static_cast<float>(1 * n));
+          base_tensor.add_doubles(static_cast<float>(2 * n));
+          base_tensor.add_doubles(static_cast<float>(3 * n));
+          ASSERT_TRUE(google::protobuf::util::MessageDifferencer::Equals(base_tensor, tensor));
+        }
+        else {
+          ASSERT_NE(status.code(), is::wire::StatusCode::OK);
+        }
+      }
 
-    // read messages from file and assert
-    is::ProtobufReader reader("tensors");
-    auto maybe_tensor1 = reader.next<is::common::Tensor>();
-    ASSERT_TRUE(maybe_tensor1);
-    ASSERT_TRUE(google::protobuf::util::MessageDifferencer::Equals(tensor1, *maybe_tensor1));
+      boost::filesystem::remove_all("tensors");
+    }
     
-    auto maybe_tensor2 = reader.next<is::common::Tensor>();
-    ASSERT_TRUE(maybe_tensor2);
-    ASSERT_TRUE(google::protobuf::util::MessageDifferencer::Equals(tensor2, *maybe_tensor2));
+    // reading empty file test
+    {
+      is::ProtobufWriter writer("tensors");
+      writer.close();
+      is::ProtobufReader reader("tensors");
+      is::common::Tensor tensor;
+      auto status = reader.next(&tensor);
+      ASSERT_EQ(status.code(), is::wire::StatusCode::OUT_OF_RANGE);
+      boost::filesystem::remove_all("tensors");
+    }
     
-    // test end of file, must not return a message
-    auto maybe_tensor3 = reader.next<is::common::Tensor>();
-    ASSERT_TRUE(!maybe_tensor3);
-
-    boost::filesystem::remove_all("tensors");
+    // constructors test
+    {
+      // try to write on a invalid file
+      try {
+        is::ProtobufWriter writer("/");
+      } catch (is::wire::Status const& e) {
+        ASSERT_EQ(e.code(), is::wire::StatusCode::FAILED_PRECONDITION);
+      }
+      
+      // try to read from an invalid file
+      try {
+        is::ProtobufReader reader("tensors");
+      } catch (is::wire::Status const& e) {
+        ASSERT_EQ(e.code(), is::wire::StatusCode::FAILED_PRECONDITION);
+      }
+    }
   }
 }
 
