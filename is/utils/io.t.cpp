@@ -63,6 +63,71 @@ TEST(IOTests, LoadAndSave) {
     ASSERT_EQ(is::save("hodor/hodor/hodor/hodor.prototxt", tensor).code(),
               is::wire::StatusCode::OK);
   }
+
+  // ProtobufWriter and ProtobufReader
+  {
+    // back-to-back test
+    {
+      // write messages on file
+      is::ProtobufWriter writer("tensors");
+      for (auto n = 0; n < 1000; n++) {
+        is::common::Tensor tensor;
+        tensor.add_doubles(static_cast<float>(1 * n));
+        tensor.add_doubles(static_cast<float>(2 * n));
+        tensor.add_doubles(static_cast<float>(3 * n));
+        ASSERT_EQ(writer.insert(tensor).code(), is::wire::StatusCode::OK);
+      }
+      writer.close();
+
+      // read messages from file and assert
+      is::ProtobufReader reader("tensors");
+      for (auto n = 0; n < 1001; n++) {
+        is::common::Tensor tensor;
+        auto status = reader.next(&tensor);
+        if (n < 1000) {
+          ASSERT_EQ(status.code(), is::wire::StatusCode::OK);
+          is::common::Tensor base_tensor;
+          base_tensor.add_doubles(static_cast<float>(1 * n));
+          base_tensor.add_doubles(static_cast<float>(2 * n));
+          base_tensor.add_doubles(static_cast<float>(3 * n));
+          ASSERT_TRUE(google::protobuf::util::MessageDifferencer::Equals(base_tensor, tensor));
+        }
+        else {
+          ASSERT_NE(status.code(), is::wire::StatusCode::OK);
+        }
+      }
+
+      boost::filesystem::remove_all("tensors");
+    }
+    
+    // reading empty file test
+    {
+      is::ProtobufWriter writer("tensors");
+      writer.close();
+      is::ProtobufReader reader("tensors");
+      is::common::Tensor tensor;
+      auto status = reader.next(&tensor);
+      ASSERT_EQ(status.code(), is::wire::StatusCode::OUT_OF_RANGE);
+      boost::filesystem::remove_all("tensors");
+    }
+    
+    // constructors test
+    {
+      // try to write on a invalid file
+      try {
+        is::ProtobufWriter writer("/");
+      } catch (is::wire::Status const& e) {
+        ASSERT_EQ(e.code(), is::wire::StatusCode::FAILED_PRECONDITION);
+      }
+      
+      // try to read from an invalid file
+      try {
+        is::ProtobufReader reader("tensors");
+      } catch (is::wire::Status const& e) {
+        ASSERT_EQ(e.code(), is::wire::StatusCode::FAILED_PRECONDITION);
+      }
+    }
+  }
 }
 
 }  // namespace

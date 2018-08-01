@@ -1,5 +1,4 @@
 #include "io.hpp"
-#include <fstream>
 #include "boost/filesystem.hpp"
 #include "google/protobuf/text_format.h"
 #include "google/protobuf/util/json_util.h"
@@ -8,6 +7,7 @@
 namespace is {
 
 namespace fs = boost::filesystem;
+namespace gio = google::protobuf::io;
 
 wire::Status load(std::string const& filename, google::protobuf::Message* message) {
   auto path = fs::path{filename};
@@ -66,6 +66,89 @@ wire::Status save(std::string const& filename, google::protobuf::Message const& 
   file << data;
   file.close();
   return make_status(wire::StatusCode::OK);
+}
+
+ProtobufWriter::ProtobufWriter(std::string const& filename) try
+    : file(filename, std::ios::out | std::ios::binary) {
+  this->raw_output = new gio::OstreamOutputStream(&file);
+} catch (std::exception const& e) {
+  auto why = fmt::format("Can't open file \'{}\'\n{}", filename, e.what());
+  throw make_status(wire::StatusCode::FAILED_PRECONDITION, why);
+}
+
+ProtobufWriter::~ProtobufWriter() {
+  this->close();
+}
+
+wire::Status ProtobufWriter::insert(google::protobuf::Message const& message) {
+  auto size = message.ByteSize();
+  // We create a new coded stream for each message.  Don't worry, this is fast.
+  google::protobuf::io::CodedOutputStream coded_output(this->raw_output);
+  coded_output.WriteVarint32(size);
+  uint8_t* buffer = coded_output.GetDirectBufferForNBytesAndAdvance(size);
+  if (buffer != nullptr) {
+    // Optimization:  The message fits in one buffer, so use the faster
+    // direct-to-array serialization path.
+    message.SerializeWithCachedSizesToArray(buffer);
+  } else {
+    // Slightly-slower path when the message is multiple buffers.
+    message.SerializeWithCachedSizes(&coded_output);
+    if (coded_output.HadError()) {
+      auto why = "Can not write serialized message on buffer.";
+      return make_status(wire::StatusCode::INTERNAL_ERROR, why);
+    }
+  }
+  return make_status(wire::StatusCode::OK);
+}
+
+void ProtobufWriter::close() {
+  if (file.is_open()) {
+    delete raw_output;
+    file.close();
+  }
+}
+
+ProtobufReader::ProtobufReader(std::string const& filename) try
+    : file(filename, std::ios::in | std::ios::binary) {
+  raw_input = new gio::IstreamInputStream(&file);
+} catch (std::exception const& e) {
+  auto why = fmt::format("Can't open file \'{}\'\n{}", filename, e.what());
+  throw make_status(wire::StatusCode::FAILED_PRECONDITION, why);
+}
+
+ProtobufReader::~ProtobufReader() {
+  this->close();
+}
+
+wire::Status ProtobufReader::next(google::protobuf::Message* message) {
+  // We create a new coded stream for each message.  Don't worry, this is fast,
+  // and it makes sure the 64MB total size limit is imposed per-message rather
+  // than on the whole stream.  (See the CodedInputStream interface for more
+  // info on this limit.)
+  google::protobuf::io::CodedInputStream coded_input(this->raw_input);
+
+  uint32_t size;
+  if (!coded_input.ReadVarint32(&size)) {
+    this->close();
+    return make_status(wire::StatusCode::OUT_OF_RANGE, "End of file");
+  }
+  // Tell the stream not to read beyond that size.
+  google::protobuf::io::CodedInputStream::Limit msg_limit = coded_input.PushLimit(size);
+  if (!message->MergeFromCodedStream(&coded_input)) {
+    return make_status(wire::StatusCode::INTERNAL_ERROR, "Can't deserialize message");
+  } else if (!coded_input.ConsumedEntireMessage()) {
+    return make_status(wire::StatusCode::INTERNAL_ERROR, "");
+  }
+  // Release the limit
+  coded_input.PopLimit(msg_limit);
+  return make_status(wire::StatusCode::OK);
+}
+
+void ProtobufReader::close() {
+  if (file.is_open()) {
+    delete raw_input;
+    file.close();
+  }
 }
 
 }  // namespace is
