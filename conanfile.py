@@ -11,7 +11,7 @@ class IsmsgsConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [True, False], "build_tests": [True, False]}
     default_options = "shared=False", "fPIC=True", "build_tests=False"
     generators = "cmake", "cmake_find_package", "cmake_paths"
-    requires = ("protobuf/[>=3.0]@bincrafters/stable", "boost/[>=1.65]@conan/stable",
+    requires = ("protobuf/3.6.1@bincrafters/stable", "boost/[>=1.65]@conan/stable",
                 "spdlog/[>0.15]@bincrafters/stable")
     exports_sources = "*"
 
