@@ -124,16 +124,6 @@
   
   
 
-- [is/msgs/wire.proto](#is/msgs/wire.proto)
-    - [Status](#is.wire.Status)
-    - [WireFormat](#is.wire.WireFormat)
-  
-    - [ContentType](#is.wire.ContentType)
-    - [StatusCode](#is.wire.StatusCode)
-  
-  
-  
-
 - [Scalar Value Types](#scalar-value-types)
 
 
@@ -1632,97 +1622,6 @@ UInt64Rules describes the constraints applied to `uint64` values
 | rules | FieldRules | .google.protobuf.FieldOptions | 919191 | Rules specify the validations to be performed on this field. By default, no validation is performed against a field. |
 | disabled | bool | .google.protobuf.MessageOptions | 919191 | Disabled nullifies any validation rules for this message, including any message fields associated with it that do support validation. |
 | required | bool | .google.protobuf.OneofOptions | 919191 | Required ensures that exactly one the field options in a oneof is set; validation fails if no fields in the oneof are set. |
-
- 
-
- 
-
-
-
-<a name="is/msgs/wire.proto"/>
-<p align="right"><a href="#top">Top</a></p>
-
-## is/msgs/wire.proto
-
-
-
-<a name="is.wire.Status"/>
-
-### Status
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| code | [StatusCode](#is.wire.StatusCode) |  |  |
-| why | [string](#string) |  | Human readable message explaining the error |
-
-
-
-
-
-
-<a name="is.wire.WireFormat"/>
-
-### WireFormat
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| raw | [bytes](#bytes) |  |  |
-| message | [google.protobuf.Any](#google.protobuf.Any) |  |  |
-| created_at | [uint64](#uint64) |  | Time point where the message was created |
-| content_type | [ContentType](#is.wire.ContentType) |  |  |
-| status | [Status](#is.wire.Status) |  |  |
-| correlation_id | [uint64](#uint64) |  |  |
-| reply_to | [string](#string) |  | Where the result of processing this message should be sent to |
-| expires_in | [uint32](#uint32) |  |  |
-
-
-
-
-
- 
-
-
-<a name="is.wire.ContentType"/>
-
-### ContentType
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| NONE | 0 |  |
-| PROTOBUF | 1 |  |
-| JSON | 2 |  |
-| PROTOTEXT | 3 |  |
-
-
-
-<a name="is.wire.StatusCode"/>
-
-### StatusCode
-Codes used to indicated the failure/success of a RPC
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN | 0 |  |
-| OK | 1 |  |
-| CANCELLED | 2 |  |
-| INVALID_ARGUMENT | 3 |  |
-| DEADLINE_EXCEEDED | 4 |  |
-| NOT_FOUND | 5 |  |
-| ALREADY_EXISTS | 6 |  |
-| PERMISSION_DENIED | 7 |  |
-| UNAUTHENTICATED | 8 |  |
-| FAILED_PRECONDITION | 9 |  |
-| OUT_OF_RANGE | 10 |  |
-| UNIMPLEMENTED | 11 |  |
-| INTERNAL_ERROR | 12 |  |
-
-
- 
 
  
 

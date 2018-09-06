@@ -12,7 +12,8 @@ class IsmsgsConan(ConanFile):
     default_options = "shared=False", "fPIC=True", "build_tests=False"
     generators = "cmake", "cmake_find_package", "cmake_paths"
     requires = ("protobuf/3.6.1@bincrafters/stable", "boost/[>=1.65]@conan/stable",
-                "spdlog/[>0.15]@bincrafters/stable")
+                "fmt/5.1.0@bincrafters/stable",)
+
     exports_sources = "*"
 
     def build_requirements(self):
@@ -24,7 +25,6 @@ class IsmsgsConan(ConanFile):
         if self.options.build_tests:
             self.options["opencv"].with_qt = False
 
-        self.options["spdlog"].fmt_external = False
         if self.options.shared:
             self.options["boost"].fPIC = True
 

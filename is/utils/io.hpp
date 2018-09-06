@@ -1,17 +1,17 @@
 #pragma once
 
-#include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <fstream>
 #include <memory>
+#include <stdexcept>
 #include <string>
-#include "boost/optional.hpp"
+#include <iostream>
+#include "google/protobuf/io/coded_stream.h"
+#include "google/protobuf/io/zero_copy_stream_impl.h"
 #include "google/protobuf/message.h"
-#include "status.hpp"
 
 namespace is {
-wire::Status load(std::string const& filename, google::protobuf::Message* message);
-wire::Status save(std::string const& filename, google::protobuf::Message const& message);
+void load(std::string const& filename, google::protobuf::Message* message);
+void save(std::string const& filename, google::protobuf::Message const& message);
 
 /*
   Implementation of 'ProtobufWriter' and 'ProtobufReader' based on
@@ -24,7 +24,7 @@ struct ProtobufWriter {
 
   ProtobufWriter(std::string const& filename);
   ~ProtobufWriter();
-  wire::Status insert(google::protobuf::Message const& message);
+  void insert(google::protobuf::Message const& message);
   void close();
 };
 
@@ -34,7 +34,7 @@ struct ProtobufReader {
 
   ProtobufReader(std::string const& filename);
   ~ProtobufReader();
-  wire::Status next(google::protobuf::Message* message);
+  bool next(google::protobuf::Message* message);
   void close();
 };
 

@@ -27,14 +27,12 @@ list(APPEND protos
   "is/msgs/image.proto"
   "is/msgs/power.proto"
   "is/msgs/robot.proto"
-  "is/msgs/wire.proto"
   "is/msgs/validate.proto"
   "is/msgs/tests.proto"
 )
 
 list(APPEND interfaces
   "is/utils/ostream.hpp"
-  "is/utils/status.hpp"
   "is/utils/timestamp.hpp"
   "is/utils/validate.hpp"
   "is/utils/io.hpp"
@@ -44,7 +42,6 @@ list(APPEND interfaces
 
 list(APPEND sources
   "is/utils/ostream.cpp"
-  "is/utils/status.cpp"
   "is/utils/timestamp.cpp"
   "is/utils/validate.cpp"
   "is/utils/io.cpp"
@@ -61,7 +58,7 @@ list(APPEND tests
 # public
 find_package(Protobuf REQUIRED)
 # private
-find_package(spdlog REQUIRED)
+find_package(fmt REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem)
 
 #######
@@ -86,7 +83,7 @@ target_link_libraries(
  PUBLIC
   protobuf::libprotobuf
  PRIVATE
-  spdlog::spdlog
+  fmt::fmt
   Boost::filesystem
 )
 

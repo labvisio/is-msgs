@@ -30,7 +30,7 @@ To use protocol buffers with Python, simply run:
 pip install --user is-msgs
 ```
 
-If your project contains messages using any one of this repository, e.g.:
+If your project contains messages using a message from this repository, e.g.:
 
 ```protobuf
 syntax = "proto3";
