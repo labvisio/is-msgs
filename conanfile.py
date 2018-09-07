@@ -11,8 +11,11 @@ class IsmsgsConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [True, False], "build_tests": [True, False]}
     default_options = "shared=False", "fPIC=True", "build_tests=False"
     generators = "cmake", "cmake_find_package", "cmake_paths"
-    requires = ("protobuf/3.6.1@bincrafters/stable", "boost/[>=1.65]@conan/stable",
-                "fmt/5.1.0@bincrafters/stable",)
+    requires = (
+        "protobuf/3.6.1@bincrafters/stable",
+        "boost/[>=1.65]@conan/stable",
+        "fmt/5.1.0@bincrafters/stable",
+    )
 
     exports_sources = "*"
 
@@ -27,6 +30,8 @@ class IsmsgsConan(ConanFile):
 
         if self.options.shared:
             self.options["boost"].fPIC = True
+            self.options["protobuf"].fPIC = True
+            self.options["fmt"].fPIC = True
 
     def build(self):
         cmake = CMake(self, generator='Ninja')

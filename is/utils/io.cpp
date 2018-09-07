@@ -2,7 +2,7 @@
 #include "boost/filesystem.hpp"
 #include "google/protobuf/text_format.h"
 #include "google/protobuf/util/json_util.h"
-#include "spdlog/fmt/fmt.h"
+#include "fmt/format.h"
 
 namespace is {
 

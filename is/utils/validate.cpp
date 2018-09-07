@@ -1,6 +1,6 @@
 #include "validate.hpp"
 #include "google/protobuf/reflection.h"
-#include "spdlog/fmt/fmt.h"
+#include "fmt/format.h"
 
 namespace is {
 
