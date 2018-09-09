@@ -8,27 +8,33 @@ option java_multiple_files = true;
 import "google/protobuf/wrappers.proto";
 
 message SamplingSettings {
-  // Sampling frequency in hertz
+  // Sampling frequency in hertz.
   google.protobuf.FloatValue frequency = 1;
-  // Delay to be applied in the in the sampling proccess, normally used to synchronize different sources 
+  /* Delay to be applied in the in the sampling proccess, normally used to
+     synchronize different sources. */
   google.protobuf.FloatValue delay = 2;
 }
 
 message SyncRequest {
   repeated string entities = 1;
-  SamplingSettings sampling = 2;  
+  SamplingSettings sampling = 2;
 }
 
-// Used to select the desired fields of a message on a "Get" RPC
+// Used to select the desired fields of a message on a "Get" RPC.
 message FieldSelector {
-  repeated uint32 fields = 1; // List of fields that should be filled
+  // List of fields that should be filled.
+  repeated uint32 fields = 1;
 }
 
 message Shape {
   message Dimension {
+    // Number of elements in this dimension.
     int32 size = 1;
+    /* Dimension identifier. This can be used to indicate the order that the dimensions are
+       placed in a tensor. For instance, in a tensor with two dimensions (matrix) the name can be
+       something like "row" or "collumn" indicating if the memory layout is row or collumn major. */
     string name = 2;
-  }  
+  }
   repeated Dimension dims = 1;
 }
 
@@ -41,7 +47,10 @@ enum DataType {
 }
 
 message Tensor {
-  Shape shape = 1; 
+  /* Shape of the tensor. Define how the tensor is represented in one of the value
+     fields (floats, doubles, ints32, ints64). */
+  Shape shape = 1;
+  // Type of the tensor values.
   DataType type = 2;
 
   repeated float floats = 3 [packed=true];
@@ -51,15 +60,21 @@ message Tensor {
 }
 
 message Position {
+  // Position in the x axis.
   float x = 1;
+  // Position in the y axis.
   float y = 2;
+  // Position in the z axis.
   float z = 3;
 }
 
 message Orientation {
-  float yaw = 1;   // rotation around x
-  float pitch = 2; // rotation around y
-  float roll = 3;  // rotation around z
+  // Rotation around x.
+  float yaw = 1;
+  // Rotation around y.
+  float pitch = 2;
+  // Rotation around z.
+  float roll = 3;
 }
 
 message Pose {
@@ -73,10 +88,11 @@ message Speed {
 }
 
 message ConsumerInfo {
+  // List of consumers.
   repeated string consumers = 2;
 }
 
 message ConsumerList {
-  // Consumer Information for each topic
+  // Consumer Information for each topic.
   map<string, ConsumerInfo> info = 1;
 }

@@ -11,6 +11,7 @@
     - [CameraSetting](#is.vision.CameraSetting)
     - [CameraSettings](#is.vision.CameraSettings)
     - [FrameTransformation](#is.vision.FrameTransformation)
+    - [FrameTransformations](#is.vision.FrameTransformations)
     - [GetCalibrationReply](#is.vision.GetCalibrationReply)
     - [GetCalibrationRequest](#is.vision.GetCalibrationRequest)
     - [GetTransformationReply](#is.vision.GetTransformationReply)
@@ -158,18 +159,18 @@
 <a name="is.vision.CameraCalibration"/>
 
 ### CameraCalibration
-Models the calibration parameters of a camera
+Models the calibration parameters of a camera.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | camera id |
-| calibrated_at | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | when the calibration was performed |
-| error | [double](#double) |  | average reprojection error |
-| resolution | [Resolution](#is.vision.Resolution) |  | resolution used during calibration |
-| intrinsic | [is.common.Tensor](#is.common.Tensor) |  | intrinsic matrix with shape=[3,3] |
-| distortion | [is.common.Tensor](#is.common.Tensor) |  | distortion coefficients with shape=[1,5] |
-| extrinsic | [FrameTransformation](#is.vision.FrameTransformation) | repeated | used to transform from the camera frame to a world frame and vice versa |
+| id | [int64](#int64) |  | Camera id. |
+| calibrated_at | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | When the calibration was performed. |
+| error | [double](#double) |  | Average reprojection error. |
+| resolution | [Resolution](#is.vision.Resolution) |  | Resolution used during calibration. |
+| intrinsic | [is.common.Tensor](#is.common.Tensor) |  | Intrinsic matrix with shape=[3,3]. |
+| distortion | [is.common.Tensor](#is.common.Tensor) |  | Distortion coefficients with shape=[1,5]. |
+| extrinsic | [FrameTransformation](#is.vision.FrameTransformation) | repeated | Extrinsic tranformations. Used to transform from the camera frame to a world frame and vice versa. |
 
 
 
@@ -179,14 +180,14 @@ Models the calibration parameters of a camera
 <a name="is.vision.CameraConfig"/>
 
 ### CameraConfig
-Camera parameters
+Camera parameters.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| sampling | [is.common.SamplingSettings](#is.common.SamplingSettings) |  | sampling parameters |
-| image | [ImageSettings](#is.vision.ImageSettings) |  | image parameters |
-| camera | [CameraSettings](#is.vision.CameraSettings) |  | internal camera parameters |
+| sampling | [is.common.SamplingSettings](#is.common.SamplingSettings) |  | Sampling parameters. |
+| image | [ImageSettings](#is.vision.ImageSettings) |  | Image parameters. |
+| camera | [CameraSettings](#is.vision.CameraSettings) |  | Internal camera parameters. |
 
 
 
@@ -201,8 +202,8 @@ Camera parameters
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| automatic | [bool](#bool) |  | True if the camera should automatically assign this parameter |
-| ratio | [float](#float) |  | Ratio assigned to the parameter where 0.0 is the lowest value and 1.0 the highest |
+| automatic | [bool](#bool) |  | True if the camera should automatically assign this parameter. |
+| ratio | [float](#float) |  | Ratio assigned to the parameter where 0.0 is the lowest value and 1.0 the highest. |
 
 
 
@@ -239,14 +240,30 @@ Camera parameters
 <a name="is.vision.FrameTransformation"/>
 
 ### FrameTransformation
-Represent the tranformation between two coordinate systems
+Represent the tranformation between two coordinate systems.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| from | [int64](#int64) |  |  |
-| to | [int64](#int64) |  |  |
-| tf | [is.common.Tensor](#is.common.Tensor) |  | transformation matrix [R T; 0 1] with shape = [4,4] |
+| from | [int64](#int64) |  | Id of the &#34;from&#34; frame. |
+| to | [int64](#int64) |  | Id of the &#34;to&#34; frame. |
+| tf | [is.common.Tensor](#is.common.Tensor) |  | Transformation matrix [R T; 0 1] with shape = [4,4]. |
+| expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timepoint where this transformation is still valid. If not present the transformation will be considered to be valid forever. |
+
+
+
+
+
+
+<a name="is.vision.FrameTransformations"/>
+
+### FrameTransformations
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tfs | [FrameTransformation](#is.vision.FrameTransformation) | repeated | List of transformations. |
 
 
 
@@ -276,7 +293,7 @@ Represent the tranformation between two coordinate systems
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ids | [int64](#int64) | repeated | IDs of the cameras to return the calibration from |
+| ids | [int64](#int64) | repeated | IDs of the cameras to return the calibration from. |
 
 
 
@@ -334,16 +351,16 @@ Represent the tranformation between two coordinate systems
 <a name="is.vision.CameraConfigFields"/>
 
 ### CameraConfigFields
-Request selector/filter for CameraSettings. Used to select what fields 
-should be present in an CameraConfig GET request. 
+Request selector/filter for CameraSettings. Used to select what fields
+should be present in an CameraConfig GET request.
 See [FieldSelector](#is.common.FieldSelector) for more information.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| ALL | 0 | Fill everything |
-| SAMPLING_SETTINGS | 1 | Fill sampling settings |
-| IMAGE_SETTINGS | 2 | Fill image settings |
-| CAMERA_SETTINGS | 3 | Fill camera settings |
+| ALL | 0 | Fill everything. |
+| SAMPLING_SETTINGS | 1 | Fill sampling settings. |
+| IMAGE_SETTINGS | 2 | Fill image settings. |
+| CAMERA_SETTINGS | 3 | Fill camera settings. |
 
 
  
@@ -369,7 +386,7 @@ See [FieldSelector](#is.common.FieldSelector) for more information.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| consumers | [string](#string) | repeated |  |
+| consumers | [string](#string) | repeated | List of consumers. |
 
 
 
@@ -384,7 +401,7 @@ See [FieldSelector](#is.common.FieldSelector) for more information.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| info | [ConsumerList.InfoEntry](#is.common.ConsumerList.InfoEntry) | repeated | Consumer Information for each topic |
+| info | [ConsumerList.InfoEntry](#is.common.ConsumerList.InfoEntry) | repeated | Consumer Information for each topic. |
 
 
 
@@ -410,12 +427,12 @@ See [FieldSelector](#is.common.FieldSelector) for more information.
 <a name="is.common.FieldSelector"/>
 
 ### FieldSelector
-Used to select the desired fields of a message on a &#34;Get&#34; RPC
+Used to select the desired fields of a message on a &#34;Get&#34; RPC.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| fields | [uint32](#uint32) | repeated | List of fields that should be filled |
+| fields | [uint32](#uint32) | repeated | List of fields that should be filled. |
 
 
 
@@ -430,9 +447,9 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| yaw | [float](#float) |  | rotation around x |
-| pitch | [float](#float) |  | rotation around y |
-| roll | [float](#float) |  | rotation around z |
+| yaw | [float](#float) |  | Rotation around x. |
+| pitch | [float](#float) |  | Rotation around y. |
+| roll | [float](#float) |  | Rotation around z. |
 
 
 
@@ -463,9 +480,9 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| x | [float](#float) |  |  |
-| y | [float](#float) |  |  |
-| z | [float](#float) |  |  |
+| x | [float](#float) |  | Position in the x axis. |
+| y | [float](#float) |  | Position in the y axis. |
+| z | [float](#float) |  | Position in the z axis. |
 
 
 
@@ -480,8 +497,8 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| frequency | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  | Sampling frequency in hertz |
-| delay | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  | Delay to be applied in the in the sampling proccess, normally used to synchronize different sources |
+| frequency | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  | Sampling frequency in hertz. |
+| delay | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  | Delay to be applied in the in the sampling proccess, normally used to synchronize different sources. |
 
 
 
@@ -511,8 +528,8 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| size | [int32](#int32) |  |  |
-| name | [string](#string) |  |  |
+| size | [int32](#int32) |  | Number of elements in this dimension. |
+| name | [string](#string) |  | Dimension identifier. This can be used to indicate the order that the dimensions are placed in a tensor. For instance, in a tensor with two dimensions (matrix) the name can be something like &#34;row&#34; or &#34;collumn&#34; indicating if the memory layout is row or collumn major. |
 
 
 
@@ -559,8 +576,8 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| shape | [Shape](#is.common.Shape) |  |  |
-| type | [DataType](#is.common.DataType) |  |  |
+| shape | [Shape](#is.common.Shape) |  | Shape of the tensor. Define how the tensor is represented in one of the value fields (floats, doubles, ints32, ints64). |
+| type | [DataType](#is.common.DataType) |  | Type of the tensor values. |
 | floats | [float](#float) | repeated |  |
 | doubles | [double](#double) | repeated |  |
 | ints32 | [int32](#int32) | repeated |  |
@@ -625,7 +642,7 @@ Sequence of vertices modelling a polygon.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| value | [ColorSpaces](#is.vision.ColorSpaces) |  |  |
+| value | [ColorSpaces](#is.vision.ColorSpaces) |  | Color space value. |
 
 
 
@@ -635,13 +652,14 @@ Sequence of vertices modelling a polygon.
 <a name="is.vision.Image"/>
 
 ### Image
-
+Message representing an Image. The image content can be either sent embedded on this message
+or referenced as an external resource.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| data | [bytes](#bytes) |  | Image content, represented as a stream of bytes. |
-| uri | [string](#string) |  | External image source |
+| data | [bytes](#bytes) |  | Image content, represented as a stream of bytes in well known image [formats](#is.image.ImageFormat). |
+| uri | [string](#string) |  | URI to external image source. |
 
 
 
@@ -656,8 +674,8 @@ Sequence of vertices modelling a polygon.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| format | [ImageFormats](#is.vision.ImageFormats) |  | Image compression algorithm |
-| compression | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  | Image compression level |
+| format | [ImageFormats](#is.vision.ImageFormats) |  | Image compression algorithm. |
+| compression | [google.protobuf.FloatValue](#google.protobuf.FloatValue) |  | Image compression level. |
 
 
 
@@ -672,10 +690,10 @@ Sequence of vertices modelling a polygon.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| resolution | [Resolution](#is.vision.Resolution) |  | Image resolution (height, width) |
-| format | [ImageFormat](#is.vision.ImageFormat) |  | Image serialization format. e.g: PNG |
-| color_space | [ColorSpace](#is.vision.ColorSpace) |  | Color space |
-| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Bounding poly defining the region of interest in the image. This region is usually represented as a rectangle modelled by the TopLeft and BottomRight vertices |
+| resolution | [Resolution](#is.vision.Resolution) |  | Image resolution (height, width). |
+| format | [ImageFormat](#is.vision.ImageFormat) |  | Image compression details. e.g: PNG. |
+| color_space | [ColorSpace](#is.vision.ColorSpace) |  | Color space. |
+| region | [BoundingPoly](#is.vision.BoundingPoly) |  | Bounding poly defining the region of interest in the image. This region is usually represented as a rectangle modelled by the TopLeft and BottomRight vertices. |
 
 
 
@@ -685,14 +703,14 @@ Sequence of vertices modelling a polygon.
 <a name="is.vision.ObjectAnnotation"/>
 
 ### ObjectAnnotation
-Models an annotation on an object (in an image or in space)
+Models an annotation on an object (in an image or in space).
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | label | [string](#string) |  | Label that identifies in human language the object in the annotated region. e.g: human, dog, computer, etc. |
 | id | [int64](#int64) |  | Number that identifies the object in the annotated region, usually comes from an enumeration. |
-| score | [float](#float) |  | Represents how sure the annotator thinks that an object of the specified type exists on the region |
+| score | [float](#float) |  | Represents how sure the annotator thinks that an object of the specified type exists on the region. |
 | region | [BoundingPoly](#is.vision.BoundingPoly) |  | Identifies the region in the image/space where the object is contained NOTE: When defined on an image the vertex coordinates are in the same scale (resolution) as the original image. |
 | keypoints | [PointAnnotation](#is.vision.PointAnnotation) | repeated | Annotations of interesting points in the image. e.g: Hip, Nose, Eye. NOTE: When defined on an image the vertex coordinates are in the same scale (resolution) as the original image. |
 
@@ -705,13 +723,13 @@ Models an annotation on an object (in an image or in space)
 
 ### ObjectAnnotations
 Models many annotated objects. (List of objects and their respective annotations).
-If resolution is present the annotations are assumed to be on an Image, otherwise 
-they are assumed to be in Space and a proper frame_id must be set
+If resolution is present the annotations are assumed to be on an Image, otherwise
+they are assumed to be in Space and a proper frame_id must be set.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| objects | [ObjectAnnotation](#is.vision.ObjectAnnotation) | repeated | List of objects and their respective annotations |
+| objects | [ObjectAnnotation](#is.vision.ObjectAnnotation) | repeated | List of objects and their respective annotations. |
 | resolution | [Resolution](#is.vision.Resolution) |  | Original resolution of the image when annotation an image. |
 | frame_id | [int64](#int64) |  | Id of the frame of reference used to localize the vertices when annotating objects in space. |
 
@@ -723,14 +741,14 @@ they are assumed to be in Space and a proper frame_id must be set
 <a name="is.vision.PointAnnotation"/>
 
 ### PointAnnotation
-Models an annotation on a point (in an image or in space)
+Models an annotation on a point (in an image or in space).
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | Id of the keypoint being annotated, usually comes from an enumeration, e.g: [HumanKeypoints](#is.image.HumanKeypoints) |
-| score | [float](#float) |  | Represents how sure the annotator thinks that a keypoint of the specified type exists on the given position |
-| position | [Vertex](#is.vision.Vertex) |  | Position of the keypoint. Represented by (x,y) on images and (x,y,z) on spaces |
+| id | [int64](#int64) |  | Id of the keypoint being annotated, usually comes from an enumeration, e.g: [HumanKeypoints](#is.vision.HumanKeypoints). |
+| score | [float](#float) |  | Represents how sure the annotator thinks that a keypoint of the specified type exists on the given position. |
+| position | [Vertex](#is.vision.Vertex) |  | Position of the keypoint. Represented by (x,y) on images and (x,y,z) on spaces. |
 
 
 
@@ -740,13 +758,13 @@ Models an annotation on a point (in an image or in space)
 <a name="is.vision.Resolution"/>
 
 ### Resolution
-
+Models the resolution of an image, that is the number of pixels in an image.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| height | [uint32](#uint32) |  |  |
-| width | [uint32](#uint32) |  |  |
+| height | [uint32](#uint32) |  | Number of vertical pixels. |
+| width | [uint32](#uint32) |  | Number of horizontal pixels. |
 
 
 
@@ -775,21 +793,21 @@ A vertex represents a point in the image (2D: x,y) or in space (3D: x,y,z).
 <a name="is.vision.ColorSpaces"/>
 
 ### ColorSpaces
-
+List of color spaces
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| RGB | 0 | Red Green Blue |
-| GRAY | 1 | Grayscale |
-| YCbCr | 2 |  |
-| HSV | 3 | Hue Saturation Value |
+| RGB | 0 | Red, Green, Blue. |
+| GRAY | 1 | Grayscale. |
+| YCbCr | 2 | Luma, Blue-Difference, Red-Difference. |
+| HSV | 3 | Hue, Saturation, Value. |
 
 
 
 <a name="is.vision.HumanKeypoints"/>
 
 ### HumanKeypoints
-Models keypoints present in the human body
+Models keypoints present in the human body.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
@@ -820,7 +838,7 @@ Models keypoints present in the human body
 <a name="is.vision.ImageFormats"/>
 
 ### ImageFormats
-
+List of image formats.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |

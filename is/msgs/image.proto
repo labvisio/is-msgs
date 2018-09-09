@@ -9,121 +9,144 @@ import "google/protobuf/wrappers.proto";
 import "is/msgs/common.proto";
 import "is/msgs/validate.proto";
 
+/* Message representing an Image. The image content can be either sent embedded on this message
+or referenced as an external resource. */
 message Image {
   oneof content {
-    bytes data = 1; // Image content, represented as a stream of bytes. 
-    string uri = 2; // External image source
+    /* Image content, represented as a stream of bytes in well known image
+       [formats](#is.image.ImageFormat). */
+    bytes data = 1;
+    // URI to external image source.
+    string uri = 2;
   }
 }
 
+// List of image formats.
 enum ImageFormats {
   PNG = 0;
   JPEG = 1;
   WebP = 2;
 }
 
+//
 message ImageFormat {
-  ImageFormats format = 1; // Image compression algorithm
-  google.protobuf.FloatValue compression = 2; // Image compression level
+  // Image compression algorithm.
+  ImageFormats format = 1;
+  // Image compression level.
+  google.protobuf.FloatValue compression = 2;
 }
 
 // A vertex represents a point in the image (2D: x,y) or in space (3D: x,y,z).
 message Vertex {
   // X coordinate.
-  float x = 1; 
+  float x = 1;
   // Y coordinate.
-  float y = 2; 
+  float y = 2;
   // Z coordinate.
-  float z = 3; 
+  float z = 3;
 }
 
-/* Sequence of vertices modelling a polygon. */
+// Sequence of vertices modelling a polygon.
 message BoundingPoly {
   // The polygon vertices.
   repeated Vertex vertices = 1;
 }
 
+// Models the resolution of an image, that is the number of pixels in an image.
 message Resolution {
+  // Number of vertical pixels.
   uint32 height = 1;
+  // Number of horizontal pixels.
   uint32 width = 2;
 }
 
+// List of color spaces
 enum ColorSpaces {
-  RGB = 0; // Red Green Blue
-  GRAY = 1; // Grayscale
-  YCbCr = 2; // 
-  HSV = 3; // Hue Saturation Value
+  // Red, Green, Blue.
+  RGB = 0;
+  // Grayscale.
+  GRAY = 1;
+  // Luma, Blue-Difference, Red-Difference.
+  YCbCr = 2;
+  // Hue, Saturation, Value.
+  HSV = 3;
 }
 
 message ColorSpace {
+  // Color space value.
   ColorSpaces value = 1;
 }
 
 message ImageSettings {
-  Resolution resolution = 1; // Image resolution (height, width)
-  ImageFormat format = 2; // Image serialization format. e.g: PNG
-  ColorSpace color_space = 3; // Color space  
-  
+  // Image resolution (height, width).
+  Resolution resolution = 1;
+
+  // Image compression details. e.g: PNG.
+  ImageFormat format = 2;
+
+  // Color space.
+  ColorSpace color_space = 3;
+
   /* Bounding poly defining the region of interest in the image.
      This region is usually represented as a rectangle modelled by
-     the TopLeft and BottomRight vertices */
+     the TopLeft and BottomRight vertices. */
   BoundingPoly region = 4;
 }
 
-/* Models an annotation on a point (in an image or in space) */
+/* Models an annotation on a point (in an image or in space). */
 message PointAnnotation {
-  /* Id of the keypoint being annotated, usually comes from an enumeration, 
-     e.g: [HumanKeypoints](#is.image.HumanKeypoints) */
-  int64 id = 1; 
+  /* Id of the keypoint being annotated, usually comes from an enumeration,
+     e.g: [HumanKeypoints](#is.vision.HumanKeypoints). */
+  int64 id = 1;
 
-  /* Represents how sure the annotator thinks that a keypoint of 
-    the specified type exists on the given position */
+  /* Represents how sure the annotator thinks that a keypoint of
+    the specified type exists on the given position. */
   float score = 2 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
 
-  /* Position of the keypoint. Represented by (x,y) on images and (x,y,z) on spaces */
+  // Position of the keypoint. Represented by (x,y) on images and (x,y,z) on spaces.
   Vertex position = 3;
 }
 
-/* Models an annotation on an object (in an image or in space) */
+/* Models an annotation on an object (in an image or in space). */
 message ObjectAnnotation {
-  /* Label that identifies in human language the object in the annotated 
+  /* Label that identifies in human language the object in the annotated
      region. e.g: human, dog, computer, etc. */
-  string label = 1; 
+  string label = 1;
 
-  /* Number that identifies the object in the annotated region, 
+  /* Number that identifies the object in the annotated region,
      usually comes from an enumeration. */
-  int64 id = 2; 
- 
-  /* Represents how sure the annotator thinks that an object of 
-     the specified type exists on the region */
+  int64 id = 2;
+
+  /* Represents how sure the annotator thinks that an object of
+     the specified type exists on the region. */
   float score = 3 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
 
   /* Identifies the region in the image/space where the object is contained
-     NOTE: When defined on an image the vertex coordinates are in the same scale 
+     NOTE: When defined on an image the vertex coordinates are in the same scale
      (resolution) as the original image. */
   BoundingPoly region = 4;
 
   /* Annotations of interesting points in the image. e.g: Hip, Nose, Eye.
-     NOTE: When defined on an image the vertex coordinates are in the same scale 
+     NOTE: When defined on an image the vertex coordinates are in the same scale
      (resolution) as the original image. */
   repeated PointAnnotation keypoints = 5;
 }
 
 /* Models many annotated objects. (List of objects and their respective annotations).
-  If resolution is present the annotations are assumed to be on an Image, otherwise 
-  they are assumed to be in Space and a proper frame_id must be set */
+  If resolution is present the annotations are assumed to be on an Image, otherwise
+  they are assumed to be in Space and a proper frame_id must be set. */
 message ObjectAnnotations {
-  /* List of objects and their respective annotations */
+  // List of objects and their respective annotations.
   repeated ObjectAnnotation objects = 1;
 
-  /* Original resolution of the image when annotation an image. */
+  // Original resolution of the image when annotation an image.
   Resolution resolution = 2;
 
-  /* Id of the frame of reference used to localize the vertices when annotating objects in space. */
+  // Id of the frame of reference used to localize the vertices when annotating objects in space.
   int64 frame_id = 3;
 }
 
-/* Models keypoints present in the human body */
+/* Models keypoints present in the human body. */
 enum HumanKeypoints {
   UNKNOWN_HUMAN_KEYPOINT = 0;
   HEAD = 1;
@@ -141,10 +164,10 @@ enum HumanKeypoints {
   LEFT_HIP = 13;
   LEFT_KNEE = 14;
   LEFT_ANKLE = 15;
-  RIGHT_EYE = 16; 
-  LEFT_EYE = 17; 
-  RIGHT_EAR = 18; 
-  LEFT_EAR = 19; 
+  RIGHT_EYE = 16;
+  LEFT_EYE = 17;
+  RIGHT_EAR = 18;
+  LEFT_EAR = 19;
   CHEST = 20;
 }
 
