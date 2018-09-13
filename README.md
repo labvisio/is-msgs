@@ -17,10 +17,36 @@ A conan artifact is available in our [bintray repository](https://bintray.com/la
 ## *Javascript / NodeJS* [Help!](https://developers.google.com/protocol-buffers/docs/reference/javascript-generated)
 To use protocol buffers with JavaScript you need the protocol compiler *protoc* download a [pre-built binary on GitHub](https://github.com/google/protobuf/releases).
 
-To generate the javascript files and the bundled/minified version run:
+Install build dependencies and compile .proto schemas to .js files:
 ```shell
 npm install # to get build dependencies
-npm run bundle # to generate js files and minified bundle
+npm run generate # to generate js files
+```
+
+Now to use it on server side (nodejs) simply import and use the generated files, i.e:
+```js
+const common = require("./is/msgs/common_pb.js");
+
+let tensor = new common.Tensor();
+tensor.setDoublesList([1, 2, 3]);
+console.log(tensor.toObject());
+// ...
+```
+
+To use it on the browser, browserify the files by running:
+```shell
+npm run browserify 
+```
+
+Now to use it on the browser, include the browserified bundle, i.e:
+```html
+<script src="is_msgs.js"></script>
+<script>
+  var tensor = new proto.is.msgs.common.Tensor();
+  tensor.setDoublesList([1, 2, 3]);
+  console.log(tensor.toObject());
+</script>
+// ...
 ```
 
 ## *Python* [Help!](https://developers.google.com/protocol-buffers/docs/reference/python-generated)

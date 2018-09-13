@@ -14,7 +14,8 @@
     "uglify-js": "^3.3.27"
   },
   "scripts": {
-    "bundle": "mkdir -p gen_js && protoc --proto_path=. --js_out=import_style=commonjs,binary:gen_js is/msgs/*.proto && node_modules/.bin/browserify gen_js/is/msgs/*.js  --standalone is_msgs > gen_js/is_msgs.js && node_modules/.bin/uglifyjs gen_js/is_msgs.js > gen_js/is_msgs_min.js"
+    "generate": "mkdir -p gen_js && protoc --proto_path=. --js_out=import_style=commonjs,binary:gen_js is/msgs/*.proto",
+    "browserify": "node_modules/.bin/browserify gen_js/is/msgs/*.js > gen_js/is_msgs.js"
   },
   "repository": {
     "type": "git",
