@@ -9,11 +9,11 @@ class IsmsgsConan(ConanFile):
     description = "Repository containing the schema for standard ::is messages"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False], "build_tests": [True, False]}
-    default_options = "shared=False", "fPIC=True", "build_tests=False"
+    default_options = "shared=True", "fPIC=True", "build_tests=False"
     generators = "cmake", "cmake_find_package", "cmake_paths"
     requires = (
         "protobuf/3.6.1@bincrafters/stable",
-        "boost/1.68.0@conan/stable",
+        "boost/1.66.0@conan/stable",
         "fmt/5.1.0@bincrafters/stable",
     )
 
@@ -29,9 +29,9 @@ class IsmsgsConan(ConanFile):
             self.options["opencv"].with_qt = False
 
         if self.options.shared:
-            self.options["boost"].fPIC = True
-            self.options["protobuf"].fPIC = True
-            self.options["fmt"].fPIC = True
+            self.options["boost"].shared = True
+            self.options["protobuf"].shared = True
+            self.options["fmt"].shared = True
 
     def build(self):
         cmake = CMake(self, generator='Ninja')
