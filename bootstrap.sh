@@ -7,13 +7,10 @@ if [[ $EUID != 0 ]]; then
 fi
 
 if [[ $EUID == 0 ]]; then
-  packages=(git build-essential wget python-pip curl python-setuptools autoconf \
-    automake libtool unzip pkg-config ca-certificates nasm sudo)
-  if [ `apt -qq list ${packages[*]} | wc -l` !=  ${#packages[@]} ]; then
-    echo "[$EUID] |>>| installing distro packages: ${packages[*]}"
-    apt update
-    apt install --no-install-recommends -y ${packages[*]} 
-  fi
+  echo "[$EUID] |>>| installing distro packages"
+  apt update
+  apt install --no-install-recommends -y git build-essential wget python3-pip curl python3-setuptools autoconf \
+    automake libtool unzip pkg-config ca-certificates nasm sudo
 
   invalid_cmake_version=false
   if command -v cmake > /dev/null ; then 
@@ -42,7 +39,7 @@ if [[ $EUID == 0 ]]; then
     mv ninja /usr/bin
   fi
 
-  pip install conan --upgrade
+  pip3 install conan --upgrade
 fi
 
 if [[ $EUID != 0 || -z ${wasnt_root} ]]; then

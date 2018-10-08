@@ -1,20 +1,32 @@
 is-msgs
 ==========
 
-Repository containing all the standard protobuf messages definitions for the *is::* framework. 
-Auto generated documentation can be found in the [docs folder](docs/README.md)
+Repository containing all the standard protobuf messages definitions for the *is::* framework. The .proto definitions are used to generate code in other programming languages. In order to use that generated code you need to know the conventions for your language of choice:
+  - [C++](https://developers.google.com/protocol-buffers/docs/reference/cpp-generated)
+  - [Javascript/ NodeJS](https://developers.google.com/protocol-buffers/docs/reference/javascript-generated)
+  - [Python](https://developers.google.com/protocol-buffers/docs/reference/python-generated)
 
-## *C++* [Help!](https://developers.google.com/protocol-buffers/docs/reference/cpp-generated)
+Documentation for the messages and their fields can be found in the [docs folder](docs/README.md).
+
+## *C++*
 ##### BUILDING FROM SOURCE 
-To build this library from source first run the bootstrap script to get build dependencies, then run the build script. - 
+To build this library from source first run the bootstrap script to get build dependencies, then run the build script. 
 ```shell
 ./bootstrap.sh # to get build dependencies
 ./build.sh # to build library
 ```
-##### USING CONAN PACKAGE MANAGER
-A conan artifact is available in our [bintray repository](https://bintray.com/labviros/is/is-msgs%3Ais)
+##### CONAN PACKAGE
+A conan artifact is available in our [bintray repository](https://bintray.com/labviros/is/is-msgs%3Ais).
 
-## *Javascript / NodeJS* [Help!](https://developers.google.com/protocol-buffers/docs/reference/javascript-generated)
+##### USAGE
+
+```c++
+#include <is/msgs/common.pb.h>
+
+is::common::Tensor tensor;
+```
+
+## *Javascript / NodeJS*
 To use protocol buffers with JavaScript you need the protocol compiler *protoc* download a [pre-built binary on GitHub](https://github.com/google/protobuf/releases).
 
 Install build dependencies and compile .proto schemas to .js files:
@@ -49,7 +61,7 @@ Now to use it on the browser, include the browserified bundle, i.e:
 // ...
 ```
 
-## *Python* [Help!](https://developers.google.com/protocol-buffers/docs/reference/python-generated)
+## *Python* 
 To use protocol buffers with Python, simply run:
 
 ```shell

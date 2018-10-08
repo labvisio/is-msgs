@@ -1,9 +1,7 @@
 #!/bin/bash
 
-project_dir=$PWD
-
 set -e
 
-mkdir -p $project_dir/build && cd $project_dir/build
+mkdir -p build && cd build
 conan install .. -s compiler.libcxx=libstdc++11 --build=missing -o is-msgs:build_tests=True
 conan build ..

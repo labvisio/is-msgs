@@ -13,7 +13,7 @@ class IsmsgsConan(ConanFile):
     generators = "cmake", "cmake_find_package", "cmake_paths"
     requires = (
         "protobuf/3.6.1@bincrafters/stable",
-        "boost/[>=1.65]@conan/stable",
+        "boost/1.68.0@conan/stable",
         "fmt/5.1.0@bincrafters/stable",
     )
 
