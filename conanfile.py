@@ -33,14 +33,22 @@ class IsmsgsConan(ConanFile):
             self.options["protobuf"].shared = True
             self.options["fmt"].shared = True
 
-    def build(self):
+
+    def configure_cmake(self):
         cmake = CMake(self, generator='Ninja')
         cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = self.options.fPIC
         cmake.definitions["enable_tests"] = self.options.build_tests
         cmake.configure()
+        return cmake 
+
+    def build(self):
+        cmake = self.configure_cmake()
         cmake.build()
         if self.options.build_tests:
             cmake.test()
+
+    def package(self):
+        cmake = self.configure_cmake()
         cmake.install()
 
     def package_info(self):
