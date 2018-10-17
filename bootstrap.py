@@ -27,7 +27,7 @@ class MyZipFile(zipfile.ZipFile):
 ''' 
     Download protoc
 '''
-protoc_version = '3.5.1'
+protoc_version = '3.6.0'
 protoc_zip_file = 'protoc-{}-linux-x86_64.zip'.format(protoc_version)
 protoc_git_url = 'https://github.com/google/protobuf/releases/download/v{}/{}'
 if not os.path.exists(protoc_zip_file):
