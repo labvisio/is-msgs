@@ -6,24 +6,24 @@ option java_package = "com.is.robot";
 option java_multiple_files = true;
 
 import "is/msgs/common.proto";
+import "google/protobuf/timestamp.proto";
 
 // Define messages for the robot gateway and controller services
 
-message RobotConfig {
-  common.Speed speed = 1;
-}
+message RobotConfig { common.Speed speed = 1; }
 
-message FinalPoseTask {
-  common.Pose goal = 1;
-}
+message FinalPoseTask { common.Pose goal = 1; }
 
-message PathTask {
-  repeated common.Position positions = 1;
-}
+message PathTask { repeated common.Position positions = 1; }
 
 message TrajectoryTask {
   repeated common.Position positions = 1;
   repeated common.Speed speeds = 2;
+}
+
+message RangeScan {
+  repeated float angles = 1;
+  repeated float ranges = 2;
 }
 
 message RobotTask {
@@ -32,16 +32,28 @@ message RobotTask {
     PathTask path = 2;
     TrajectoryTask trajectory = 3;
   }
-  // Ratio indicating the allowed error in the positioning algorithm
+  // Ratio indicating the allowed error in the positioning algorithm.
   float allowed_error = 14;
-  common.SamplingSettings sampling = 15;
+  // Controller loop frequency in hertz.
+  float rate = 15;
 }
 
 message RobotControllerProgress {
+  // Speed command sent to the robot in order to make the current pose equals to
+  // the desired one.
   common.Speed current_speed = 1;
+  // Pose where the robot actually is.
   common.Pose current_pose = 2;
+  // Pose where the robot should be now.
   common.Pose desired_pose = 3;
+  // Robot positioning error for the current task.
   float error = 4;
-  bool done = 5;
-  int32 sources = 6;
+  // Percentage indicating how much of the task has been completed yet.
+  float completion = 5;
+  // Sources used to locate the robot.
+  repeated string sources = 6;
+  // Timestamp of when the task started.
+  google.protobuf.Timestamp begin = 7;
+  // Timestamp of when the task finished.
+  google.protobuf.Timestamp end = 8;
 }
