@@ -75,6 +75,7 @@
 - [is/msgs/robot.proto](#is/msgs/robot.proto)
     - [FinalPoseTask](#is.robot.FinalPoseTask)
     - [PathTask](#is.robot.PathTask)
+    - [RangeScan](#is.robot.RangeScan)
     - [RobotConfig](#is.robot.RobotConfig)
     - [RobotControllerProgress](#is.robot.RobotControllerProgress)
     - [RobotTask](#is.robot.RobotTask)
@@ -972,6 +973,22 @@ List of image formats.
 
 
 
+<a name="is.robot.RangeScan"/>
+
+### RangeScan
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| angles | [float](#float) | repeated |  |
+| ranges | [float](#float) | repeated |  |
+
+
+
+
+
+
 <a name="is.robot.RobotConfig"/>
 
 ### RobotConfig
@@ -995,12 +1012,14 @@ List of image formats.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| current_speed | [is.common.Speed](#is.common.Speed) |  |  |
-| current_pose | [is.common.Pose](#is.common.Pose) |  |  |
-| desired_pose | [is.common.Pose](#is.common.Pose) |  |  |
-| error | [float](#float) |  |  |
-| done | [bool](#bool) |  |  |
-| sources | [int32](#int32) |  |  |
+| current_speed | [is.common.Speed](#is.common.Speed) |  | Speed command sent to the robot in order to make the current pose equals to the desired one. |
+| current_pose | [is.common.Pose](#is.common.Pose) |  | Pose where the robot actually is. |
+| desired_pose | [is.common.Pose](#is.common.Pose) |  | Pose where the robot should be now. |
+| error | [float](#float) |  | Robot positioning error for the current task. |
+| completion | [float](#float) |  | Percentage indicating how much of the task has been completed yet. |
+| sources | [string](#string) | repeated | Sources used to locate the robot. |
+| begin | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp of when the task started. |
+| end | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp of when the task finished. |
 
 
 
@@ -1018,8 +1037,8 @@ List of image formats.
 | pose | [FinalPoseTask](#is.robot.FinalPoseTask) |  |  |
 | path | [PathTask](#is.robot.PathTask) |  |  |
 | trajectory | [TrajectoryTask](#is.robot.TrajectoryTask) |  |  |
-| allowed_error | [float](#float) |  | Ratio indicating the allowed error in the positioning algorithm |
-| sampling | [is.common.SamplingSettings](#is.common.SamplingSettings) |  |  |
+| allowed_error | [float](#float) |  | Ratio indicating the allowed error in the positioning algorithm. |
+| rate | [float](#float) |  | Controller loop frequency in hertz. |
 
 
 
