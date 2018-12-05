@@ -73,13 +73,12 @@
   
 
 - [is/msgs/robot.proto](#is/msgs/robot.proto)
-    - [FinalPoseTask](#is.robot.FinalPoseTask)
-    - [PathTask](#is.robot.PathTask)
+    - [BasicMoveTask](#is.robot.BasicMoveTask)
     - [RangeScan](#is.robot.RangeScan)
     - [RobotConfig](#is.robot.RobotConfig)
     - [RobotControllerProgress](#is.robot.RobotControllerProgress)
-    - [RobotTask](#is.robot.RobotTask)
-    - [TrajectoryTask](#is.robot.TrajectoryTask)
+    - [RobotTaskReply](#is.robot.RobotTaskReply)
+    - [RobotTaskRequest](#is.robot.RobotTaskRequest)
   
   
   
@@ -943,30 +942,19 @@ List of image formats.
 
 
 
-<a name="is.robot.FinalPoseTask"/>
+<a name="is.robot.BasicMoveTask"/>
 
-### FinalPoseTask
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| goal | [is.common.Pose](#is.common.Pose) |  |  |
-
-
-
-
-
-
-<a name="is.robot.PathTask"/>
-
-### PathTask
+### BasicMoveTask
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| positions | [is.common.Position](#is.common.Position) | repeated |  |
+| positions | [is.common.Position](#is.common.Position) | repeated | (Optional) List of positions indicating the desired path. |
+| speeds | [is.common.Speed](#is.common.Speed) | repeated | (Optional) List of speeds to be executed at each respective position of a trajectory. If present, should have the same size as the positions field. |
+| final_orientation | [is.common.Orientation](#is.common.Orientation) |  | (Optional) Desired orientation of the robot after finishing the task. |
+| allowed_error | [float](#float) |  | (Required) Error value where the controller can consider that the point was reached successfully. |
+| rate | [float](#float) |  | (Required) Controller loop frequency in hertz. |
 
 
 
@@ -1012,6 +1000,7 @@ List of image formats.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  | Unique identifier of the task. |
 | current_speed | [is.common.Speed](#is.common.Speed) |  | Speed command sent to the robot in order to make the current pose equals to the desired one. |
 | current_pose | [is.common.Pose](#is.common.Pose) |  | Pose where the robot actually is. |
 | desired_pose | [is.common.Pose](#is.common.Pose) |  | Pose where the robot should be now. |
@@ -1026,35 +1015,31 @@ List of image formats.
 
 
 
-<a name="is.robot.RobotTask"/>
+<a name="is.robot.RobotTaskReply"/>
 
-### RobotTask
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| pose | [FinalPoseTask](#is.robot.FinalPoseTask) |  |  |
-| path | [PathTask](#is.robot.PathTask) |  |  |
-| trajectory | [TrajectoryTask](#is.robot.TrajectoryTask) |  |  |
-| allowed_error | [float](#float) |  | Ratio indicating the allowed error in the positioning algorithm. |
-| rate | [float](#float) |  | Controller loop frequency in hertz. |
-
-
-
-
-
-
-<a name="is.robot.TrajectoryTask"/>
-
-### TrajectoryTask
+### RobotTaskReply
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| positions | [is.common.Position](#is.common.Position) | repeated |  |
-| speeds | [is.common.Speed](#is.common.Speed) | repeated |  |
+| id | [int64](#int64) |  | Unique identifier of the task. |
+
+
+
+
+
+
+<a name="is.robot.RobotTaskRequest"/>
+
+### RobotTaskRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int64](#int64) |  | (Optional) Task id, if none is provided one will be generated. |
+| basic_move_task | [BasicMoveTask](#is.robot.BasicMoveTask) |  |  |
 
 
 

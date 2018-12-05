@@ -10,35 +10,44 @@ import "google/protobuf/timestamp.proto";
 
 // Define messages for the robot gateway and controller services
 
-message RobotConfig { common.Speed speed = 1; }
-
-message FinalPoseTask { common.Pose goal = 1; }
-
-message PathTask { repeated common.Position positions = 1; }
-
-message TrajectoryTask {
-  repeated common.Position positions = 1;
-  repeated common.Speed speeds = 2;
-}
-
 message RangeScan {
   repeated float angles = 1;
   repeated float ranges = 2;
 }
 
-message RobotTask {
-  oneof Task {
-    FinalPoseTask pose = 1;
-    PathTask path = 2;
-    TrajectoryTask trajectory = 3;
-  }
-  // Ratio indicating the allowed error in the positioning algorithm.
-  float allowed_error = 14;
-  // Controller loop frequency in hertz.
-  float rate = 15;
+message RobotConfig { common.Speed speed = 1; }
+
+message BasicMoveTask {
+  // (Optional) List of positions indicating the desired path.
+  repeated common.Position positions = 1;
+  /* (Optional) List of speeds to be executed at each respective position of a
+   * trajectory. If present, should have the same size as the positions field.
+   */
+  repeated common.Speed speeds = 2;
+  // (Optional) Desired orientation of the robot after finishing the task.
+  common.Orientation final_orientation = 3;
+  /* (Required) Error value where the controller can consider that the point was
+   * reached successfully. */
+  float allowed_error = 4;
+  // (Required) Controller loop frequency in hertz.
+  float rate = 5;
+}
+
+message RobotTaskRequest {
+  // (Optional) Task id, if none is provided one will be generated.
+  int64 id = 1;
+
+  oneof Task { BasicMoveTask basic_move_task = 2; }
+}
+
+message RobotTaskReply {
+  // Unique identifier of the task.
+  int64 id = 1;
 }
 
 message RobotControllerProgress {
+  // Unique identifier of the task.
+  int64 id = 9;
   // Speed command sent to the robot in order to make the current pose equals to
   // the desired one.
   common.Speed current_speed = 1;
