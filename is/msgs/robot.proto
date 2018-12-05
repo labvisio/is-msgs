@@ -35,19 +35,19 @@ message BasicMoveTask {
 
 message RobotTaskRequest {
   // (Optional) Task id, if none is provided one will be generated.
-  int64 id = 1;
+  uint64 id = 1;
 
   oneof Task { BasicMoveTask basic_move_task = 2; }
 }
 
 message RobotTaskReply {
   // Unique identifier of the task.
-  int64 id = 1;
+  uint64 id = 1;
 }
 
 message RobotControllerProgress {
   // Unique identifier of the task.
-  int64 id = 9;
+  uint64 id = 9;
   // Speed command sent to the robot in order to make the current pose equals to
   // the desired one.
   common.Speed current_speed = 1;
