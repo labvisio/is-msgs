@@ -28,11 +28,9 @@ class IsmsgsConan(ConanFile):
         if self.options.build_tests:
             self.options["opencv"].with_qt = False
 
-        if self.options.shared:
-            self.options["boost"].shared = True
-            self.options["protobuf"].shared = True
-            self.options["fmt"].shared = True
-
+        self.options["boost"].shared = self.options.shared 
+        self.options["protobuf"].shared = self.options.shared 
+        self.options["fmt"].shared = self.options.shared 
 
     def configure_cmake(self):
         cmake = CMake(self, generator='Ninja')

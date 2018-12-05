@@ -1000,7 +1000,7 @@ List of image formats.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | Unique identifier of the task. |
+| id | [uint64](#uint64) |  | Unique identifier of the task. |
 | current_speed | [is.common.Speed](#is.common.Speed) |  | Speed command sent to the robot in order to make the current pose equals to the desired one. |
 | current_pose | [is.common.Pose](#is.common.Pose) |  | Pose where the robot actually is. |
 | desired_pose | [is.common.Pose](#is.common.Pose) |  | Pose where the robot should be now. |
@@ -1023,7 +1023,7 @@ List of image formats.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | Unique identifier of the task. |
+| id | [uint64](#uint64) |  | Unique identifier of the task. |
 
 
 
@@ -1038,7 +1038,7 @@ List of image formats.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | (Optional) Task id, if none is provided one will be generated. |
+| id | [uint64](#uint64) |  | (Optional) Task id, if none is provided one will be generated. |
 | basic_move_task | [BasicMoveTask](#is.robot.BasicMoveTask) |  |  |
 
 
