@@ -43,6 +43,8 @@ message CameraConfig {
   ImageSettings image = 2;
   // Internal camera parameters.
   CameraSettings camera = 3;
+  // Stream parameter
+  google.protobuf.Int64Value stream_channel_id = 4;
 }
 
 /* Request selector/filter for CameraSettings. Used to select what fields
@@ -57,6 +59,8 @@ enum CameraConfigFields {
   IMAGE_SETTINGS = 2;
   // Fill camera settings.
   CAMERA_SETTINGS  = 3; 
+  // Fill stream channel settings
+  STREAM_CHANNEL_ID = 4;
 }
 
 // Models the calibration parameters of a camera.
