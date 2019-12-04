@@ -188,6 +188,7 @@ Camera parameters.
 | sampling | [is.common.SamplingSettings](#is.common.SamplingSettings) |  | Sampling parameters. |
 | image | [ImageSettings](#is.vision.ImageSettings) |  | Image parameters. |
 | camera | [CameraSettings](#is.vision.CameraSettings) |  | Internal camera parameters. |
+| stream_channel_id | [google.protobuf.Int64Value](#google.protobuf.Int64Value) |  | Stream parameter |
 
 
 
@@ -361,6 +362,7 @@ See [FieldSelector](#is.common.FieldSelector) for more information.
 | SAMPLING_SETTINGS | 1 | Fill sampling settings. |
 | IMAGE_SETTINGS | 2 | Fill image settings. |
 | CAMERA_SETTINGS | 3 | Fill camera settings. |
+| STREAM_CHANNEL_ID | 4 | Fill stream channel settings |
 
 
  

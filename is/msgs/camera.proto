@@ -9,6 +9,7 @@ import "is/msgs/common.proto";
 import "is/msgs/image.proto";
 import "is/msgs/validate.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 // Define messages for the camera gateway and calibration services
 
