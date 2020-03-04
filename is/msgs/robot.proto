@@ -66,3 +66,10 @@ message RobotControllerProgress {
   // Timestamp of when the task finished.
   google.protobuf.Timestamp end = 8;
 }
+
+message PathRequest{
+  // Unique identifier of the request.
+  uint64 id = 1;
+  // Destination pose.
+  common.Pose destination_pose = 2;
+}
