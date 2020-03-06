@@ -73,5 +73,5 @@ message PathRequest{
   // Destination pose.
   common.Pose destination_pose = 2;
   // Robot Gateway ID.
-  uint64 robot_gateway_id = 1;
+  uint64 robot_gateway_id = 3;
 }
