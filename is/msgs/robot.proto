@@ -78,8 +78,8 @@ message PathRequest{
   uint64 robot_gateway_id = 3;
 
   // Robot Task Rate.
-  uint64 robot_task_rate = 4;
+  float rate = 4;
   
   // Robot Task Allowed Error.
-  uint64 robot_task_allowed_error = 5;
+  float allowed_error = 5;
 }
