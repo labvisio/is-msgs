@@ -96,3 +96,12 @@ message ConsumerList {
   // Consumer Information for each topic.
   map<string, ConsumerInfo> info = 1;
 }
+
+message Phrase {
+  // List of words.
+  repeated string content = 1;
+  // Confidence of recognized phrase.
+  float confidence = 2;
+  // Identifies language using Locale Name pattern.
+  string language = 3;
+}

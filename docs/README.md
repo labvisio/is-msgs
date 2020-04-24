@@ -29,6 +29,7 @@
     - [ConsumerList.InfoEntry](#is.common.ConsumerList.InfoEntry)
     - [FieldSelector](#is.common.FieldSelector)
     - [Orientation](#is.common.Orientation)
+    - [Phrase](#is.common.Phrase)
     - [Pose](#is.common.Pose)
     - [Position](#is.common.Position)
     - [SamplingSettings](#is.common.SamplingSettings)
@@ -453,6 +454,22 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC.
 | pitch | [float](#float) |  | Rotation around y. |
 | roll | [float](#float) |  | Rotation around z. |
 
+
+
+
+
+
+<a name="is.common.Phrase"/>
+
+### Phrase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| content | [Position](#is.common.Position) | repeated | List of words. |
+| confidence | [float](#float) |  | Confidence of recognized phrase. |
+| language | [string](#string) |  | Identifies language using Locale Name pattern. |
 
 
 
