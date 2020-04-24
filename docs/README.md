@@ -467,7 +467,7 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| content | [Position](#is.common.Position) | repeated | List of words. |
+| content | [string](#string) | repeated | List of words. |
 | confidence | [float](#float) |  | Confidence of recognized phrase. |
 | language | [string](#string) |  | Identifies language using Locale Name pattern. |
 
