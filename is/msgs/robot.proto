@@ -74,12 +74,15 @@ message PathRequest{
   // Destination pose.
   common.Pose destination_pose = 2;
 
+  // Aruco ID.
+  uint64 aruco_id = 3;
+
   // Robot Gateway ID.
-  uint64 robot_gateway_id = 3;
+  uint64 robot_gateway_id = 4;
 
   // Robot Task Rate.
-  float rate = 4;
+  float rate = 5;
   
   // Robot Task Allowed Error.
-  float allowed_error = 5;
+  float allowed_error = 6;
 }
