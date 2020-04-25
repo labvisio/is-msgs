@@ -75,6 +75,7 @@
 
 - [is/msgs/robot.proto](#is/msgs/robot.proto)
     - [BasicMoveTask](#is.robot.BasicMoveTask)
+    - [PathRequest](#is.robot.PathRequest)
     - [RangeScan](#is.robot.RangeScan)
     - [RobotConfig](#is.robot.RobotConfig)
     - [RobotControllerProgress](#is.robot.RobotControllerProgress)
@@ -470,6 +471,7 @@ Used to select the desired fields of a message on a &#34;Get&#34; RPC.
 | content | [string](#string) | repeated | List of words. |
 | confidence | [float](#float) |  | Confidence of recognized phrase. |
 | language | [string](#string) |  | Identifies language using Locale Name pattern. |
+
 
 
 
@@ -974,6 +976,25 @@ List of image formats.
 | final_orientation | [is.common.Orientation](#is.common.Orientation) |  | (Optional) Desired orientation of the robot after finishing the task. |
 | allowed_error | [float](#float) |  | (Required) Error value where the controller can consider that the point was reached successfully. |
 | rate | [float](#float) |  | (Required) Controller loop frequency in hertz. |
+
+
+
+
+
+
+<a name="is.robot.PathRequest"/>
+
+### PathRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [uint64](#uint64) |  | Unique identifier of the request. |
+| destination_pose | [is.common.Pose](#is.common.Pose) |  | Destination pose. |
+| robot_gateway_id | [uint64](#uint64) |  | Robot Gateway ID. |
+| rate | [float](#float) |  | Robot Task Rate. |
+| allowed_error | [float](#float) |  | Robot Task Allowed Error. |
 
 
 

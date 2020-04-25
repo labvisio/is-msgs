@@ -11,14 +11,17 @@ gen_*/
 /dist/
 
 # Python egg metadata, regenerated from source files by setuptools.
+/src/python/*.egg-info
+/src/python/*.egg
 /*.egg-info
 /*.egg
+/.egg*
 
 # Protoc files
 protoc*.zip
 protoc/
+protoc-gen-doc*
 
 # is_msgs python package
 is_msgs/
 
-docs/protoc-gen-doc

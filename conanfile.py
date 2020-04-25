@@ -28,6 +28,8 @@ class IsmsgsConan(ConanFile):
     def configure(self):
         if self.options.build_tests:
             self.options["opencv"].with_qt = False
+            self.options["opencv"].shared = True
+            self.options["opencv"].with_zlib = False
 
         self.options["boost"].shared = self.options.shared 
         self.options["protobuf"].shared = self.options.shared 

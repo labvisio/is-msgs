@@ -85,3 +85,41 @@ You can build using:
 ```shell
 python -m is_msgs.utils.build <LIST_OF_PROTO_FILES>
 ```
+
+## Releasing new versions
+---
+
+First of all, bumps the version on the `.version` file following the pattern `^[0-9]+\.[0-9]+\.[0-9]+$`.
+
+#### Post release steps
+
+After release `is_msgs` in any programing language, the protobuf's documentation available `docs/README.md` file will be automatically updated. Remember to commit and push those changes, as well as creates a tag on git related to the new version. To do so, run the following commands:
+
+```shell
+git tag v$(cat .version)
+git push origin v$(cat .version)
+```
+
+### Python
+
+It's important to test your package before release it. You can do that installing it locally running the command bellow. It's recommended to use virtual environments.
+
+```shell
+python setup.py install --user
+```
+
+Ensure that the new features added are working properly. Afterwards, you'll need do build a tarball file with package's content.
+
+```shell
+python setup.py sdist
+```
+
+A `.tar.gz` file will be created on `dist/` folder, containing the version on its name. Now, use the `twine` tool to send you package to `PyPi`. Username and password will be required.
+
+```shell
+twine upload dist/is_msgs-$(cat .version).tar.gz
+```
+
+### C++
+
+> Under construction
