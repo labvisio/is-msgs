@@ -36,6 +36,13 @@ message CameraSettings {
   CameraSetting zoom = 13;
 }
 
+message PTZControl {
+  // Absolute position
+  is.common.Position absolute = 1;
+  // Relative position using steps
+  is.common.Position step = 2;
+}
+
 // Camera parameters.
 message CameraConfig {
   // Sampling parameters.
@@ -44,8 +51,12 @@ message CameraConfig {
   ImageSettings image = 2;
   // Internal camera parameters.
   CameraSettings camera = 3;
-  // Stream parameter
-  google.protobuf.Int64Value stream_channel_id = 4;
+  // Stream Channel parameter
+  google.protobuf.Int32Value stream_channel_id = 4;
+  // Channel Parameter
+  google.protobuf.Int32Value channel_id = 5;
+  // Camera PTZ control parameters.
+  PTZControl ptzcontrol = 6;
 }
 
 /* Request selector/filter for CameraSettings. Used to select what fields
@@ -62,6 +73,10 @@ enum CameraConfigFields {
   CAMERA_SETTINGS  = 3; 
   // Fill stream channel settings
   STREAM_CHANNEL_ID = 4;
+  // Fill camera channel settings
+  CHANNEL_ID = 5;
+  // Fill camera control settings
+  PTZCONTROL_SETTINGS = 6;
 }
 
 // Models the calibration parameters of a camera.
