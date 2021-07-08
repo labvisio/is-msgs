@@ -17,6 +17,7 @@
     - [GetTransformationReply](#is.vision.GetTransformationReply)
     - [GetTransformationRequest](#is.vision.GetTransformationRequest)
     - [IdPair](#is.vision.IdPair)
+    - [PTZControl](#is.vision.PTZControl)
   
     - [CameraConfigFields](#is.vision.CameraConfigFields)
   
@@ -190,7 +191,9 @@ Camera parameters.
 | sampling | [is.common.SamplingSettings](#is.common.SamplingSettings) |  | Sampling parameters. |
 | image | [ImageSettings](#is.vision.ImageSettings) |  | Image parameters. |
 | camera | [CameraSettings](#is.vision.CameraSettings) |  | Internal camera parameters. |
-| stream_channel_id | [google.protobuf.Int64Value](#google.protobuf.Int64Value) |  | Stream parameter |
+| stream_channel_id | [google.protobuf.Int32Value](#google.protobuf.Int32Value) |  | Stream Channel parameter |
+| channel_id | [google.protobuf.Int32Value](#google.protobuf.Int32Value) |  | Channel Parameter |
+| ptzcontrol | [PTZControl](#is.vision.PTZControl) |  | Camera PTZ control parameters. |
 
 
 
@@ -348,6 +351,22 @@ Represent the tranformation between two coordinate systems.
 
 
 
+
+<a name="is.vision.PTZControl"/>
+
+### PTZControl
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| absolute | [is.common.Position](#is.common.Position) |  | Absolute position |
+| step | [is.common.Position](#is.common.Position) |  | Relative position using steps |
+
+
+
+
+
  
 
 
@@ -365,6 +384,8 @@ See [FieldSelector](#is.common.FieldSelector) for more information.
 | IMAGE_SETTINGS | 2 | Fill image settings. |
 | CAMERA_SETTINGS | 3 | Fill camera settings. |
 | STREAM_CHANNEL_ID | 4 | Fill stream channel settings |
+| CHANNEL_ID | 5 | Fill camera channel settings |
+| PTZCONTROL_SETTINGS | 6 | Fill camera control settings |
 
 
  

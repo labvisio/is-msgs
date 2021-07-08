@@ -179,13 +179,15 @@ class ProtobufDocumentation():
         download_protoc_gen_doc()
 
     def build(self):
+        proto_files_path = os.path.join(PROTO_DIR, 'is/msgs/')
+        proto_files_path += "*.proto"
         protoc_command = """
         ./protoc/bin/protoc                                         \
             --plugin=protoc-gen-doc=./protoc-gen-doc/protoc-gen-doc \
             --doc_out=docs/ \
             --doc_opt=markdown,README.md \
             -I./{} \
-            {}""".format(PROTO_DIR, "is/msgs/*.proto")
+            {}""".format(PROTO_DIR, proto_files_path)
         subprocess.call(['bash', '-c', protoc_command])
 
 
