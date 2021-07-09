@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class IsmsgsConan(ConanFile):
     name = "is-msgs"
-    version = "1.1.14"
+    version = "1.1.15"
     license = "MIT"
     url = "https://github.com/labviros/is-msgs"
     description = "Repository containing the schema for standard ::is messages"

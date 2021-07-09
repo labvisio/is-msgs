@@ -130,7 +130,10 @@ class InstallWrapper(install):
         subprocess.call(['bash', '-c', protoc_command])
 
     def _list_proto_files(self):
-        proto_files_path = os.path.join(PROTO_DIR, 'is/msgs')
+        if os.path.exists(PROTO_DIR):
+            proto_files_path = os.path.join(PROTO_DIR, 'is/msgs')
+        else:
+            proto_files_path = os.path.join(PKG_DIR, 'is_msgs')
         protos = [f for f in os.listdir(proto_files_path) if f.endswith('.proto')]
         return protos, proto_files_path
 
@@ -211,6 +214,7 @@ setup(
     package_dir={'': PKG_DIR},
     packages=[PKG_NAME, PKG_NAME + '.utils'],
     package_data={PKG_NAME: ['*.proto']},
+    data_files=[('version',['.version'])],
     zip_safe=False,
     install_requires=['protobuf==3.6.0'],
     long_description_content_type='text/markdown',
