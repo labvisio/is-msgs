@@ -210,6 +210,7 @@ Camera parameters.
 | ----- | ---- | ----- | ----------- |
 | automatic | [bool](#bool) |  | True if the camera should automatically assign this parameter. |
 | ratio | [float](#float) |  | Ratio assigned to the parameter where 0.0 is the lowest value and 1.0 the highest. |
+| option | [string](#string) |  | For use when the camera requires a string type parameter. |
 
 
 
@@ -237,6 +238,7 @@ Camera parameters.
 | white_balance_bu | [CameraSetting](#is.vision.CameraSetting) |  |  |
 | white_balance_rv | [CameraSetting](#is.vision.CameraSetting) |  |  |
 | zoom | [CameraSetting](#is.vision.CameraSetting) |  |  |
+| contrast | [CameraSetting](#is.vision.CameraSetting) |  |  |
 
 
 

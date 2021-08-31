@@ -18,6 +18,9 @@ message CameraSetting {
   bool automatic = 1;
   // Ratio assigned to the parameter where 0.0 is the lowest value and 1.0 the highest.
   float ratio = 2 [(validate.rules).float = { gte: 0.0, lte: 1.0 }];
+  // For use when the camera requires a string type parameter.
+  string option = 3;
+
 }
 
 message CameraSettings {
@@ -34,6 +37,7 @@ message CameraSettings {
   CameraSetting white_balance_bu = 11;
   CameraSetting white_balance_rv = 12;
   CameraSetting zoom = 13;
+  CameraSetting contrast = 14;
 }
 
 message PTZControl {
