@@ -23,5 +23,9 @@ protoc/
 protoc-gen-doc*
 
 # is_msgs python package
-is_msgs/
-
+src/python/is_msgs/*
+!src/python/is_msgs/__init__.py
+!src/python/is_msgs/utils
+src/python/is_msgs/utils/*
+!src/python/is_msgs/utils/__init__.py
+!src/python/is_msgs/utils/build.py

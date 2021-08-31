@@ -1,8 +1,9 @@
 import os
+import sys
 import re
 import shutil
 import subprocess
-import requests
+import urllib.request
 import zipfile
 import tarfile
 
@@ -12,20 +13,24 @@ from setuptools.command.install import install
 from setuptools.command.sdist import sdist
 from setuptools import setup, find_packages
 
+
+
 PKG_DIR = 'src/python'
 PKG_NAME = 'is_msgs'
 PROTO_DIR = 'src/proto'
 PKG_VERSION_PATTERN = r"^[0-9]+\.[0-9]+\.[0-9]+$"
-PKG_VERSION = ''
+PKG_VERSION = '1.1.15'
 
-with open('.version', 'r') as f:
-    version = f.read().strip()
-    if re.match(PKG_VERSION_PATTERN, version) is None:
-        raise RuntimeError(
+if re.match(PKG_VERSION_PATTERN, PKG_VERSION) is None:
+    raise RuntimeError(
             "Package version must matches the pattern '{}'".format(PKG_VERSION_PATTERN))
 
-    PKG_VERSION = version
+major_depencies_list = ['wheel']
 
+for package in major_depencies_list:
+    if not package in sys.modules:
+        python = sys.executable
+        subprocess.check_call([python, '-m', 'pip', 'install', package], stdout=subprocess.DEVNULL)
 
 class MyZipFile(zipfile.ZipFile):
     """
@@ -49,13 +54,7 @@ class MyZipFile(zipfile.ZipFile):
 
 
 def download_file(filename, url):
-    if not os.path.exists(filename):
-        with requests.get(url, stream=True) as r:
-            with open(filename, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=1024):
-                    if chunk:
-                        f.write(chunk)
-
+    urllib.request.urlretrieve(url,filename)
 
 def download_protoc():
 
@@ -214,7 +213,6 @@ setup(
     package_dir={'': PKG_DIR},
     packages=[PKG_NAME, PKG_NAME + '.utils'],
     package_data={PKG_NAME: ['*.proto']},
-    data_files=[('version',['.version'])],
     zip_safe=False,
     install_requires=['protobuf==3.6.0'],
     long_description_content_type='text/markdown',
