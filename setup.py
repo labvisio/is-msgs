@@ -214,7 +214,7 @@ setup(
     packages=[PKG_NAME, PKG_NAME + '.utils'],
     package_data={PKG_NAME: ['*.proto']},
     zip_safe=False,
-    install_requires=['protobuf==3.6.0'],
+    install_requires=['protobuf==3.18.3'],
     long_description_content_type='text/markdown',
     cmdclass={
         'install': InstallWrapper,
