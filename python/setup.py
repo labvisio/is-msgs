@@ -18,7 +18,7 @@ PKG_DIR = '.'
 PKG_NAME = 'is_msgs'
 PROTO_DIR = '../src/'
 PKG_VERSION_PATTERN = r"^[0-9]+\.[0-9]+\.[0-9]+$"
-PKG_VERSION = '1.1.16'
+PKG_VERSION = '1.1.18'
 
 if re.match(PKG_VERSION_PATTERN, PKG_VERSION) is None:
     raise RuntimeError(
