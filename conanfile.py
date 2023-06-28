@@ -30,7 +30,7 @@ class IsMsgsConan(ConanFile):
         return r"^[0-9]+\.[0-9]+\.[0-9]+$"
 
     def set_version(self):
-        self.version = load(self, ".version")
+        self.version = load(self, ".version").strip()
         if re.match(self.version_pattern, self.version) is None:
             raise RuntimeError(
                 f"Package version must matches the pattern '{self.version_pattern}'"
