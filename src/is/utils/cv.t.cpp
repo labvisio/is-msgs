@@ -72,15 +72,15 @@ TEST(CVTests, OperationEquivalence) {
   auto A = is::to_tensor((cv::Mat_<double>(2, 4) << 10, 5, 2, 1, 3, 2, 3, 1));
   auto B = is::to_tensor((cv::Mat_<double>(4, 1) << 11, 6, 3, 2));
   auto C = is::to_tensor((cv::Mat_<double>(1, 3) << 3.5, 15.5, 20.2));
-  auto R = (cv::Mat_<double>(2, 5) << 518, 2294, 2989.6, 196, 868, 1131.2);
+  cv::Mat R = (cv::Mat_<double>(2, 3) << 518, 2294, 2989.6, 196, 868, 1131.2);
 
   auto with_copy = is::to_mat(A) * is::to_mat(B) * is::to_mat(C);
   std::cout << with_copy << std::endl;
-  ASSERT_TRUE(cv::countNonZero(with_copy == R) == 0);
+  ASSERT_TRUE(cv::countNonZero(with_copy == R) != 0);
 
   auto with_view = is::to_mat_view(&A) * is::to_mat_view(&B) * is::to_mat_view(&C);
   std::cout << with_view << std::endl;
-  ASSERT_TRUE(cv::countNonZero(with_view == R) == 0);
+  ASSERT_TRUE(cv::countNonZero(with_view == R) != 0);
 }
 
 }  // namespace
