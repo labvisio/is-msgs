@@ -11,13 +11,12 @@ from distutils.cmd import Command
 from distutils.dir_util import copy_tree, remove_tree
 from setuptools.command.install import install
 from setuptools.command.sdist import sdist
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
-
-PKG_DIR = 'src/python'
+PKG_DIR = '.'
 PKG_NAME = 'is_msgs'
-PROTO_DIR = 'src/proto'
+PROTO_DIR = '../src/'
 PKG_VERSION_PATTERN = r"^[0-9]+\.[0-9]+\.[0-9]+$"
 PKG_VERSION = '1.1.16'
 
@@ -28,15 +27,16 @@ if re.match(PKG_VERSION_PATTERN, PKG_VERSION) is None:
 major_depencies_list = ['wheel']
 
 for package in major_depencies_list:
-    if not package in sys.modules:
+    if package not in sys.modules:
         python = sys.executable
         subprocess.check_call([python, '-m', 'pip', 'install', package], stdout=subprocess.DEVNULL)
 
+
 class MyZipFile(zipfile.ZipFile):
     """
-        Modification necessary to keep execution permission 
-        on files aftar extract *.zip files 
-        
+        Modification necessary to keep execution permission
+        on files aftar extract *.zip files
+
         source: https://stackoverflow.com/questions/39296101/python-zipfile-removes-execute-permissions-from-binaries
     """
 
@@ -49,16 +49,30 @@ class MyZipFile(zipfile.ZipFile):
 
         ret_val = self._extract_member(member, path, pwd)
         attr = member.external_attr >> 16
-        os.chmod(ret_val, attr)
+        if attr != 0:
+            os.chmod(ret_val, attr)
         return ret_val
+
+    def extractall(self, path=None, members=None, pwd=None):
+        if members is None:
+            members = self.namelist()
+
+        if path is None:
+            path = os.getcwd()
+        else:
+            path = os.fspath(path)
+
+        for zipinfo in members:
+            self.extract(zipinfo, path, pwd)
 
 
 def download_file(filename, url):
-    urllib.request.urlretrieve(url,filename)
+    urllib.request.urlretrieve(url, filename)
+
 
 def download_protoc():
 
-    PROTOC_VERSION = '3.6.0'
+    PROTOC_VERSION = '3.20.3'
     PROTOC_ZIP_FILE = 'protoc-{}-linux-x86_64.zip'.format(PROTOC_VERSION)
     PROTOC_BASE_URL = 'https://github.com/google/protobuf/releases/download/v{}/{}'
     PROTOC_URL = PROTOC_BASE_URL.format(PROTOC_VERSION, PROTOC_ZIP_FILE)
@@ -186,7 +200,7 @@ class ProtobufDocumentation():
         protoc_command = """
         ./protoc/bin/protoc                                         \
             --plugin=protoc-gen-doc=./protoc-gen-doc/protoc-gen-doc \
-            --doc_out=docs/ \
+            --doc_out=../docs/ \
             --doc_opt=markdown,README.md \
             -I./{} \
             {}""".format(PROTO_DIR, proto_files_path)
@@ -207,15 +221,26 @@ setup(
     name=PKG_NAME,
     version=PKG_VERSION,
     description='Package with standard IS messages',
-    url='http://github.com/labviros/is-msgs',
-    author='labviros',
+    long_description=open("README.md").read().strip(),
+    long_description_content_type="text/markdown",
+    url='http://github.com/labvisio/is-msgs',
+    author='labvisio',
+    author_email='labvisio.ufes@gmail.com',
     license='MIT',
+    classifiers=[
+        'Intended Audience :: Developers',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3 :: Only',
+    ],
     package_dir={'': PKG_DIR},
     packages=[PKG_NAME, PKG_NAME + '.utils'],
     package_data={PKG_NAME: ['*.proto']},
     zip_safe=False,
-    install_requires=['protobuf==3.6.0'],
-    long_description_content_type='text/markdown',
+    install_requires=['protobuf==3.20.3'],
     cmdclass={
         'install': InstallWrapper,
         'sdist': DistributedWithDocs,

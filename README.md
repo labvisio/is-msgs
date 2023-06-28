@@ -16,7 +16,7 @@ To build this library from source first run the bootstrap script to get build de
 ./build.sh # to build library
 ```
 ##### CONAN PACKAGE
-A conan artifact is available in our [bintray repository](https://bintray.com/labviros/is/is-msgs%3Ais).
+A conan artifact is available in our lab.  **Contact the maintainers to gain access to download from our conan server. It's not public for everyone.**
 
 ##### USAGE
 
@@ -62,32 +62,10 @@ Now to use it on the browser, include the browserified bundle, i.e:
 ```
 
 ## *Python* 
-To use protocol buffers with Python, simply run:
 
-```shell
-pip install --user is-msgs
-```
-
-If your project contains messages using a message from this repository, e.g.:
-
-```protobuf
-syntax = "proto3";
-
-import "is/msgs/common.proto";
-
-message MyMessage {
-  is.common.Pose pose = 1;
-}
-```
-
-You can build using:
-
-```shell
-python -m is_msgs.utils.build <LIST_OF_PROTO_FILES>
-```
+Documentation about the usage of this package in python can be found at [python/README.md](python/README.md#usage).
 
 ## Releasing new versions
----
 
 First of all, bumps the version on the `.version` file following the pattern `^[0-9]+\.[0-9]+\.[0-9]+$`.
 
@@ -102,23 +80,7 @@ git push origin v$(cat .version)
 
 ### Python
 
-It's important to test your package before release it. You can do that installing it locally running the command bellow. It's recommended to use virtual environments.
-
-```shell
-python setup.py install --user
-```
-
-Ensure that the new features added are working properly. Afterwards, you'll need do build a tarball file with package's content.
-
-```shell
-python setup.py sdist
-```
-
-A `.tar.gz` file will be created on `dist/` folder, containing the version on its name. Now, use the `twine` tool to send you package to `PyPi`. Username and password will be required.
-
-```shell
-twine upload dist/is_msgs-$(cat .version).tar.gz
-```
+To release a new python package, check the docs at [python/README.md](python/README.md#releasing-new-versions).
 
 ### C++
 
