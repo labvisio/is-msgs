@@ -36,9 +36,16 @@ class IsMsgsConan(ConanFile):
             )
 
     def requirements(self):
-        self.requires("fmt/7.1.3")
-        self.requires("boost/1.80.0")
-        self.requires("protobuf/3.20.0", force=True)
+        self.requires("fmt/7.1.3",
+                      transitive_headers=True,
+                      transitive_libs=True)
+        self.requires("boost/1.80.0",
+                      transitive_headers=True,
+                      transitive_libs=True)
+        self.requires("protobuf/3.20.0",
+                      force=bool(self.options.build_tests),
+                      transitive_headers=True,
+                      transitive_libs=True)
         if self.options.build_tests:
             self.requires("gtest/1.10.0")
             self.requires("opencv/4.5.5")
