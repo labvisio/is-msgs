@@ -81,7 +81,7 @@ ProtobufWriter::~ProtobufWriter() {
 }
 
 void ProtobufWriter::insert(google::protobuf::Message const& message) {
-  auto size = message.ByteSize();
+  auto size = message.ByteSizeLong();
   // We create a new coded stream for each message.  Don't worry, this is fast.
   google::protobuf::io::CodedOutputStream coded_output(raw_output);
   coded_output.WriteVarint32(size);
