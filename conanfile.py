@@ -9,7 +9,6 @@ from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 class IsMsgsConan(ConanFile):
     name = "is-msgs"
     license = "MIT"
-    version = "1.1.17"
     url = "https://github.com/labvisio/is-msgs"
     description = "Repository containing the schema for standard ::is messages"
     settings = "os", "compiler", "build_type", "arch"
@@ -37,7 +36,7 @@ class IsMsgsConan(ConanFile):
             )
 
     def requirements(self):
-        self.requires("fmt/5.3.0")
+        self.requires("fmt/7.1.3")
         self.requires("boost/1.80.0")
         self.requires("protobuf/3.20.0", force=True)
         if self.options.build_tests:
