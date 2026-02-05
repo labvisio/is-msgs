@@ -240,7 +240,7 @@ setup(
     packages=[PKG_NAME, PKG_NAME + '.utils'],
     package_data={PKG_NAME: ['*.proto']},
     zip_safe=False,
-    install_requires=['protobuf==3.20.3'],
+    install_requires=['protobuf==5.29.6'],
     cmdclass={
         'install': InstallWrapper,
         'sdist': DistributedWithDocs,
